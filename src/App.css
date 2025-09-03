@@ -6,11 +6,70 @@
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
 }
 
-h1 {
+.game-header h1 {
   color: #333;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   font-size: 3rem;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.room-code {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.room-code .code {
+  font-family: monospace;
+  font-size: 1.4rem;
+  letter-spacing: 2px;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 5px 10px;
+  border-radius: 5px;
+  margin-left: 10px;
+}
+
+.waiting {
+  font-size: 0.9rem;
+  margin-top: 5px;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+.players-info {
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+  margin-bottom: 20px;
+}
+
+.player-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 20px;
+  border-radius: 10px;
+  background: #f5f5f5;
+  transition: all 0.3s;
+}
+
+.player-info.active {
+  background: linear-gradient(135deg, #667eea20 0%, #764ba220 100%);
+  transform: scale(1.05);
+  box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+}
+
+.player-name {
+  font-weight: 600;
+  color: #333;
 }
 
 .game-info {
@@ -20,11 +79,9 @@ h1 {
   color: #555;
 }
 
-.current-player {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
+.current-turn {
+  font-size: 1.3rem;
+  color: #667eea;
 }
 
 .player-indicator {
@@ -56,8 +113,15 @@ h1 {
   gap: 10px;
 }
 
-.reset-button {
+.game-controls {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
   margin-top: 20px;
+}
+
+.reset-button,
+.mute-button {
   padding: 12px 30px;
   font-size: 1.1rem;
   font-weight: 600;
@@ -69,11 +133,17 @@ h1 {
   transition: transform 0.2s, box-shadow 0.2s;
 }
 
-.reset-button:hover {
+.mute-button {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.reset-button:hover,
+.mute-button:hover {
   transform: translateY(-2px);
   box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
 }
 
-.reset-button:active {
+.reset-button:active,
+.mute-button:active {
   transform: translateY(0);
 }
