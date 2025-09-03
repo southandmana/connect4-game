@@ -120,12 +120,22 @@ class OnlineGameManager {
   async updateGameState(updates) {
     if (!this.roomRef) return
     
-    const updateRefs = {}
-    Object.keys(updates).forEach(key => {
-      updateRefs[key] = updates[key]
-    })
-    
-    await set(this.roomRef, updateRefs)
+    try {
+      const currentDataSnapshot = await new Promise((resolve) => {
+        onValue(this.roomRef, (snapshot) => {
+          resolve(snapshot.val())
+        }, { onlyOnce: true })
+      })
+      
+      const updatedData = {
+        ...currentDataSnapshot,
+        ...updates
+      }
+      
+      await set(this.roomRef, updatedData)
+    } catch (error) {
+      console.error('Error updating game state:', error)
+    }
   }
 
   disconnect() {
