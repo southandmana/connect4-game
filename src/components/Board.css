@@ -1,0 +1,58 @@
+.board {
+  display: inline-block;
+  background: #2c3e50;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.row {
+  display: flex;
+}
+
+.cell {
+  width: 70px;
+  height: 70px;
+  background: #34495e;
+  border: 2px solid #2c3e50;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.cell:hover {
+  background: #3d566e;
+}
+
+.disc {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: white;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.disc.red {
+  background: #ff4757;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2);
+  animation: dropIn 0.3s ease-out;
+}
+
+.disc.yellow {
+  background: #ffd700;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2);
+  animation: dropIn 0.3s ease-out;
+}
+
+@keyframes dropIn {
+  from {
+    transform: translateY(-300px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
