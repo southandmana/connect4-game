@@ -1,36 +1,118 @@
 .app {
   text-align: center;
   padding: 20px;
-  background: white;
+  background: linear-gradient(135deg, #1a1a1a 0%, #330000 50%, #660000 100%);
   border-radius: 20px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 20px 40px rgba(255, 69, 0, 0.4), inset 0 0 50px rgba(255, 69, 0, 0.1);
+  border: 3px solid #ff4500;
+  position: relative;
+  overflow: hidden;
+  min-height: 100vh;
+}
+
+.app::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    radial-gradient(circle at 20% 80%, transparent 20%, rgba(255, 69, 0, 0.1) 21%, rgba(255, 69, 0, 0.1) 25%, transparent 26%),
+    radial-gradient(circle at 80% 20%, transparent 20%, rgba(255, 140, 0, 0.1) 21%, rgba(255, 140, 0, 0.1) 25%, transparent 26%),
+    radial-gradient(circle at 40% 40%, transparent 20%, rgba(255, 69, 0, 0.05) 21%, rgba(255, 69, 0, 0.05) 25%, transparent 26%);
+  animation: flames 6s ease-in-out infinite alternate;
+  pointer-events: none;
+  z-index: 1;
+}
+
+@keyframes flames {
+  0% { transform: translateY(0px) scale(1); opacity: 0.7; }
+  100% { transform: translateY(-10px) scale(1.05); opacity: 1; }
+}
+
+.app > * {
+  position: relative;
+  z-index: 2;
 }
 
 .game-header h1 {
-  color: #333;
+  color: #ff6b35;
   margin-bottom: 10px;
-  font-size: 3rem;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 3.5rem;
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+  text-shadow: 
+    0 0 10px #ff4500,
+    0 0 20px #ff4500,
+    0 0 30px #ff4500,
+    2px 2px 0px #660000,
+    4px 4px 0px #330000;
+  font-weight: bold;
+  animation: titleFlicker 2s ease-in-out infinite alternate;
+  letter-spacing: 2px;
+}
+
+@keyframes titleFlicker {
+  0% { text-shadow: 0 0 10px #ff4500, 0 0 20px #ff4500, 0 0 30px #ff4500, 2px 2px 0px #660000, 4px 4px 0px #330000; }
+  100% { text-shadow: 0 0 15px #ff6b35, 0 0 25px #ff6b35, 0 0 35px #ff6b35, 2px 2px 0px #660000, 4px 4px 0px #330000; }
 }
 
 .room-code {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  padding: 10px 20px;
-  border-radius: 10px;
+  background: linear-gradient(135deg, #ff4500 0%, #8b0000 50%, #330000 100%);
+  color: #ffccaa;
+  padding: 15px 20px;
+  border-radius: 15px;
   margin-bottom: 20px;
-  font-size: 1.2rem;
   font-weight: bold;
+  border: 2px solid #ff6b35;
+  box-shadow: 0 0 15px rgba(255, 69, 0, 0.5), inset 0 0 15px rgba(255, 140, 0, 0.1);
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+}
+
+.code-label {
+  font-size: 1rem;
+  margin-bottom: 10px;
+  opacity: 0.9;
+}
+
+.code-display {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 10px;
 }
 
 .room-code .code {
   font-family: monospace;
-  font-size: 1.4rem;
-  letter-spacing: 2px;
+  font-size: 2rem;
+  letter-spacing: 3px;
   background: rgba(255, 255, 255, 0.2);
-  padding: 5px 10px;
-  border-radius: 5px;
-  margin-left: 10px;
+  padding: 10px 20px;
+  border-radius: 10px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  font-weight: bold;
+}
+
+.copy-button {
+  padding: 8px 15px;
+  font-size: 0.9rem;
+  background: linear-gradient(145deg, #ff6b35, #ff4500);
+  color: white;
+  border: 2px solid #ffaa80;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+  font-weight: bold;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 4px 8px rgba(255, 69, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.copy-button:hover {
+  background: linear-gradient(145deg, #ff8c50, #ff6b35);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(255, 69, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
 .waiting {
@@ -55,33 +137,52 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 10px 20px;
-  border-radius: 10px;
-  background: #f5f5f5;
+  padding: 12px 20px;
+  border-radius: 25px;
+  background: linear-gradient(135deg, #4d0000 0%, #1a0000 100%);
+  border: 2px solid #ff6b35;
   transition: all 0.3s;
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+  box-shadow: 0 4px 8px rgba(255, 69, 0, 0.2), inset 0 1px 0 rgba(255, 140, 0, 0.1);
 }
 
 .player-info.active {
-  background: linear-gradient(135deg, #667eea20 0%, #764ba220 100%);
-  transform: scale(1.05);
-  box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+  background: linear-gradient(135deg, #ff4500 0%, #8b0000 100%);
+  transform: scale(1.1);
+  box-shadow: 0 8px 16px rgba(255, 69, 0, 0.4), inset 0 1px 0 rgba(255, 140, 0, 0.2);
+  animation: playerPulse 1s ease-in-out infinite alternate;
+}
+
+@keyframes playerPulse {
+  0% { box-shadow: 0 8px 16px rgba(255, 69, 0, 0.4), inset 0 1px 0 rgba(255, 140, 0, 0.2); }
+  100% { box-shadow: 0 8px 16px rgba(255, 140, 0, 0.6), inset 0 1px 0 rgba(255, 140, 0, 0.3); }
 }
 
 .player-name {
-  font-weight: 600;
-  color: #333;
+  font-weight: bold;
+  color: #ffccaa;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 .game-info {
   margin-bottom: 20px;
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: #555;
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #ffccaa;
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 .current-turn {
-  font-size: 1.3rem;
-  color: #667eea;
+  font-size: 1.4rem;
+  color: #ff6b35;
+  text-shadow: 0 0 10px #ff4500;
+  animation: turnGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes turnGlow {
+  0% { text-shadow: 0 0 10px #ff4500; }
+  100% { text-shadow: 0 0 15px #ff6b35, 0 0 25px #ff6b35; }
 }
 
 .player-indicator {
@@ -104,13 +205,30 @@
 
 .winner-message,
 .draw-message {
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   font-weight: bold;
-  color: #333;
+  color: #ff6b35;
+  font-family: 'Comic Sans MS', cursive, sans-serif;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 15px;
+  text-shadow: 
+    0 0 10px #ff4500,
+    0 0 20px #ff4500,
+    2px 2px 4px rgba(0, 0, 0, 0.8);
+  animation: victoryFlame 2s ease-in-out infinite alternate;
+}
+
+@keyframes victoryFlame {
+  0% { 
+    text-shadow: 0 0 10px #ff4500, 0 0 20px #ff4500, 2px 2px 4px rgba(0, 0, 0, 0.8);
+    transform: scale(1);
+  }
+  100% { 
+    text-shadow: 0 0 15px #ff6b35, 0 0 25px #ff6b35, 0 0 35px #ff8c50, 2px 2px 4px rgba(0, 0, 0, 0.8);
+    transform: scale(1.05);
+  }
 }
 
 .game-controls {
@@ -122,28 +240,117 @@
 
 .reset-button,
 .mute-button {
-  padding: 12px 30px;
-  font-size: 1.1rem;
-  font-weight: 600;
+  padding: 15px 35px;
+  font-size: 1.2rem;
+  font-weight: bold;
   color: white;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border: none;
-  border-radius: 8px;
+  background: linear-gradient(145deg, #ff4500 0%, #8b0000 50%, #330000 100%);
+  border: 3px solid #ff6b35;
+  border-radius: 25px;
   cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: all 0.3s;
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+  box-shadow: 
+    0 6px 12px rgba(255, 69, 0, 0.4),
+    inset 0 2px 0 rgba(255, 140, 0, 0.2),
+    inset 0 -2px 0 rgba(139, 0, 0, 0.8);
+  position: relative;
+  overflow: hidden;
 }
 
 .mute-button {
-  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  background: linear-gradient(145deg, #ff6b35 0%, #ff4500 50%, #8b0000 100%);
 }
 
 .reset-button:hover,
 .mute-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 
+    0 8px 16px rgba(255, 69, 0, 0.6),
+    inset 0 2px 0 rgba(255, 140, 0, 0.3),
+    inset 0 -2px 0 rgba(139, 0, 0, 0.8);
+  animation: buttonFlame 0.5s ease-in-out;
 }
 
 .reset-button:active,
 .mute-button:active {
-  transform: translateY(0);
+  transform: translateY(-1px) scale(1.02);
+  box-shadow: 
+    0 4px 8px rgba(255, 69, 0, 0.4),
+    inset 0 2px 0 rgba(255, 140, 0, 0.1),
+    inset 0 -2px 0 rgba(139, 0, 0, 0.9);
+}
+
+@keyframes buttonFlame {
+  0%, 100% { box-shadow: 0 8px 16px rgba(255, 69, 0, 0.6), inset 0 2px 0 rgba(255, 140, 0, 0.3), inset 0 -2px 0 rgba(139, 0, 0, 0.8); }
+  50% { box-shadow: 0 8px 16px rgba(255, 140, 0, 0.8), inset 0 2px 0 rgba(255, 165, 0, 0.4), inset 0 -2px 0 rgba(139, 0, 0, 0.8); }
+}
+
+/* Cute Hell Characters */
+.app::after {
+  content: '😈🔥👹🔥😈🔥👹🔥😈';
+  position: absolute;
+  bottom: 20px;
+  left: 0;
+  right: 0;
+  font-size: 2rem;
+  text-align: center;
+  animation: charactersFloat 4s ease-in-out infinite alternate;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.7;
+}
+
+@keyframes charactersFloat {
+  0% { transform: translateY(0px) rotate(0deg); opacity: 0.7; }
+  50% { transform: translateY(-10px) rotate(2deg); opacity: 0.9; }
+  100% { transform: translateY(-5px) rotate(-1deg); opacity: 0.8; }
+}
+
+.app {
+  position: relative;
+}
+
+/* Floating fire particles */
+.fire-particle {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: radial-gradient(circle, #ff4500, #ff6b35);
+  border-radius: 50%;
+  pointer-events: none;
+  animation: floatUp 3s linear infinite;
+}
+
+.fire-particle::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, #ffd700, transparent);
+  border-radius: 50%;
+  animation: flicker 0.5s ease-in-out infinite alternate;
+}
+
+@keyframes floatUp {
+  0% {
+    transform: translateY(100vh) translateX(0px) scale(1);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100px) translateX(50px) scale(0);
+    opacity: 0;
+  }
+}
+
+@keyframes flicker {
+  0% { opacity: 0.8; transform: scale(1); }
+  100% { opacity: 1; transform: scale(1.2); }
 }

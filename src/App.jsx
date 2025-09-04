@@ -26,13 +26,30 @@ function App() {
       SoundManager.playBackgroundMusic()
     }
     
+    // Test Firebase connection
+    import('./firebase').then(({ database }) => {
+      import('firebase/database').then(({ ref, set }) => {
+        const testRef = ref(database, 'test')
+        set(testRef, { message: 'Firebase connected!', timestamp: Date.now() })
+          .then(() => console.log('Firebase test write successful'))
+          .catch((error) => console.error('Firebase test write failed:', error))
+      })
+    })
+    
+    // Only disconnect when component unmounts, not when gameMode changes
+    return () => {
+      SoundManager.stopBackgroundMusic()
+    }
+  }, [gameMode])
+  
+  // Separate useEffect for cleanup on unmount only
+  useEffect(() => {
     return () => {
       if (onlineGameRef.current) {
         onlineGameRef.current.disconnect()
       }
-      SoundManager.stopBackgroundMusic()
     }
-  }, [gameMode])
+  }, [])
 
   const checkWinner = (board, row, col, player) => {
     const checkDirection = (deltaRow, deltaCol) => {
@@ -80,7 +97,22 @@ function App() {
       setIsWaiting(true)
     }
     
-    setBoard(gameData.board || Array(6).fill(null).map(() => Array(7).fill(null)))
+    // Convert board string from Firebase back to array
+    let boardData = Array(6).fill(null).map(() => Array(7).fill(null))
+    if (gameData.boardString) {
+      console.log('Converting board string from Firebase:', gameData.boardString)
+      const rows = gameData.boardString.split(';')
+      boardData = rows.map(rowString => 
+        rowString.split(',').map(cell => (cell === 'null' || cell === '') ? null : cell)
+      )
+      console.log('Converted board data:', boardData)
+    } else if (gameData.board && Array.isArray(gameData.board)) {
+      // Fallback to old board format if it exists and is an array
+      boardData = gameData.board
+    }
+    
+    console.log('Setting board to:', boardData)
+    setBoard(boardData)
     setCurrentPlayer(gameData.currentPlayer || 'red')
     setWinner(gameData.winner)
     setIsDraw(gameData.isDraw || false)
@@ -102,9 +134,11 @@ function App() {
           handleOnlineGameUpdate,
           (error) => console.error('Game error:', error)
         )
+        console.log('Room created with ID:', roomId)
         setRoomCode(roomId)
         playerColorRef.current = 'red'
         setIsWaiting(true)
+        console.log('Room code state set to:', roomId)
       } catch (error) {
         console.error('Failed to create room:', error)
         alert('Failed to create room. Please check your internet connection.')
@@ -144,9 +178,12 @@ function App() {
         return
       }
       
+      console.log('Online mode click - currentPlayer:', currentPlayer, 'playerColor:', playerColorRef.current)
       if (currentPlayer !== playerColorRef.current) {
+        console.log("It's not your turn! Current turn:", currentPlayer, "Your color:", playerColorRef.current)
         return
       }
+      console.log("It's your turn, proceeding with move")
       
       for (let row = 5; row >= 0; row--) {
         if (board[row][col] === null) {
@@ -158,13 +195,29 @@ function App() {
           const hasWinner = checkWinner(newBoard, row, col, currentPlayer)
           const hasDraw = !hasWinner && checkDraw(newBoard)
           
-          await onlineGameRef.current.updateGameState({
+          console.log('Updating game state with new board...')
+          const updateData = {
             board: newBoard,
             currentPlayer: currentPlayer === 'red' ? 'yellow' : 'red',
             winner: hasWinner ? currentPlayer : null,
             isDraw: hasDraw,
             lastMove: { row, col, player: currentPlayer }
-          })
+          }
+          console.log('Update data:', updateData)
+          
+          try {
+            // Convert board to string format for Firebase (Firebase doesn't handle nested arrays well)
+            const boardString = updateData.board.map(row => row.join(',')).join(';')
+            const firebaseData = {
+              ...updateData,
+              boardString: boardString
+            }
+            console.log('Sending board string to Firebase:', boardString)
+            await onlineGameRef.current.updateGameState(firebaseData)
+            console.log('✅ Game state updated successfully')
+          } catch (error) {
+            console.error('❌ Failed to update game state:', error)
+          }
           
           if (hasWinner) {
             SoundManager.playWinSound()
@@ -225,11 +278,23 @@ function App() {
   return (
     <div className="app">
       <div className="game-header">
-        <h1>Connect 4</h1>
+        <h1>Connect 4 🔥 Hell Edition 🔥</h1>
         {roomCode && (
           <div className="room-code">
-            Room Code: <span className="code">{roomCode}</span>
-            {isWaiting && <div className="waiting">Waiting for opponent...</div>}
+            <div className="code-label">Share this code with your friend:</div>
+            <div className="code-display">
+              <span className="code">{roomCode}</span>
+              <button 
+                className="copy-button"
+                onClick={() => {
+                  navigator.clipboard.writeText(roomCode)
+                  alert(`Room code ${roomCode} copied to clipboard!`)
+                }}
+              >
+                📋 Copy
+              </button>
+            </div>
+            {isWaiting && <div className="waiting">Waiting for opponent to join...</div>}
           </div>
         )}
       </div>

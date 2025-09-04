@@ -7,9 +7,28 @@ class SoundManager {
   }
 
   init() {
-    this.sounds.backgroundMusic = new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBziS2Oy9diMFl2+z17pVFAk2n+v4kj0TBzSYzuzHhncFNYXYrOOkNwBCnOPfs3cgBjiS3Pz+hVsHPpbS6MOJWwAyiMzp2e2mTggUcd/i3H0xByyBzvjwq4AHLJzO5NWnVRYGLYXc/OurWxgGO5La+PW5Uxg/munRfS0GH4Pa8tiJUAgrjdjz4YEwBzqb1+zbyjsEQZ7a5biJQAcrisvZ4JdEBTGHy+DU')
+    // Try to load custom background music first
+    this.sounds.backgroundMusic = new Audio()
     this.sounds.backgroundMusic.loop = true
     this.sounds.backgroundMusic.volume = this.musicVolume
+    
+    // Try custom music file first
+    this.sounds.backgroundMusic.src = '/audio/background-music.mp3'
+    
+    // Add error handling
+    this.sounds.backgroundMusic.addEventListener('error', () => {
+      console.warn('Custom background music failed to load, using fallback')
+      this.sounds.backgroundMusic.src = 'data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBziS2Oy9diMFl2+z17pVFAk2n+v4kj0TBzSYzuzHhncFNYXYrOOkNwBCnOPfs3cgBjiS3Pz+hVsHPpbS6MOJWwAyiMzp2e2mTggUcd/i3H0xByyBzvjwq4AHLJzO5NWnVRYGLYXc/OurWxgGO5La+PW5Uxg/munRfS0GH4Pa8tiJUAgrjdjz4YEwBzqb1+zbyjsEQZ7a5biJQAcrisvZ4JdEBTGHy+DU'
+      this.sounds.backgroundMusic.volume = this.musicVolume
+    })
+    
+    this.sounds.backgroundMusic.addEventListener('canplaythrough', () => {
+      console.log('Background music loaded successfully')
+    })
+    
+    this.sounds.backgroundMusic.addEventListener('loadstart', () => {
+      console.log('Loading background music from:', this.sounds.backgroundMusic.src)
+    })
     
     this.sounds.dropSound = new Audio('data:audio/wav;base64,UklGRiQBAABXQVZFZm10IBAAAAABAAEAIlYAAIJYAAACAAgAZGF0YQABAAAAAAAJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQ==')
     this.sounds.dropSound.volume = this.effectsVolume
@@ -20,7 +39,13 @@ class SoundManager {
 
   playBackgroundMusic() {
     if (!this.isMuted && this.sounds.backgroundMusic) {
-      this.sounds.backgroundMusic.play().catch(() => {})
+      console.log('Playing background music from:', this.sounds.backgroundMusic.src)
+      console.log('Audio duration:', this.sounds.backgroundMusic.duration)
+      console.log('Audio ready state:', this.sounds.backgroundMusic.readyState)
+      
+      this.sounds.backgroundMusic.play().catch((error) => {
+        console.error('Error playing background music:', error)
+      })
     }
   }
 

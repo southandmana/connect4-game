@@ -1,9 +1,34 @@
 .board {
   display: inline-block;
-  background: #2c3e50;
-  padding: 10px;
-  border-radius: 10px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(145deg, #8b0000, #330000, #1a0000);
+  padding: 15px;
+  border-radius: 20px;
+  border: 4px solid #ff6b35;
+  box-shadow: 
+    0 15px 40px rgba(255, 69, 0, 0.4),
+    inset 0 0 20px rgba(255, 140, 0, 0.1),
+    0 0 30px rgba(255, 69, 0, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.board::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: 
+    radial-gradient(circle at 30% 70%, transparent 30%, rgba(255, 69, 0, 0.05) 31%, rgba(255, 69, 0, 0.05) 35%, transparent 36%),
+    radial-gradient(circle at 70% 30%, transparent 30%, rgba(255, 140, 0, 0.03) 31%, rgba(255, 140, 0, 0.03) 35%, transparent 36%);
+  animation: boardFlames 8s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes boardFlames {
+  0%, 100% { transform: rotate(0deg) scale(1); opacity: 0.7; }
+  50% { transform: rotate(180deg) scale(1.1); opacity: 1; }
 }
 
 .row {
@@ -11,48 +36,95 @@
 }
 
 .cell {
-  width: 70px;
-  height: 70px;
-  background: #34495e;
-  border: 2px solid #2c3e50;
+  width: 75px;
+  height: 75px;
+  background: linear-gradient(145deg, #4d0000, #1a0000);
+  border: 2px solid #ff4500;
+  border-radius: 8px;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: all 0.3s;
+  position: relative;
+  z-index: 1;
+  box-shadow: 
+    inset 0 2px 0 rgba(255, 140, 0, 0.1),
+    inset 0 -2px 0 rgba(139, 0, 0, 0.3),
+    0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .cell:hover {
-  background: #3d566e;
+  background: linear-gradient(145deg, #660000, #2d0000);
+  border-color: #ff6b35;
+  box-shadow: 
+    inset 0 2px 0 rgba(255, 140, 0, 0.2),
+    inset 0 -2px 0 rgba(139, 0, 0, 0.3),
+    0 4px 8px rgba(255, 69, 0, 0.3),
+    0 0 10px rgba(255, 69, 0, 0.2);
+  transform: scale(1.05);
 }
 
 .disc {
-  width: 56px;
-  height: 56px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
-  background: white;
-  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  background: transparent;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
 }
 
 .disc.red {
-  background: #ff4757;
-  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2);
-  animation: dropIn 0.3s ease-out;
+  background: radial-gradient(circle at 30% 30%, #ff8c50, #ff4500, #8b0000);
+  border: 3px solid #ff6b35;
+  box-shadow: 
+    inset 0 3px 6px rgba(255, 140, 0, 0.4),
+    inset 0 -3px 6px rgba(139, 0, 0, 0.6),
+    0 0 15px rgba(255, 69, 0, 0.6),
+    0 4px 8px rgba(0, 0, 0, 0.4);
+  animation: dropInHell 0.6s ease-out, redGlow 2s ease-in-out infinite alternate;
 }
 
 .disc.yellow {
-  background: #ffd700;
-  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2);
-  animation: dropIn 0.3s ease-out;
+  background: radial-gradient(circle at 30% 30%, #ffff80, #ffd700, #b8860b);
+  border: 3px solid #ffd700;
+  box-shadow: 
+    inset 0 3px 6px rgba(255, 255, 128, 0.6),
+    inset 0 -3px 6px rgba(184, 134, 11, 0.8),
+    0 0 15px rgba(255, 215, 0, 0.8),
+    0 4px 8px rgba(0, 0, 0, 0.4);
+  animation: dropInHell 0.6s ease-out, yellowGlow 2s ease-in-out infinite alternate;
 }
 
-@keyframes dropIn {
-  from {
-    transform: translateY(-300px);
+@keyframes redGlow {
+  0% { box-shadow: inset 0 3px 6px rgba(255, 140, 0, 0.4), inset 0 -3px 6px rgba(139, 0, 0, 0.6), 0 0 15px rgba(255, 69, 0, 0.6), 0 4px 8px rgba(0, 0, 0, 0.4); }
+  100% { box-shadow: inset 0 3px 6px rgba(255, 140, 0, 0.6), inset 0 -3px 6px rgba(139, 0, 0, 0.6), 0 0 20px rgba(255, 69, 0, 0.8), 0 4px 8px rgba(0, 0, 0, 0.4); }
+}
+
+@keyframes yellowGlow {
+  0% { box-shadow: inset 0 3px 6px rgba(255, 255, 128, 0.6), inset 0 -3px 6px rgba(184, 134, 11, 0.8), 0 0 15px rgba(255, 215, 0, 0.8), 0 4px 8px rgba(0, 0, 0, 0.4); }
+  100% { box-shadow: inset 0 3px 6px rgba(255, 255, 128, 0.8), inset 0 -3px 6px rgba(184, 134, 11, 0.8), 0 0 20px rgba(255, 215, 0, 1), 0 4px 8px rgba(0, 0, 0, 0.4); }
+}
+
+@keyframes dropInHell {
+  0% {
+    transform: translateY(-400px) rotate(-180deg) scale(0.5);
     opacity: 0;
+    filter: blur(3px);
   }
-  to {
-    transform: translateY(0);
+  70% {
+    transform: translateY(10px) rotate(0deg) scale(1.1);
+    opacity: 0.9;
+    filter: blur(1px);
+  }
+  85% {
+    transform: translateY(-5px) rotate(0deg) scale(0.95);
     opacity: 1;
+    filter: blur(0px);
+  }
+  100% {
+    transform: translateY(0) rotate(0deg) scale(1);
+    opacity: 1;
+    filter: blur(0px);
   }
 }

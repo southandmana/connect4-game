@@ -1,48 +1,119 @@
 .main-menu {
   text-align: center;
   padding: 40px 20px;
-  max-width: 500px;
+  max-width: 600px;
   margin: 0 auto;
+  position: relative;
+  z-index: 2;
 }
 
 .game-title {
-  font-size: 4rem;
+  font-size: 4.5rem;
   margin-bottom: 40px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-  animation: titlePulse 2s ease-in-out infinite;
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+  font-weight: bold;
+  color: #ff6b35;
+  text-shadow: 
+    0 0 20px #ff4500,
+    0 0 40px #ff4500,
+    0 0 60px #ff4500,
+    4px 4px 0px #660000,
+    8px 8px 0px #330000;
+  animation: hellTitlePulse 3s ease-in-out infinite, hellTitleGlow 2s ease-in-out infinite alternate;
+  letter-spacing: 3px;
 }
 
-@keyframes titlePulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.05); }
+@keyframes hellTitlePulse {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  25% { transform: scale(1.02) rotate(0.5deg); }
+  50% { transform: scale(1.05) rotate(0deg); }
+  75% { transform: scale(1.02) rotate(-0.5deg); }
+}
+
+@keyframes hellTitleGlow {
+  0% { 
+    text-shadow: 0 0 20px #ff4500, 0 0 40px #ff4500, 0 0 60px #ff4500, 4px 4px 0px #660000, 8px 8px 0px #330000;
+  }
+  100% { 
+    text-shadow: 0 0 30px #ff6b35, 0 0 50px #ff6b35, 0 0 70px #ff8c50, 4px 4px 0px #660000, 8px 8px 0px #330000;
+  }
 }
 
 .menu-content {
-  background: white;
-  border-radius: 20px;
-  padding: 30px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  background: linear-gradient(145deg, #330000 0%, #1a0000 50%, #0d0000 100%);
+  border: 4px solid #ff6b35;
+  border-radius: 25px;
+  padding: 35px;
+  box-shadow: 
+    0 25px 50px rgba(255, 69, 0, 0.4),
+    inset 0 0 30px rgba(255, 140, 0, 0.1),
+    0 0 40px rgba(255, 69, 0, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.menu-content::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: 
+    radial-gradient(circle at 25% 75%, transparent 20%, rgba(255, 69, 0, 0.03) 21%, rgba(255, 69, 0, 0.03) 25%, transparent 26%),
+    radial-gradient(circle at 75% 25%, transparent 20%, rgba(255, 140, 0, 0.02) 21%, rgba(255, 140, 0, 0.02) 25%, transparent 26%);
+  animation: menuFlames 10s linear infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.menu-content > * {
+  position: relative;
+  z-index: 2;
+}
+
+@keyframes menuFlames {
+  0% { transform: rotate(0deg) scale(1); }
+  100% { transform: rotate(360deg) scale(1.1); }
 }
 
 .player-name-input,
 .room-code-input {
   width: 100%;
-  padding: 12px 20px;
-  font-size: 1.1rem;
-  border: 2px solid #e0e0e0;
-  border-radius: 10px;
+  padding: 15px 20px;
+  font-size: 1.2rem;
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+  font-weight: bold;
+  background: linear-gradient(145deg, #4d0000, #1a0000);
+  color: #ffccaa;
+  border: 3px solid #ff6b35;
+  border-radius: 20px;
   margin-bottom: 20px;
-  transition: border-color 0.3s;
+  transition: all 0.3s;
+  box-shadow: 
+    inset 0 2px 0 rgba(255, 140, 0, 0.1),
+    inset 0 -2px 0 rgba(139, 0, 0, 0.3),
+    0 4px 8px rgba(0, 0, 0, 0.4);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.player-name-input::placeholder,
+.room-code-input::placeholder {
+  color: rgba(255, 204, 170, 0.6);
+  font-family: 'Comic Sans MS', cursive, sans-serif;
 }
 
 .player-name-input:focus,
 .room-code-input:focus {
   outline: none;
-  border-color: #667eea;
+  border-color: #ff8c50;
+  background: linear-gradient(145deg, #660000, #2d0000);
+  box-shadow: 
+    inset 0 2px 0 rgba(255, 140, 0, 0.2),
+    inset 0 -2px 0 rgba(139, 0, 0, 0.3),
+    0 6px 12px rgba(255, 69, 0, 0.3),
+    0 0 15px rgba(255, 69, 0, 0.4);
+  transform: scale(1.02);
 }
 
 .menu-buttons {
@@ -53,16 +124,22 @@
 }
 
 .menu-button {
-  padding: 15px 30px;
-  font-size: 1.2rem;
-  font-weight: 600;
+  padding: 18px 35px;
+  font-size: 1.3rem;
+  font-weight: bold;
+  font-family: 'Comic Sans MS', cursive, sans-serif;
   color: white;
-  border: none;
-  border-radius: 10px;
+  border: 3px solid #ff6b35;
+  border-radius: 25px;
   cursor: pointer;
   transition: all 0.3s;
   position: relative;
   overflow: hidden;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+  box-shadow: 
+    0 6px 12px rgba(255, 69, 0, 0.3),
+    inset 0 2px 0 rgba(255, 140, 0, 0.2),
+    inset 0 -2px 0 rgba(139, 0, 0, 0.6);
 }
 
 .menu-button:before {
@@ -72,41 +149,58 @@
   left: -100%;
   width: 100%;
   height: 100%;
-  background: rgba(255, 255, 255, 0.2);
-  transition: left 0.5s;
+  background: linear-gradient(90deg, transparent, rgba(255, 140, 0, 0.3), transparent);
+  transition: left 0.6s;
+  z-index: 1;
 }
 
 .menu-button:hover:before {
   left: 100%;
 }
 
+.menu-button span {
+  position: relative;
+  z-index: 2;
+}
+
 .local-play {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(145deg, #ff4500 0%, #8b0000 50%, #330000 100%);
 }
 
 .create-room {
-  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  background: linear-gradient(145deg, #ff6b35 0%, #ff4500 50%, #8b0000 100%);
 }
 
 .join-room {
-  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  background: linear-gradient(145deg, #ff8c50 0%, #ff6b35 50%, #ff4500 100%);
 }
 
 .confirm-join {
-  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+  background: linear-gradient(145deg, #32cd32 0%, #228b22 50%, #006400 100%);
+  border-color: #90ee90;
 }
 
 .cancel-join {
-  background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+  background: linear-gradient(145deg, #dc143c 0%, #8b0000 50%, #4b0000 100%);
+  border-color: #ff6b6b;
 }
 
 .menu-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 
+    0 10px 20px rgba(255, 69, 0, 0.5),
+    inset 0 2px 0 rgba(255, 140, 0, 0.3),
+    inset 0 -2px 0 rgba(139, 0, 0, 0.6);
+  animation: buttonHellGlow 0.5s ease-in-out;
 }
 
 .menu-button:active {
-  transform: translateY(0);
+  transform: translateY(-1px) scale(1.02);
+}
+
+@keyframes buttonHellGlow {
+  0%, 100% { box-shadow: 0 10px 20px rgba(255, 69, 0, 0.5), inset 0 2px 0 rgba(255, 140, 0, 0.3), inset 0 -2px 0 rgba(139, 0, 0, 0.6); }
+  50% { box-shadow: 0 10px 20px rgba(255, 140, 0, 0.7), inset 0 2px 0 rgba(255, 165, 0, 0.4), inset 0 -2px 0 rgba(139, 0, 0, 0.6); }
 }
 
 .join-room-section {
@@ -134,11 +228,25 @@
 }
 
 .instructions {
-  color: #666;
-  font-size: 0.95rem;
-  line-height: 1.5;
+  color: #ffccaa;
+  font-size: 1rem;
+  line-height: 1.6;
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+  background: linear-gradient(145deg, rgba(255, 69, 0, 0.1), rgba(139, 0, 0, 0.1));
+  padding: 15px;
+  border-radius: 15px;
+  border: 2px solid rgba(255, 107, 53, 0.3);
+  box-shadow: inset 0 0 10px rgba(255, 69, 0, 0.05);
 }
 
 .instructions p {
-  margin: 5px 0;
+  margin: 8px 0;
+  position: relative;
+}
+
+.instructions p::before {
+  content: '🔥';
+  margin-right: 8px;
+  font-size: 0.9rem;
 }

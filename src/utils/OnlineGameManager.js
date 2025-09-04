@@ -1,4 +1,4 @@
-import { ref, set, onValue, off, remove } from 'firebase/database'
+import { ref, set, get, onValue, off, remove } from 'firebase/database'
 import { database } from '../firebase'
 import { v4 as uuidv4 } from 'uuid'
 
@@ -22,10 +22,16 @@ class OnlineGameManager {
 
   async createRoom(playerName, onGameUpdate, onError) {
     try {
-      this.roomId = this.generateRoomCode()
+      console.log('Creating room for player:', playerName)
+      const generatedCode = this.generateRoomCode()
+      console.log('Generated room code:', generatedCode)
+      this.roomId = generatedCode
+      console.log('this.roomId after assignment:', this.roomId)
       this.playerId = uuidv4()
       this.playerColor = 'red'
-      this.roomRef = ref(database, `rooms/${this.roomId}`)
+      
+      const roomPath = `rooms/${this.roomId}`
+      this.roomRef = ref(database, roomPath)
       
       const initialData = {
         host: {
@@ -41,19 +47,42 @@ class OnlineGameManager {
         createdAt: Date.now()
       }
       
-      await set(this.roomRef, initialData)
+      console.log('Setting initial data to Firebase...')
+      console.log('Room path for creation:', roomPath)
+      console.log('Initial data:', initialData)
       
-      const unsubscribe = onValue(this.roomRef, (snapshot) => {
-        const data = snapshot.val()
-        if (data) {
-          onGameUpdate(data)
-        }
-      })
+      try {
+        await set(this.roomRef, initialData)
+        console.log('✅ Data set successfully! Room should be available for joining.')
+      } catch (setError) {
+        console.error('❌ Failed to set room data:', setError)
+        throw setError
+      }
       
-      this.listeners.push({ ref: this.roomRef, callback: unsubscribe })
+      // Set up listener after successful data write
+      try {
+        const listenerRef = ref(database, roomPath)
+        const unsubscribe = onValue(listenerRef, (snapshot) => {
+          const data = snapshot.val()
+          if (data) {
+            onGameUpdate(data)
+          }
+        }, (error) => {
+          console.error('Firebase listener error:', error)
+        })
+        
+        this.listeners.push({ ref: listenerRef, callback: unsubscribe })
+        console.log('Listener set up successfully')
+      } catch (listenerError) {
+        console.error('Error setting up listener:', listenerError)
+        // Don't throw - we can still return the room ID
+      }
       
-      return this.roomId
+      console.log('About to return room ID. this.roomId =', this.roomId)
+      console.log('generatedCode =', generatedCode)
+      return generatedCode
     } catch (error) {
+      console.error('Detailed error in createRoom:', error)
       onError(error)
       throw error
     }
@@ -64,30 +93,56 @@ class OnlineGameManager {
       this.roomId = roomCode.toUpperCase()
       this.playerId = uuidv4()
       this.playerColor = 'yellow'
-      this.roomRef = ref(database, `rooms/${this.roomId}`)
       
-      const unsubscribe = onValue(this.roomRef, (snapshot) => {
-        const data = snapshot.val()
-        if (!data) {
-          onError(new Error('Room not found'))
-          return
-        }
-        
-        if (!data.guest && data.host) {
-          set(ref(database, `rooms/${this.roomId}/guest`), {
-            id: this.playerId,
-            name: playerName,
-            color: 'yellow'
-          })
-        }
-        
-        onGameUpdate(data)
+      const roomPath = `rooms/${this.roomId}`
+      this.roomRef = ref(database, roomPath)
+      
+      // First, check if the room exists
+      console.log('Checking if room exists:', this.roomId)
+      console.log('Room path:', roomPath)
+      const roomSnapshot = await get(this.roomRef)
+      const roomData = roomSnapshot.val()
+      
+      console.log('Room data found:', roomData)
+      
+      if (!roomData) {
+        console.log('Room does not exist')
+        onError(new Error('Room not found'))
+        return
+      }
+      
+      if (!roomData.host) {
+        console.log('Room exists but has no host')
+        onError(new Error('Room not found'))
+        return
+      }
+      
+      console.log('Room found, adding guest player')
+      // Add guest player to the room
+      const guestRef = ref(database, `${roomPath}/guest`)
+      await set(guestRef, {
+        id: this.playerId,
+        name: playerName,
+        color: 'yellow'
       })
       
-      this.listeners.push({ ref: this.roomRef, callback: unsubscribe })
+      // Now set up listener for ongoing updates
+      const listenerRef = ref(database, roomPath)
+      const unsubscribe = onValue(listenerRef, (snapshot) => {
+        const data = snapshot.val()
+        if (data) {
+          onGameUpdate(data)
+        }
+      }, (error) => {
+        console.error('Firebase listener error:', error)
+        onError(error)
+      })
       
-      return this.roomId
+      this.listeners.push({ ref: listenerRef, callback: unsubscribe })
+      
+      return roomCode.toUpperCase()
     } catch (error) {
+      console.error('Detailed error in joinRoom:', error)
       onError(error)
       throw error
     }
@@ -121,17 +176,17 @@ class OnlineGameManager {
     if (!this.roomRef) return
     
     try {
-      const currentDataSnapshot = await new Promise((resolve) => {
-        onValue(this.roomRef, (snapshot) => {
-          resolve(snapshot.val())
-        }, { onlyOnce: true })
-      })
+      // Get current data
+      const snapshot = await get(this.roomRef)
+      const currentData = snapshot.val() || {}
       
+      // Merge with updates
       const updatedData = {
-        ...currentDataSnapshot,
+        ...currentData,
         ...updates
       }
       
+      // Save back to Firebase
       await set(this.roomRef, updatedData)
     } catch (error) {
       console.error('Error updating game state:', error)
@@ -139,13 +194,15 @@ class OnlineGameManager {
   }
 
   disconnect() {
-    this.listeners.forEach(({ callback }) => {
-      if (callback) off(callback)
+    // Unsubscribe from all listeners
+    this.listeners.forEach(({ ref, callback }) => {
+      if (callback && ref) {
+        off(ref, callback)
+      }
     })
     
-    if (this.roomRef && this.roomId) {
-      remove(this.roomRef)
-    }
+    // DON'T remove the room - let it persist for other players
+    console.log('Disconnecting from room but leaving data for other players')
     
     this.roomRef = null
     this.roomId = null
