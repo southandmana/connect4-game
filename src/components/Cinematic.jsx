@@ -28,9 +28,19 @@ function Cinematic({ character, type, onComplete }) {
         ],
         victory: [
           {
-            image: '/images/cinematics/southern-victory.jpg',
-            text: 'Victory! Southern stands triumphant over all challengers!',
-            fallbackImage: 'data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgODAwIDYwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9InZpY3RvcnlHcmFkaWVudCIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNmZmQ3MDAiLz48c3RvcCBvZmZzZXQ9IjUwJSIgc3RvcC1jb2xvcj0iI2ZmYTUwMCIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2ZmNjkwNCIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPSI4MDAiIGhlaWdodD0iNjAwIiBmaWxsPSJ1cmwoI3ZpY3RvcnlHcmFkaWVudCkiLz48Y2lyY2xlIGN4PSI0MDAiIGN5PSIzMDAiIHI9IjEwMCIgZmlsbD0iIzAwMCIgZmlsbC1vcGFjaXR5PSIwLjMiLz48dGV4dCB4PSI0MDAiIHk9IjMzMCIgZm9udC1zaXplPSI4MCIgZmlsbD0iI2ZmZDcwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkZyZWRva2EsIHNhbnMtc2VyaWYiPvCfj4Y8L3RleHQ+PHRleHQgeD0iNDAwIiB5PSI4MCIgZm9udC1zaXplPSIzMCIgZmlsbD0iI2ZmZDcwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkZyZWRva2EsIHNhbnMtc2VyaWYiPldJTk5FUiE8L3RleHQ+PC9zdmc+'
+            image: '/images/cinematics/southern-victory-1.jpg',
+            text: 'Victory! Southern stands triumphant over all challengers in the fiery tournament!',
+            fallbackImage: 'data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgODAwIDYwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9InZpY3RvcnlHcmFkaWVudCIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNmZmQ3MDAiLz48c3RvcCBvZmZzZXQ9IjUwJSIgc3RvcC1jb2xvcj0iI2ZmYTUwMCIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2ZmNjkwNCIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPSI4MDAiIGhlaWdodD0iNjAwIiBmaWxsPSJ1cmwoI3ZpY3RvcnlHcmFkaWVudCkiLz48Y2lyY2xlIGN4PSI0MDAiIGN5PSIzMDAiIHI9IjEwMCIgZmlsbD0iIzAwMCIgZmlsbC1vcGFjaXR5PSIwLjMiLz48dGV4dCB4PSI0MDAiIHk9IjMzMCIgZm9udC1zaXplPSI4MCIgZmlsbD0iI2ZmZDcwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkZyZWRva2EsIHNhbnMtc2VyaWYiPvCfj4Y8L3RleHQ+PHRleHQgeD0iNDAwIiB5PSI4MCIgZm9udC1zaXplPSIyMCIgZmlsbD0iI2ZmY2NhYSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkZyZWRva2EsIHNhbnMtc2VyaWYiPlNPVVRIRVJOJmFwb3M7UyBWSUNUT1JZPC90ZXh0Pjx0ZXh0IHg9IjQwMCIgeT0iMTA1IiBmb250LXNpemU9IjIwIiBmaWxsPSIjZmZjY2FhIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iRnJlZG9rYSwgc2Fucy1zZXJpZiI+Q0lORU1BVElDIDE8L3RleHQ+PC9zdmc+'
+          },
+          {
+            image: '/images/cinematics/southern-victory-2.jpg',
+            text: 'The tournament champion emerges victorious, having defeated all ten challengers!',
+            fallbackImage: 'data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgODAwIDYwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9InZpY3RvcnlHcmFkaWVudCIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNmZmQ3MDAiLz48c3RvcCBvZmZzZXQ9IjUwJSIgc3RvcC1jb2xvcj0iI2ZmYTUwMCIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2ZmNjkwNCIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPSI4MDAiIGhlaWdodD0iNjAwIiBmaWxsPSJ1cmwoI3ZpY3RvcnlHcmFkaWVudCkiLz48Y2lyY2xlIGN4PSI0MDAiIGN5PSIzMDAiIHI9IjEyMCIgZmlsbD0iIzAwMCIgZmlsbC1vcGFjaXR5PSIwLjQiLz48dGV4dCB4PSI0MDAiIHk9IjMzNSIgZm9udC1zaXplPSI5MCIgZmlsbD0iI2ZmZDcwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkZyZWRva2EsIHNhbnMtc2VyaWYiPvCfj4Y8L3RleHQ+PHRleHQgeD0iNDAwIiB5PSI4MCIgZm9udC1zaXplPSIyMCIgZmlsbD0iI2ZmY2NhYSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkZyZWRva2EsIHNhbnMtc2VyaWYiPlNPVVRIRVJOJmFwb3M7UyBWSUNUT1JZPC90ZXh0Pjx0ZXh0IHg9IjQwMCIgeT0iMTA1IiBmb250LXNpemU9IjIwIiBmaWxsPSIjZmZjY2FhIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iRnJlZG9rYSwgc2Fucy1zZXJpZiI+Q0lORU1BVElDIDI8L3RleHQ+PC9zdmc+'
+          },
+          {
+            image: '/images/cinematics/southern-victory-3.jpg', 
+            text: 'Southern reigns supreme as the ultimate Connect 4 champion of the underworld!',
+            fallbackImage: 'data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgODAwIDYwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9InZpY3RvcnlHcmFkaWVudCIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNmZmQ3MDAiLz48c3RvcCBvZmZzZXQ9IjUwJSIgc3RvcC1jb2xvcj0iI2ZmYTUwMCIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2ZmNjkwNCIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPSI4MDAiIGhlaWdodD0iNjAwIiBmaWxsPSJ1cmwoI3ZpY3RvcnlHcmFkaWVudCkiLz48Y2lyY2xlIGN4PSI0MDAiIGN5PSIzMDAiIHI9IjgwIiBmaWxsPSIjMDAwIiBmaWxsLW9wYWNpdHk9IjAuNSIvPjx0ZXh0IHg9IjQwMCIgeT0iMzM1IiBmb250LXNpemU9IjEwMCIgZmlsbD0iI2ZmZDcwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkZyZWRva2EsIHNhbnMtc2VyaWYiPvCfj4Y8L3RleHQ+PHRleHQgeD0iNDAwIiB5PSI4MCIgZm9udC1zaXplPSIyMCIgZmlsbD0iI2ZmY2NhYSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkZyZWRva2EsIHNhbnMtc2VyaWYiPlNPVVRIRVJOJmFwb3M7UyBWSUNUT1JZPC90ZXh0Pjx0ZXh0IHg9IjQwMCIgeT0iMTA1IiBmb250LXNpemU9IjIwIiBmaWxsPSIjZmZjY2FhIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iRnJlZG9rYSwgc2Fucy1zZXJpZiI+Q0lORU1BVElDIDM8L3RleHQ+PC9zdmc+'
           }
         ],
         defeat: [
@@ -48,6 +58,11 @@ function Cinematic({ character, type, onComplete }) {
 
   const scenes = getCinematicData()
   const currentSceneData = scenes[currentScene]
+  
+  // Debug: Victory cinematic should show here
+  if (type === 'victory') {
+    console.log("🏆 VICTORY CINEMATIC - Should be visible now!")
+  }
 
   useEffect(() => {
     // Show text with a slight delay after component mounts

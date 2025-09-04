@@ -180,7 +180,11 @@
   border-radius: 50%;
   border: 4px solid #ffd700;
   object-fit: cover;
-  /* Completely flat - no shadows */
+  box-shadow: 
+    0 0 30px rgba(255, 215, 0, 0.8),
+    0 0 60px rgba(255, 69, 0, 0.4);
+  /* Static preview glow for performance */
+  box-shadow: 0 0 35px rgba(255, 215, 0, 0.8), 0 0 70px rgba(255, 69, 0, 0.5);
 }
 
 @keyframes previewGlow {
@@ -339,13 +343,16 @@
 .confirm-button.disabled {
   opacity: 0.5;
   cursor: not-allowed;
-  background: #666; /* Flat disabled color */
+  background: linear-gradient(145deg, #666 0%, #333 50%, #111 100%);
   border-color: #666;
+  box-shadow: none;
 }
 
 .selection-button:hover:not(.disabled) {
-  transform: translateY(-3px) scale(1.05); /* Keep interaction feedback */
-  /* Completely flat - no shadows */
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 
+    0 8px 25px rgba(255, 69, 0, 0.6),
+    inset 0 2px 0 rgba(255, 140, 0, 0.3);
 }
 
 .selection-button:active:not(.disabled) {

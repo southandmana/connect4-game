@@ -331,7 +331,7 @@
 .character {
   position: absolute;
   opacity: 0.6;
-  filter: 
+  filter: drop-shadow(0 0 10px rgba(255, 69, 0, 0.5));
 }
 
 /* Character 1 - Top Left, floating */

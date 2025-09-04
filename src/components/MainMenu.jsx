@@ -26,15 +26,6 @@ function MainMenu({ onStartGame }) {
         <img src="/images/logo.svg" className="game-logo" alt="Connect 4" />
       </div>
       <div className="menu-content">
-        <input
-          type="text"
-          className="player-name-input"
-          placeholder="Enter your name"
-          value={playerName}
-          onChange={(e) => setPlayerName(e.target.value)}
-          maxLength={20}
-        />
-        
         <div className="menu-buttons">
           <button className="menu-button arcade-mode" onClick={handleArcadeMode}>
             🎮 Arcade Mode

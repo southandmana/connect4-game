@@ -1,0 +1,385 @@
+.player-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background: rgba(77, 0, 0, 0.8); /* Solid color instead of gradient */
+  border: 3px solid #ff6b35;
+  border-radius: 15px;
+  min-width: 200px;
+  font-family: 'Fredoka', 'Comic Sans MS', 'Marker Felt', 'Bradley Hand', cursive, sans-serif;
+  transition: all 0.3s ease;
+}
+
+/* Card States */
+.player-card.active {
+  border-color: #ffd700;
+  /* Flat design - no glow shadows */
+  /* Reduced active card animation frequency for performance */
+  animation: activeCard 4s ease-in-out infinite alternate;
+}
+
+@keyframes activeCard {
+  0% { 
+    box-shadow: 
+      0 0 30px rgba(255, 215, 0, 0.4),
+      inset 0 0 15px rgba(255, 215, 0, 0.1);
+  }
+  100% { 
+    box-shadow: 
+      0 0 40px rgba(255, 215, 0, 0.8),
+      inset 0 0 20px rgba(255, 215, 0, 0.3);
+  }
+}
+
+.player-card.warning {
+  border-color: #ffa500;
+  background: rgba(255, 165, 0, 0.2); /* Solid color with opacity */
+}
+
+.player-card.danger {
+  border-color: #ff4500;
+  background: rgba(255, 69, 0, 0.25); /* Solid color - keep danger state visible */
+  animation: dangerPulse 1s ease-in-out infinite; /* Keep essential danger animation */
+}
+
+@keyframes dangerPulse {
+  0%, 100% { 
+    box-shadow: 
+      0 0 25px rgba(255, 69, 0, 0.5),
+      inset 0 0 15px rgba(255, 69, 0, 0.2);
+  }
+  50% { 
+    box-shadow: 
+      0 0 35px rgba(255, 69, 0, 0.8),
+      inset 0 0 20px rgba(255, 69, 0, 0.4);
+  }
+}
+
+.player-card.critical {
+  border-color: #ff0000;
+  background: rgba(255, 0, 0, 0.3); /* Solid color - keep critical state visible */
+  animation: criticalFlash 0.5s ease-in-out infinite; /* Keep essential critical animation */
+}
+
+@keyframes criticalFlash {
+  0%, 100% { 
+    border-color: #ff0000;
+    box-shadow: 
+      0 0 30px rgba(255, 0, 0, 0.8),
+      inset 0 0 20px rgba(255, 0, 0, 0.3);
+  }
+  50% { 
+    border-color: #ffffff;
+    box-shadow: 
+      0 0 50px rgba(255, 0, 0, 1),
+      inset 0 0 30px rgba(255, 0, 0, 0.5);
+  }
+}
+
+/* Stress Emoji */
+.stress-emoji {
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+}
+
+.emoji-icon {
+  font-size: 2rem;
+  /* Reduced emoji animation frequency for performance */
+  animation: emojiFloat 4s ease-in-out infinite;
+  
+}
+
+@keyframes emojiFloat {
+  0%, 100% { transform: translateY(0px) scale(1); }
+  25% { transform: translateY(-5px) scale(1.1); }
+  75% { transform: translateY(-3px) scale(1.05); }
+}
+
+/* Character Portrait */
+.character-portrait-container {
+  position: relative;
+  margin-bottom: 15px;
+}
+
+.character-portrait {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 4px solid #ffd700;
+  object-fit: cover;
+  transition: all 0.3s ease;
+  /* Flat design - no glow shadows */
+}
+
+.player-card.active .character-portrait {
+  border-color: #ffff00;
+  box-shadow: 
+    0 0 30px rgba(255, 255, 0, 0.8),
+    inset 0 0 15px rgba(255, 255, 0, 0.3);
+}
+
+.player-card.danger .character-portrait,
+.player-card.critical .character-portrait {
+  border-color: #ff4500;
+  box-shadow: 
+    0 0 25px rgba(255, 69, 0, 0.8),
+    inset 0 0 12px rgba(255, 69, 0, 0.3);
+}
+
+/* Turn Indicator */
+.turn-indicator {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  width: 20px;
+  height: 20px;
+}
+
+.turn-pulse {
+  width: 100%;
+  height: 100%;
+  background: #00ff00;
+  border-radius: 50%;
+  /* Essential turn indicator - keep but reduce frequency */
+  animation: turnPulseAnimation 2s ease-in-out infinite;
+  
+}
+
+@keyframes turnPulseAnimation {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.3); opacity: 0.7; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* Character Info */
+.character-info {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.character-name {
+  font-size: 1.4rem;
+  color: #ffd700;
+  margin: 0 0 5px 0;
+  /* Flat design - no text shadows */
+  font-weight: bold;
+}
+
+.character-title {
+  font-size: 0.9rem;
+  color: #ff6b35;
+  margin: 0;
+  font-style: italic;
+  /* Flat design - no text shadow */
+}
+
+/* Stress Meter */
+.stress-meter-container {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.stress-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+  font-size: 0.9rem;
+  color: #ffccaa;
+  font-weight: bold;
+  
+}
+
+.stress-percentage {
+  color: #ff6b35;
+  font-size: 1rem;
+}
+
+.stress-meter {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.stress-meter-bg {
+  flex: 1;
+  height: 14px;
+  background: #1a0000; /* Flat background */
+  border: 2px solid #ff4500;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+}
+
+.stress-meter-fill {
+  height: 100%;
+  min-width: 2px;
+  max-width: 100%;
+  transition: width 2s ease, background-color 2s ease;
+  border-radius: 6px;
+  position: relative;
+  
+  /* Flat design - color set via JavaScript */
+  
+  /* Performance optimization */
+  will-change: width, background-color;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+@keyframes stressFill {
+  0% { width: 0%; }
+}
+
+.heartbeat-indicator {
+  font-size: 1.2rem;
+  /* Reduced heartbeat frequency for performance */
+  animation: heartbeat 2s ease-in-out infinite;
+}
+
+@keyframes heartbeat {
+  0%, 50%, 100% { transform: scale(1); }
+  25%, 75% { transform: scale(1.2); }
+}
+
+/* Critical Warning */
+.critical-warning {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 10px;
+  background: #8b0000; /* Flat warning background */
+  border: 2px solid #ffffff;
+  border-radius: 15px;
+  margin-bottom: 10px;
+  animation: warningFlash 0.5s ease-in-out infinite; /* Keep essential warning animation */
+}
+
+.warning-text {
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: #ffffff;
+  
+}
+
+.warning-icon {
+  font-size: 1rem;
+  animation: warningShake 0.5s ease-in-out infinite;
+}
+
+@keyframes warningFlash {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+@keyframes warningShake {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-5deg); }
+  75% { transform: rotate(5deg); }
+}
+
+/* Turn Timer */
+.turn-timer {
+  position: absolute;
+  top: -15px;
+  right: -15px;
+}
+
+.timer-circle {
+  position: relative;
+  width: 40px;
+  height: 40px;
+}
+
+.timer-svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.timer-progress {
+  transition: stroke-dasharray 0.3s ease;
+  filter: drop-shadow(0 0 5px rgba(255, 69, 0, 0.8));
+}
+
+.timer-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 0.7rem;
+  font-weight: bold;
+  color: #ff4500;
+  
+}
+
+/* Player vs Opponent Styles */
+.player-card.player {
+  border-left-width: 5px;
+}
+
+.player-card.opponent {
+  border-right-width: 5px;
+}
+
+/* Removed player/opponent name color changes - card glow is sufficient visual indicator */
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .player-card {
+    min-width: 150px;
+    padding: 15px;
+  }
+  
+  .character-portrait {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .character-name {
+    font-size: 1.2rem;
+  }
+  
+  .character-title {
+    font-size: 0.8rem;
+  }
+  
+  .stress-label {
+    font-size: 0.8rem;
+  }
+  
+  .timer-circle {
+    width: 30px;
+    height: 30px;
+  }
+  
+  .timer-text {
+    font-size: 0.6rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .player-card {
+    min-width: 120px;
+    padding: 10px;
+  }
+  
+  .character-portrait {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .character-name {
+    font-size: 1rem;
+  }
+  
+  .emoji-icon {
+    font-size: 1.5rem;
+  }
+}
