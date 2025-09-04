@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import Board from './components/Board'
 import MainMenu from './components/MainMenu'
+import CharacterSelection from './components/CharacterSelection'
 import OnlineGameManager from './utils/OnlineGameManager'
 import SoundManager from './utils/SoundManager'
 import './App.css'
@@ -16,6 +17,10 @@ function App() {
   const [roomCode, setRoomCode] = useState('')
   const [isWaiting, setIsWaiting] = useState(false)
   const [isMuted, setIsMuted] = useState(false)
+  
+  // Arcade mode specific state
+  const [selectedCharacter, setSelectedCharacter] = useState(null)
+  const [arcadeStage, setArcadeStage] = useState('characterSelect') // 'characterSelect', 'openingCinematic', 'game', etc.
   
   const onlineGameRef = useRef(null)
   const playerColorRef = useRef(null)
@@ -122,11 +127,23 @@ function App() {
     }
   }
 
+  const handleCharacterSelect = (character) => {
+    setSelectedCharacter(character)
+    setPlayerName(character.name)
+    setArcadeStage('openingCinematic')
+  }
+
+  const handleBackToMenu = () => {
+    setGameMode(null)
+    setArcadeStage('characterSelect')
+    setSelectedCharacter(null)
+  }
+
   const handleStartGame = async (mode, name, code = null) => {
     // Handle arcade mode separately (doesn't need online setup)
     if (mode === 'arcade') {
-      setPlayerName(name)
       setGameMode(mode)
+      setArcadeStage('characterSelect')
       return
     }
     
@@ -271,6 +288,10 @@ function App() {
     setIsWaiting(false)
     setOpponentName('')
     playerColorRef.current = null
+    
+    // Reset arcade mode state
+    setSelectedCharacter(null)
+    setArcadeStage('characterSelect')
   }
 
   const toggleMute = () => {
@@ -282,13 +303,24 @@ function App() {
     return <MainMenu onStartGame={handleStartGame} />
   }
 
-  // Arcade mode placeholder (will be built out in next phases)
+  // Arcade mode system
   if (gameMode === 'arcade') {
+    if (arcadeStage === 'characterSelect') {
+      return (
+        <CharacterSelection 
+          onCharacterSelect={handleCharacterSelect}
+          onBack={handleBackToMenu}
+        />
+      )
+    }
+    
+    // Placeholder for other arcade stages (cinematics, gameplay, etc.)
     return (
       <div className="app">
         <div className="arcade-placeholder">
-          <h1>🎮 Arcade Mode Coming Soon!</h1>
-          <p>Selected Character: {playerName}</p>
+          <h1>🎮 Arcade Stage: {arcadeStage}</h1>
+          <p>Selected Character: {selectedCharacter?.name}</p>
+          <p>Stage: {arcadeStage}</p>
           <button className="reset-button" onClick={resetGame}>
             Back to Menu
           </button>
