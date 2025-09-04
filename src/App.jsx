@@ -277,6 +277,15 @@ function App() {
 
   return (
     <div className="app">
+      {/* Background Characters */}
+      <div className="background-characters">
+        <img src="/images/southern.png" className="character char-1" alt="" />
+        <img src="/images/southern.png" className="character char-2" alt="" />
+        <img src="/images/southern.png" className="character char-3" alt="" />
+        <img src="/images/southern.png" className="character char-4" alt="" />
+        <img src="/images/southern.png" className="character char-5" alt="" />
+      </div>
+      
       <div className="game-header">
         <h1>Connect 4 🔥 Hell Edition 🔥</h1>
         {roomCode && (
