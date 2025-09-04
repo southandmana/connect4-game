@@ -306,14 +306,86 @@
   font-size: 0.9rem;
 }
 
-/* Logo mobile responsiveness */
-@media (max-width: 768px) {
+/* Mobile responsiveness */
+
+/* iPhone X and similar */
+@media (max-width: 414px) {
+  .main-menu {
+    padding: 15px 10px;
+    max-width: 95%;
+  }
+  
+  .game-logo {
+    max-width: 280px;
+  }
+  
+  .logo-container {
+    margin-bottom: 20px;
+    padding: 0 10px;
+  }
+  
+  .menu-content {
+    padding: 20px;
+    border-width: 3px;
+  }
+  
+  .player-name-input,
+  .room-code-input {
+    padding: 12px 15px;
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+  }
+  
+  .menu-button {
+    padding: 15px 25px;
+    font-size: 1.1rem;
+    border-width: 2px;
+  }
+  
+  .menu-buttons {
+    gap: 12px;
+    margin-bottom: 25px;
+  }
+  
+  .instructions {
+    padding: 12px;
+    font-size: 0.9rem;
+  }
+  
+  .game-title {
+    font-size: 2.8rem;
+    letter-spacing: 1px;
+  }
+}
+
+/* Tablets */
+@media (max-width: 768px) and (min-width: 415px) {
+  .main-menu {
+    padding: 30px 15px;
+    max-width: 90%;
+  }
+  
   .game-logo {
     max-width: 350px;
   }
   
   .logo-container {
-    margin-bottom: 30px;
-    padding: 0 15px;
+    margin-bottom: 25px;
+  }
+  
+  .game-title {
+    font-size: 3.2rem;
+  }
+}
+
+/* Large screens */
+@media (min-width: 1200px) {
+  .main-menu {
+    max-width: 700px;
+    padding: 50px 30px;
+  }
+  
+  .game-logo {
+    max-width: 600px;
   }
 }

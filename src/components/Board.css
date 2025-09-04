@@ -1,7 +1,7 @@
 .board {
   display: inline-block;
   background: linear-gradient(145deg, #8b0000, #330000, #1a0000);
-  padding: 15px;
+  padding: 8px;
   border-radius: 20px;
   border: 4px solid #ff6b35;
   box-shadow: 
@@ -10,6 +10,8 @@
     0 0 30px rgba(255, 69, 0, 0.3);
   position: relative;
   overflow: hidden;
+  max-width: calc(100vw - 40px);
+  box-sizing: border-box;
 }
 
 .board::before {
@@ -36,8 +38,8 @@
 }
 
 .cell {
-  width: 75px;
-  height: 75px;
+  width: min(75px, calc((100vw - 80px) / 7));
+  height: min(75px, calc((100vw - 80px) / 7));
   background: linear-gradient(145deg, #4d0000, #1a0000);
   border: 2px solid #ff4500;
   border-radius: 8px;
@@ -66,8 +68,8 @@
 }
 
 .disc {
-  width: 60px;
-  height: 60px;
+  width: min(60px, calc((100vw - 120px) / 7));
+  height: min(60px, calc((100vw - 120px) / 7));
   border-radius: 50%;
   background: transparent;
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);

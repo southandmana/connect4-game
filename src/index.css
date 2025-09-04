@@ -16,11 +16,24 @@ body {
     radial-gradient(circle at 40% 40%, rgba(139, 0, 0, 0.4) 0%, transparent 50%),
     linear-gradient(135deg, #0f0f23 0%, #1a0000 30%, #330000 60%, #0d0d0d 100%);
   min-height: 100vh;
+  min-height: 100dvh; /* iOS viewport fix */
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
+  padding: 10px 0;
   overflow-x: hidden;
   position: relative;
+  box-sizing: border-box;
+}
+
+/* iPhone X notch and safe area support */
+@supports (padding: max(0px)) {
+  body {
+    padding-left: max(10px, env(safe-area-inset-left));
+    padding-right: max(10px, env(safe-area-inset-right));
+    padding-top: max(10px, env(safe-area-inset-top));
+    padding-bottom: max(10px, env(safe-area-inset-bottom));
+  }
 }
 
 body::before {

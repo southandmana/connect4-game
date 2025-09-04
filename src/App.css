@@ -1,6 +1,6 @@
 .app {
   text-align: center;
-  padding: 20px;
+  padding: 10px;
   background: linear-gradient(135deg, #1a1a1a 0%, #330000 50%, #660000 100%);
   border-radius: 20px;
   box-shadow: 0 20px 40px rgba(255, 69, 0, 0.4), inset 0 0 50px rgba(255, 69, 0, 0.1);
@@ -8,6 +8,8 @@
   position: relative;
   overflow: hidden;
   min-height: 100vh;
+  max-width: 100vw;
+  box-sizing: border-box;
 }
 
 .app::before {
@@ -454,9 +456,83 @@
 }
 
 /* Responsive adjustments */
-@media (max-width: 768px) {
+
+/* iPhone X and similar (375px width) */
+@media (max-width: 414px) {
+  .app {
+    padding: 5px;
+    border-radius: 15px;
+    border-width: 2px;
+    min-height: 100vh;
+  }
+  
+  .game-header {
+    margin-bottom: 10px;
+  }
+  
+  .players-info {
+    gap: 20px;
+    margin-bottom: 15px;
+  }
+  
+  .player-info {
+    padding: 8px 15px;
+    font-size: 0.9rem;
+  }
+  
+  .game-info {
+    font-size: 1rem;
+    margin-bottom: 15px;
+  }
+  
+  .game-controls {
+    gap: 10px;
+    margin-top: 15px;
+  }
+  
+  .reset-button,
+  .mute-button {
+    padding: 10px 20px;
+    font-size: 1rem;
+  }
+  
+  .room-code {
+    padding: 10px 15px;
+    margin-bottom: 15px;
+  }
+  
+  .room-code .code {
+    font-size: 1.5rem;
+    letter-spacing: 2px;
+    padding: 8px 15px;
+  }
+  
+  .copy-button {
+    padding: 6px 12px;
+    font-size: 0.8rem;
+  }
+  
   .character {
-    width: 60px !important;
-    height: 60px !important;
+    width: 40px !important;
+    height: 40px !important;
+  }
+}
+
+/* Tablets and small laptops */
+@media (max-width: 768px) and (min-width: 415px) {
+  .app {
+    padding: 8px;
+  }
+  
+  .character {
+    width: 50px !important;
+    height: 50px !important;
+  }
+}
+
+/* Large screens */
+@media (min-width: 1200px) {
+  .app {
+    padding: 30px;
   }
 }
