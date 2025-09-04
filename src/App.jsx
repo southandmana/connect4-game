@@ -216,8 +216,10 @@ function App() {
         console.log('Room code state set to:', roomId)
       } catch (error) {
         console.error('Failed to create room:', error)
-        alert('Failed to create room. Please check your internet connection.')
-        setGameMode(null)
+        if (confirm('Failed to create room. Please check your internet connection.\n\nWould you like to return to the main menu?')) {
+          setGameMode(null)
+        }
+        // If user cancels, they stay in the current state to retry
       }
     } else if (mode === 'join') {
       onlineGameRef.current = new OnlineGameManager()
@@ -228,16 +230,20 @@ function App() {
           handleOnlineGameUpdate,
           (error) => {
             console.error('Game error:', error)
-            alert('Room not found! Please check the room code.')
-            setGameMode(null)
+            if (confirm('Room not found! Please check the room code.\n\nWould you like to return to the main menu?')) {
+              setGameMode(null)
+            }
+            // If user cancels, they stay to retry with a different code
           }
         )
         setRoomCode(code)
         playerColorRef.current = 'yellow'
       } catch (error) {
         console.error('Failed to join room:', error)
-        alert('Failed to join room. Please check the room code.')
-        setGameMode(null)
+        if (confirm('Failed to join room. Please check the room code.\n\nWould you like to return to the main menu?')) {
+          setGameMode(null)
+        }
+        // If user cancels, they stay in the current state to retry
       }
     } else if (mode === 'local') {
       setOpponentName('Player 2')
