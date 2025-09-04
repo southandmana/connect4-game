@@ -3,8 +3,10 @@ import Board from './components/Board'
 import MainMenu from './components/MainMenu'
 import CharacterSelection from './components/CharacterSelection'
 import Cinematic from './components/Cinematic'
+import VSScreen from './components/VSScreen'
 import OnlineGameManager from './utils/OnlineGameManager'
 import SoundManager from './utils/SoundManager'
+import TournamentManager from './utils/TournamentManager'
 import './App.css'
 
 function App() {
@@ -21,10 +23,14 @@ function App() {
   
   // Arcade mode specific state
   const [selectedCharacter, setSelectedCharacter] = useState(null)
-  const [arcadeStage, setArcadeStage] = useState('characterSelect') // 'characterSelect', 'openingCinematic', 'game', etc.
+  const [arcadeStage, setArcadeStage] = useState('characterSelect') // 'characterSelect', 'openingCinematic', 'vsScreen', 'game', 'endingCinematic', etc.
+  const [tournamentManager, setTournamentManager] = useState(null)
+  const [currentAI, setCurrentAI] = useState(null)
+  const [isPlayerTurn, setIsPlayerTurn] = useState(true)
   
   const onlineGameRef = useRef(null)
   const playerColorRef = useRef(null)
+  const aiMoveTimeoutRef = useRef(null)
 
   useEffect(() => {
     SoundManager.init()
@@ -135,13 +141,52 @@ function App() {
   }
 
   const handleCinematicComplete = () => {
+    // After opening cinematic, start tournament with VS screen
+    const tournament = new TournamentManager()
+    const firstAI = tournament.startTournament()
+    setTournamentManager(tournament)
+    setCurrentAI(firstAI)
+    setArcadeStage('vsScreen')
+  }
+
+  const handleVSScreenComplete = () => {
+    // After VS screen, start the actual game
     setArcadeStage('game')
+    setBoard(Array(6).fill(null).map(() => Array(7).fill(null)))
+    setCurrentPlayer('red') // Player always goes first
+    setWinner(null)
+    setIsDraw(false)
+    setIsPlayerTurn(true)
+  }
+
+  const handleGameComplete = (playerWon) => {
+    if (!tournamentManager) return
+    
+    const result = tournamentManager.handleMatchResult(playerWon)
+    
+    if (result.tournamentComplete) {
+      // Tournament is over - show ending cinematic
+      setArcadeStage('endingCinematic')
+    } else if (result.advance) {
+      // Player won, advance to next opponent
+      setCurrentAI(result.nextOpponent)
+      setArcadeStage('vsScreen')
+    }
   }
 
   const handleBackToMenu = () => {
+    // Clear AI timeout if running
+    if (aiMoveTimeoutRef.current) {
+      clearTimeout(aiMoveTimeoutRef.current)
+      aiMoveTimeoutRef.current = null
+    }
+    
     setGameMode(null)
     setArcadeStage('characterSelect')
     setSelectedCharacter(null)
+    setTournamentManager(null)
+    setCurrentAI(null)
+    setIsPlayerTurn(true)
   }
 
   const handleStartGame = async (mode, name, code = null) => {
@@ -195,6 +240,38 @@ function App() {
       }
     } else if (mode === 'local') {
       setOpponentName('Player 2')
+    }
+  }
+
+  const makeAIMove = (currentBoard) => {
+    if (!currentAI || winner || isDraw) return
+    
+    const aiCol = currentAI.getMove(currentBoard)
+    if (aiCol === -1) return // No valid moves
+    
+    const newBoard = currentBoard.map(row => [...row])
+    
+    for (let row = 5; row >= 0; row--) {
+      if (newBoard[row][aiCol] === null) {
+        newBoard[row][aiCol] = 'yellow' // AI is always yellow
+        setBoard(newBoard)
+        
+        SoundManager.playDropSound()
+        
+        if (checkWinner(newBoard, row, aiCol, 'yellow')) {
+          setWinner('yellow')
+          SoundManager.playWinSound()
+          handleGameComplete(false) // AI won (player lost)
+        } else if (checkDraw(newBoard)) {
+          setIsDraw(true)
+          handleGameComplete(false) // Draw (counts as loss in tournament)
+        } else {
+          // Switch back to player turn
+          setCurrentPlayer('red')
+          setIsPlayerTurn(true)
+        }
+        break
+      }
     }
   }
 
@@ -254,7 +331,41 @@ function App() {
           break
         }
       }
+    } else if (gameMode === 'arcade') {
+      // Arcade mode with AI opponent
+      if (!isPlayerTurn || currentPlayer !== 'red') return
+      
+      const newBoard = board.map(row => [...row])
+      
+      for (let row = 5; row >= 0; row--) {
+        if (newBoard[row][col] === null) {
+          newBoard[row][col] = 'red' // Player is always red
+          setBoard(newBoard)
+          
+          SoundManager.playDropSound()
+          
+          if (checkWinner(newBoard, row, col, 'red')) {
+            setWinner('red')
+            SoundManager.playWinSound()
+            handleGameComplete(true) // Player won
+          } else if (checkDraw(newBoard)) {
+            setIsDraw(true)
+            handleGameComplete(false) // Draw (counts as loss in tournament)
+          } else {
+            // Switch to AI turn
+            setCurrentPlayer('yellow')
+            setIsPlayerTurn(false)
+            
+            // AI makes move after delay
+            aiMoveTimeoutRef.current = setTimeout(() => {
+              makeAIMove(newBoard)
+            }, 1000) // 1 second delay for dramatic effect
+          }
+          break
+        }
+      }
     } else {
+      // Local play mode (fallback)
       const newBoard = board.map(row => [...row])
       
       for (let row = 5; row >= 0; row--) {
@@ -297,6 +408,15 @@ function App() {
     // Reset arcade mode state
     setSelectedCharacter(null)
     setArcadeStage('characterSelect')
+    setTournamentManager(null)
+    setCurrentAI(null)
+    setIsPlayerTurn(true)
+    
+    // Clear AI timeout if running
+    if (aiMoveTimeoutRef.current) {
+      clearTimeout(aiMoveTimeoutRef.current)
+      aiMoveTimeoutRef.current = null
+    }
   }
 
   const toggleMute = () => {
@@ -329,14 +449,94 @@ function App() {
       )
     }
     
-    // Placeholder for other arcade stages (gameplay, ending cinematic, etc.)
+    if (arcadeStage === 'vsScreen' && currentAI && tournamentManager) {
+      return (
+        <VSScreen
+          playerCharacter={selectedCharacter}
+          opponentName={currentAI.name}
+          opponentNumber={tournamentManager.currentOpponent}
+          opponentDescription={tournamentManager.getOpponentDescription()}
+          onComplete={handleVSScreenComplete}
+        />
+      )
+    }
+    
+    if (arcadeStage === 'game' && currentAI) {
+      // Arcade tournament gameplay
+      const progress = tournamentManager?.getProgress()
+      const difficultyInfo = tournamentManager?.getDifficultyInfo()
+      
+      return (
+        <div className="app">
+          {/* Tournament Info Header */}
+          <div className="tournament-header">
+            <div className="tournament-progress">
+              <h3>🏆 Tournament Progress: {progress?.currentOpponent}/10</h3>
+              <p>Opponent: {currentAI.name} ({difficultyInfo?.name})</p>
+              {difficultyInfo?.isFinalBoss && <p className="final-boss-indicator">👑 FINAL BOSS!</p>}
+            </div>
+          </div>
+          
+          <div className="players-info">
+            <div className={`player-info ${currentPlayer === 'red' ? 'active' : ''}`}>
+              <span className="player-indicator red"></span>
+              <span className="player-name">{selectedCharacter?.name || 'Player'}</span>
+            </div>
+            <div className={`player-info ${currentPlayer === 'yellow' ? 'active' : ''}`}>
+              <span className="player-indicator yellow"></span>
+              <span className="player-name">{currentAI.name}</span>
+            </div>
+          </div>
+          
+          <div className="game-info">
+            {winner ? (
+              <div className="winner-message">
+                <span className={`player-indicator ${winner}`}></span>
+                {winner === 'red' ? 'Victory!' : 'Defeat!'}
+              </div>
+            ) : isDraw ? (
+              <div className="draw-message">Draw!</div>
+            ) : (
+              <div className="current-turn">
+                {isPlayerTurn ? "Your turn" : `${currentAI.name}'s turn`}
+              </div>
+            )}
+          </div>
+          
+          <Board board={board} onColumnClick={dropDisc} />
+          
+          <div className="game-controls">
+            <button className="reset-button" onClick={resetGame}>
+              Quit Tournament
+            </button>
+            <button className="mute-button" onClick={toggleMute}>
+              {isMuted ? '🔇 Unmute' : '🔊 Mute'}
+            </button>
+          </div>
+        </div>
+      )
+    }
+    
+    if (arcadeStage === 'endingCinematic') {
+      return (
+        <Cinematic 
+          character={selectedCharacter}
+          type="ending"
+          onComplete={() => {
+            // After ending cinematic, return to menu
+            resetGame()
+          }}
+        />
+      )
+    }
+    
+    // Fallback placeholder for any other stages
     return (
       <div className="app">
         <div className="arcade-placeholder">
           <h1>🎮 Arcade Stage: {arcadeStage}</h1>
           <p>Selected Character: {selectedCharacter?.name}</p>
-          <p>Stage: {arcadeStage}</p>
-          <p>Ready to start tournament gameplay!</p>
+          <p>Current AI: {currentAI?.name}</p>
           <button className="reset-button" onClick={resetGame}>
             Back to Menu
           </button>
