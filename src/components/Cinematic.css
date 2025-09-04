@@ -4,6 +4,7 @@
   left: 0;
   width: 100vw;
   height: 100vh;
+  height: 100dvh; /* Dynamic viewport height for mobile browsers */
   background: #000;
   display: flex;
   flex-direction: column;
@@ -12,6 +13,7 @@
   cursor: pointer;
   z-index: 1000;
   font-family: 'Fredoka', 'Comic Sans MS', 'Marker Felt', 'Bradley Hand', cursive, sans-serif;
+  overflow: hidden; /* Prevent any scrolling */
 }
 
 .cinematic-background {
@@ -164,6 +166,8 @@
   display: flex;
   gap: 8px;
   z-index: 3;
+  /* Ensure it's always visible */
+  margin-top: env(safe-area-inset-top, 0px);
 }
 
 .progress-dot {
@@ -199,8 +203,15 @@
 
 /* Mobile Responsiveness */
 @media (max-width: 768px) {
+  .cinematic {
+    /* Force full height on mobile */
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
+  
   .cinematic-text-overlay {
     padding: 20px;
+    padding-bottom: calc(20px + env(safe-area-inset-bottom, 0px));
   }
   
   .cinematic-text {
@@ -218,8 +229,9 @@
   }
   
   .cinematic-progress {
-    top: 20px;
-    right: 20px;
+    top: 15px;
+    right: 15px;
+    margin-top: env(safe-area-inset-top, 5px);
   }
   
   .progress-dot {
@@ -229,30 +241,47 @@
 }
 
 @media (max-width: 480px) {
+  .cinematic {
+    /* Ensure proper mobile viewport */
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    min-height: -webkit-fill-available;
+  }
+  
   .cinematic-text-overlay {
-    padding: 15px;
+    padding: 10px 15px 15px 15px;
+    padding-bottom: calc(15px + env(safe-area-inset-bottom, 0px));
   }
   
   .cinematic-text {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     line-height: 1.4;
+    margin-bottom: 15px;
   }
   
   .cinematic-controls {
     flex-direction: column;
-    gap: 15px;
+    gap: 12px;
     align-items: center;
   }
   
   .continue-prompt {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     order: 2;
   }
   
   .skip-button {
     order: 1;
-    padding: 8px 14px;
-    font-size: 0.85rem;
+    padding: 8px 12px;
+    font-size: 0.8rem;
+    border-radius: 15px;
+  }
+  
+  .cinematic-progress {
+    top: 10px;
+    right: 10px;
+    margin-top: env(safe-area-inset-top, 5px);
   }
   
   .progress-dot {
@@ -277,6 +306,41 @@
   
   .progress-dot.active {
     animation: none;
+  }
+}
+
+/* iPhone X and similar with notch support */
+@media (max-width: 414px) and (min-height: 812px) {
+  .cinematic {
+    /* Handle iPhone X notch and home indicator */
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  
+  .cinematic-progress {
+    top: 15px;
+    right: 15px;
+    margin-top: env(safe-area-inset-top, 10px);
+  }
+  
+  .cinematic-text-overlay {
+    padding: 15px;
+    padding-bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+  }
+  
+  .cinematic-text {
+    font-size: 1rem;
+    line-height: 1.3;
+    margin-bottom: 12px;
+  }
+}
+
+/* Force proper mobile viewport behavior */
+@supports (-webkit-touch-callout: none) {
+  .cinematic {
+    /* iOS specific fixes */
+    height: -webkit-fill-available;
+    min-height: -webkit-fill-available;
   }
 }
 
