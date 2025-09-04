@@ -579,6 +579,72 @@
   }
 }
 
+.tournament-results {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 70vh;
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.results-title {
+  font-size: 3rem;
+  margin-bottom: 30px;
+  text-shadow: 
+    0 0 15px #ff4500,
+    3px 3px 0px #660000,
+    5px 5px 0px #330000;
+  animation: titlePulse 3s ease-in-out infinite alternate;
+}
+
+.results-title:first-child {
+  color: #ffd700; /* Victory - gold */
+}
+
+.results-title:not(:first-child) {
+  color: #dc143c; /* Defeat - red */
+}
+
+.results-info {
+  background: linear-gradient(145deg, rgba(255, 69, 0, 0.2), rgba(139, 0, 0, 0.1));
+  border: 2px solid rgba(255, 107, 53, 0.5);
+  border-radius: 20px;
+  padding: 25px;
+  margin-bottom: 40px;
+  max-width: 600px;
+}
+
+.victory-message,
+.defeat-message {
+  font-size: 1.3rem;
+  color: #ffccaa;
+  line-height: 1.6;
+  margin: 0;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.results-controls {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.retry-button {
+  background: linear-gradient(145deg, #32cd32 0%, #228b22 50%, #006400 100%) !important;
+  border-color: #90ee90 !important;
+}
+
+.retry-button:hover {
+  background: linear-gradient(145deg, #3cb371 0%, #2e8b57 50%, #228b22 100%) !important;
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 
+    0 8px 16px rgba(50, 205, 50, 0.4),
+    inset 0 2px 0 rgba(144, 238, 144, 0.3);
+}
+
 .arcade-placeholder {
   display: flex;
   flex-direction: column;

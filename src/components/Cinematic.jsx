@@ -26,8 +26,19 @@ function Cinematic({ character, type, onComplete }) {
             fallbackImage: 'data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgODAwIDYwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImZpcmVHcmFkaWVudCIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNmZmQ3MDAiLz48c3RvcCBvZmZzZXQ9IjUwJSIgc3RvcC1jb2xvcj0iI2ZmNDUwMCIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzRkMDAwMCIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPSI4MDAiIGhlaWdodD0iNjAwIiBmaWxsPSJ1cmwoI2ZpcmVHcmFkaWVudCkiLz48Y2lyY2xlIGN4PSI0MDAiIGN5PSIzMDAiIHI9IjgwIiBmaWxsPSIjMDAwIiBmaWxsLW9wYWNpdHk9IjAuNSIvPjx0ZXh0IHg9IjQwMCIgeT0iMzE1IiBmb250LXNpemU9IjYwIiBmaWxsPSIjZmZkNzAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iRnJlZG9rYSwgc2Fucy1zZXJpZiI+4p2k77iPPC90ZXh0Pjx0ZXh0IHg9IjQwMCIgeT0iODAiIGZvbnQtc2l6ZT0iMjAiIGZpbGw9IiNmZmNjYWEiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJGcmVkb2thLCBzYW5zLXNlcmlmIj5TT1VUSEVSTiZhcG9zO1MgT1BFTklORzwvdGV4dD48dGV4dCB4PSI0MDAiIHk9IjEwNSIgZm9udC1zaXplPSIyMCIgZmlsbD0iI2ZmY2NhYSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkZyZWRva2EsIHNhbnMtc2VyaWYiPkNJTkVNQVRJQyAzPC90ZXh0Pjwvc3ZnPg=='
           }
         ],
-        ending: [
-          // Ending cinematics will be added later
+        victory: [
+          {
+            image: '/images/cinematics/southern-victory.jpg',
+            text: 'Victory! Southern stands triumphant over all challengers!',
+            fallbackImage: 'data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgODAwIDYwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9InZpY3RvcnlHcmFkaWVudCIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNmZmQ3MDAiLz48c3RvcCBvZmZzZXQ9IjUwJSIgc3RvcC1jb2xvcj0iI2ZmYTUwMCIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2ZmNjkwNCIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPSI4MDAiIGhlaWdodD0iNjAwIiBmaWxsPSJ1cmwoI3ZpY3RvcnlHcmFkaWVudCkiLz48Y2lyY2xlIGN4PSI0MDAiIGN5PSIzMDAiIHI9IjEwMCIgZmlsbD0iIzAwMCIgZmlsbC1vcGFjaXR5PSIwLjMiLz48dGV4dCB4PSI0MDAiIHk9IjMzMCIgZm9udC1zaXplPSI4MCIgZmlsbD0iI2ZmZDcwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkZyZWRva2EsIHNhbnMtc2VyaWYiPvCfj4Y8L3RleHQ+PHRleHQgeD0iNDAwIiB5PSI4MCIgZm9udC1zaXplPSIzMCIgZmlsbD0iI2ZmZDcwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkZyZWRva2EsIHNhbnMtc2VyaWYiPldJTk5FUiE8L3RleHQ+PC9zdmc+'
+          }
+        ],
+        defeat: [
+          {
+            image: '/images/cinematics/southern-defeat.jpg',
+            text: 'Defeat... But Southern will rise again stronger than before!',
+            fallbackImage: 'data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgODAwIDYwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImRlZmVhdEdyYWRpZW50IiB4MT0iMCUiIHkxPSIwJSIgeDI9IjAlIiB5Mj0iMTAwJSI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzRkMDAwMCIvPjxzdG9wIG9mZnNldD0iNTAlIiBzdG9wLWNvbG9yPSIjOGIwMDAwIi8+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjMmYwMDAwIi8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PHJlY3Qgd2lkdGg9IjgwMCIgaGVpZ2h0PSI2MDAiIGZpbGw9InVybCgjZGVmZWF0R3JhZGllbnQpIi8+PGNpcmNsZSBjeD0iNDAwIiBjeT0iMzAwIiByPSIxMDAiIGZpbGw9IiMwMDAiIGZpbGwtb3BhY2l0eT0iMC41Ii8+PHRleHQgeD0iNDAwIiB5PSIzMzAiIGZvbnQtc2l6ZT0iNzAiIGZpbGw9IiNkYzE0M2MiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJGcmVkb2thLCBzYW5zLXNlcmlmIj7wn5KAPC90ZXh0Pjx0ZXh0IHg9IjQwMCIgeT0iODAiIGZvbnQtc2l6ZT0iMjgiIGZpbGw9IiNkYzE0M2MiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJGcmVkb2thLCBzYW5zLXNlcmlmIj5ERUZFQVRFRDwvdGV4dD48L3N2Zz4='
+          }
         ]
       }
     }

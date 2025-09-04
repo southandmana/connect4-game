@@ -165,13 +165,14 @@ function App() {
     const result = tournamentManager.handleMatchResult(playerWon)
     
     if (result.tournamentComplete) {
-      // Tournament is over - show ending cinematic
+      // Tournament is over - show ending cinematic (victory or defeat)
       setArcadeStage('endingCinematic')
     } else if (result.advance) {
       // Player won, advance to next opponent
       setCurrentAI(result.nextOpponent)
       setArcadeStage('vsScreen')
     }
+    // Note: All cases should be handled above - if not, there's a logic error
   }
 
   const handleBackToMenu = () => {
@@ -518,15 +519,70 @@ function App() {
     }
     
     if (arcadeStage === 'endingCinematic') {
+      const isVictorious = tournamentManager?.isVictorious || false
+      
       return (
         <Cinematic 
           character={selectedCharacter}
-          type="ending"
+          type={isVictorious ? "victory" : "defeat"}
           onComplete={() => {
-            // After ending cinematic, return to menu
-            resetGame()
+            // Show results screen instead of immediately going to menu
+            setArcadeStage('tournamentResults')
           }}
         />
+      )
+    }
+    
+    if (arcadeStage === 'tournamentResults') {
+      const progress = tournamentManager?.getProgress()
+      const isVictorious = tournamentManager?.isVictorious || false
+      
+      return (
+        <div className="app">
+          <div className="tournament-results">
+            <h1 className="results-title">
+              {isVictorious ? '🏆 TOURNAMENT CHAMPION!' : '💀 TOURNAMENT OVER'}
+            </h1>
+            
+            <div className="results-info">
+              {isVictorious ? (
+                <p className="victory-message">
+                  Congratulations! You defeated all {progress?.totalOpponents} opponents 
+                  and claimed the championship!
+                </p>
+              ) : (
+                <p className="defeat-message">
+                  You were defeated by opponent {progress?.currentOpponent}: {currentAI?.name}.
+                  <br />
+                  You won {progress?.wins} match{progress?.wins !== 1 ? 'es' : ''} before falling.
+                </p>
+              )}
+            </div>
+            
+            <div className="results-controls">
+              <button className="menu-button" onClick={resetGame}>
+                Return to Menu
+              </button>
+              {!isVictorious && (
+                <button className="retry-button menu-button" onClick={() => {
+                  // Restart tournament from beginning
+                  const tournament = new TournamentManager()
+                  const firstAI = tournament.startTournament()
+                  setTournamentManager(tournament)
+                  setCurrentAI(firstAI)
+                  setArcadeStage('vsScreen')
+                  setBoard(Array(6).fill(null).map(() => Array(7).fill(null)))
+                  setCurrentPlayer('red')
+                  setWinner(null)
+                  setIsDraw(false)
+                  setIsPlayerTurn(true)
+                }}>
+                Try Again
+              </button>
+              )}
+            </div>
+          </div>
+        </div>
       )
     }
     
