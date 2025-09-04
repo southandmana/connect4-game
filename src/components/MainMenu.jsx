@@ -22,7 +22,9 @@ function MainMenu({ onStartGame }) {
 
   return (
     <div className="main-menu">
-      <h1 className="game-title">Connect 4</h1>
+      <div className="logo-container">
+        <img src="/images/logo.svg" className="game-logo" alt="Connect 4" />
+      </div>
       <div className="menu-content">
         <input
           type="text"

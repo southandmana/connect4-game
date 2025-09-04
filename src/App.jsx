@@ -287,7 +287,6 @@ function App() {
       </div>
       
       <div className="game-header">
-        <h1>Connect 4 🔥 Hell Edition 🔥</h1>
         {roomCode && (
           <div className="room-code">
             <div className="code-label">Share this code with your friend:</div>

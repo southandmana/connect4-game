@@ -36,25 +36,9 @@
   z-index: 2;
 }
 
-.game-header h1 {
-  color: #ff6b35;
-  margin-bottom: 10px;
-  font-size: 3.5rem;
-  font-family: 'Comic Sans MS', cursive, sans-serif;
-  text-shadow: 
-    0 0 10px #ff4500,
-    0 0 20px #ff4500,
-    0 0 30px #ff4500,
-    2px 2px 0px #660000,
-    4px 4px 0px #330000;
-  font-weight: bold;
-  animation: titleFlicker 2s ease-in-out infinite alternate;
-  letter-spacing: 2px;
-}
-
-@keyframes titleFlicker {
-  0% { text-shadow: 0 0 10px #ff4500, 0 0 20px #ff4500, 0 0 30px #ff4500, 2px 2px 0px #660000, 4px 4px 0px #330000; }
-  100% { text-shadow: 0 0 15px #ff6b35, 0 0 25px #ff6b35, 0 0 35px #ff6b35, 2px 2px 0px #660000, 4px 4px 0px #330000; }
+.game-header {
+  margin-bottom: 20px;
+  min-height: 20px;
 }
 
 .room-code {
