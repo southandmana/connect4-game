@@ -123,6 +123,13 @@ function App() {
   }
 
   const handleStartGame = async (mode, name, code = null) => {
+    // Handle arcade mode separately (doesn't need online setup)
+    if (mode === 'arcade') {
+      setPlayerName(name)
+      setGameMode(mode)
+      return
+    }
+    
     setPlayerName(name)
     setGameMode(mode)
     
@@ -273,6 +280,21 @@ function App() {
 
   if (!gameMode) {
     return <MainMenu onStartGame={handleStartGame} />
+  }
+
+  // Arcade mode placeholder (will be built out in next phases)
+  if (gameMode === 'arcade') {
+    return (
+      <div className="app">
+        <div className="arcade-placeholder">
+          <h1>🎮 Arcade Mode Coming Soon!</h1>
+          <p>Selected Character: {playerName}</p>
+          <button className="reset-button" onClick={resetGame}>
+            Back to Menu
+          </button>
+        </div>
+      </div>
+    )
   }
 
   return (

@@ -6,8 +6,8 @@ function MainMenu({ onStartGame }) {
   const [roomCode, setRoomCode] = useState('')
   const [showJoinRoom, setShowJoinRoom] = useState(false)
 
-  const handleLocalPlay = () => {
-    onStartGame('local', playerName || 'Player 1')
+  const handleArcadeMode = () => {
+    onStartGame('arcade', playerName || 'Player 1')
   }
 
   const handleCreateRoom = () => {
@@ -36,8 +36,8 @@ function MainMenu({ onStartGame }) {
         />
         
         <div className="menu-buttons">
-          <button className="menu-button local-play" onClick={handleLocalPlay}>
-            Local Play
+          <button className="menu-button arcade-mode" onClick={handleArcadeMode}>
+            🎮 Arcade Mode
           </button>
           
           <button className="menu-button create-room" onClick={handleCreateRoom}>

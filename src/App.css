@@ -536,3 +536,26 @@
     padding: 30px;
   }
 }
+
+/* Arcade mode placeholder styling */
+.arcade-placeholder {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 60vh;
+  gap: 20px;
+  font-family: 'Fredoka', 'Comic Sans MS', 'Marker Felt', 'Bradley Hand', cursive, sans-serif;
+}
+
+.arcade-placeholder h1 {
+  font-size: 2.5rem;
+  color: #ff6b35;
+  text-shadow: 0 0 15px #ff4500;
+}
+
+.arcade-placeholder p {
+  font-size: 1.3rem;
+  color: #ffccaa;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+}

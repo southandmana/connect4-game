@@ -218,8 +218,8 @@
   z-index: 2;
 }
 
-.local-play {
-  background: linear-gradient(145deg, #ff4500 0%, #8b0000 50%, #330000 100%);
+.arcade-mode {
+  background: linear-gradient(145deg, #ff6b35 0%, #ff4500 50%, #8b0000 100%);
 }
 
 .create-room {
