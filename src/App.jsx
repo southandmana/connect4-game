@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import Board from './components/Board'
 import MainMenu from './components/MainMenu'
 import CharacterSelection from './components/CharacterSelection'
+import Cinematic from './components/Cinematic'
 import OnlineGameManager from './utils/OnlineGameManager'
 import SoundManager from './utils/SoundManager'
 import './App.css'
@@ -131,6 +132,10 @@ function App() {
     setSelectedCharacter(character)
     setPlayerName(character.name)
     setArcadeStage('openingCinematic')
+  }
+
+  const handleCinematicComplete = () => {
+    setArcadeStage('game')
   }
 
   const handleBackToMenu = () => {
@@ -314,13 +319,24 @@ function App() {
       )
     }
     
-    // Placeholder for other arcade stages (cinematics, gameplay, etc.)
+    if (arcadeStage === 'openingCinematic') {
+      return (
+        <Cinematic 
+          character={selectedCharacter}
+          type="opening"
+          onComplete={handleCinematicComplete}
+        />
+      )
+    }
+    
+    // Placeholder for other arcade stages (gameplay, ending cinematic, etc.)
     return (
       <div className="app">
         <div className="arcade-placeholder">
           <h1>🎮 Arcade Stage: {arcadeStage}</h1>
           <p>Selected Character: {selectedCharacter?.name}</p>
           <p>Stage: {arcadeStage}</p>
+          <p>Ready to start tournament gameplay!</p>
           <button className="reset-button" onClick={resetGame}>
             Back to Menu
           </button>
