@@ -1,7 +1,31 @@
+/* 
+ * Ultra-Efficient Music Visualizer System
+ * 
+ * Uses CSS custom properties for subtle music-reactive backgrounds
+ * --bass-hue-shift (0-30deg): Subtle hue shifts for color variation
+ * --bass-intensity (0-100%): Bass power for scaling effects  
+ * --bass-saturation (70-100%): Dynamic color vibrancy
+ * 
+ * - 150ms update interval for minimal CPU usage
+ * - Smart throttling and difference-based updates
+ * - Only 4 FFT bins analyzed = ultra-efficient
+ */
+
 .app {
   text-align: center;
   padding: 10px;
-  background: #330000; /* Solid color instead of gradient */
+  /* Efficient music-reactive background */
+  background: hsl(
+    calc(0deg + var(--bass-hue-shift, 0deg)), 
+    var(--bass-saturation, 70%), 
+    20%
+  );
+  transition: background-color 0.2s ease-out; /* Smooth transitions */
+  
+  /* Subtle bass-driven glow effect */
+  box-shadow: 
+    0 0 calc(20px + var(--bass-intensity, 0%) * 0.3) hsla(calc(15deg + var(--bass-hue-shift, 0deg)), 100%, 50%, calc(var(--bass-intensity, 0%) * 0.4)),
+    inset 0 0 calc(30px + var(--bass-intensity, 0%) * 0.2) hsla(calc(30deg + var(--bass-hue-shift, 0deg)), 80%, 60%, calc(var(--bass-intensity, 0%) * 0.2));
   border-radius: 20px;
   border: 3px solid #ff4500;
   position: relative;
@@ -31,7 +55,19 @@
 }
 
 .room-code {
-  background: #8b0000; /* Solid color instead of gradient */
+  /* Subtle music-reactive room code */
+  background: hsl(
+    calc(0deg + var(--bass-hue-shift, 0deg)), 
+    var(--bass-saturation, 80%), 
+    27%
+  );
+  transition: background-color 0.2s ease-out;
+  
+  /* Bass-reactive scaling and glow */
+  transform: scale(calc(1 + var(--bass-intensity, 0%) * 0.02));
+  box-shadow: 
+    0 0 calc(15px + var(--bass-intensity, 0%) * 0.25) hsla(calc(var(--bass-hue-shift, 0deg)), 100%, 60%, calc(var(--bass-intensity, 0%) * 0.6));
+  
   color: #ffccaa;
   padding: 15px 20px;
   border-radius: 15px;
