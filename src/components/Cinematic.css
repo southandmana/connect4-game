@@ -1,23 +1,17 @@
 .cinematic {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  width: 100vw;
-  height: 100vh;
-  /* Fallback for iOS Safari that doesn't support dvh */
   min-height: 100vh;
-  min-height: -webkit-fill-available;
+  width: 100vw;
+  max-width: 100vw;
   background: #000;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  z-index: 1000;
+  position: relative;
   font-family: 'Fredoka', 'Comic Sans MS', 'Marker Felt', 'Bradley Hand', cursive, sans-serif;
-  overflow: hidden; /* Prevent any scrolling */
+  overflow: hidden;
+  box-sizing: border-box;
 }
 
 .cinematic-background {
@@ -170,8 +164,6 @@
   display: flex;
   gap: 8px;
   z-index: 3;
-  /* Ensure it's always visible */
-  margin-top: env(safe-area-inset-top, 0px);
 }
 
 .progress-dot {
@@ -207,15 +199,8 @@
 
 /* Mobile Responsiveness */
 @media (max-width: 768px) {
-  .cinematic {
-    /* Force full height on mobile */
-    min-height: 100vh;
-    min-height: 100dvh;
-  }
-  
   .cinematic-text-overlay {
     padding: 20px;
-    padding-bottom: calc(20px + env(safe-area-inset-bottom, 0px));
   }
   
   .cinematic-text {
@@ -233,9 +218,8 @@
   }
   
   .cinematic-progress {
-    top: 15px;
-    right: 15px;
-    margin-top: env(safe-area-inset-top, 5px);
+    top: 20px;
+    right: 20px;
   }
   
   .progress-dot {
@@ -245,52 +229,36 @@
 }
 
 @media (max-width: 480px) {
-  .cinematic {
-    /* Force full screen coverage on all small mobile devices */
-    position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    bottom: 0 !important;
-    width: 100vw !important;
-    height: 100vh !important;
-    min-height: 100vh !important;
-    min-height: -webkit-fill-available !important;
-  }
-  
   .cinematic-text-overlay {
-    padding: 10px 15px 15px 15px;
-    padding-bottom: calc(15px + env(safe-area-inset-bottom, 0px));
+    padding: 15px;
   }
   
   .cinematic-text {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     line-height: 1.4;
     margin-bottom: 15px;
   }
   
   .cinematic-controls {
     flex-direction: column;
-    gap: 12px;
+    gap: 15px;
     align-items: center;
   }
   
   .continue-prompt {
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     order: 2;
   }
   
   .skip-button {
     order: 1;
-    padding: 8px 12px;
-    font-size: 0.8rem;
-    border-radius: 15px;
+    padding: 8px 14px;
+    font-size: 0.85rem;
   }
   
   .cinematic-progress {
-    top: 10px;
-    right: 10px;
-    margin-top: env(safe-area-inset-top, 5px);
+    top: 15px;
+    right: 15px;
   }
   
   .progress-dot {
@@ -318,50 +286,6 @@
   }
 }
 
-/* iPhone X and similar with notch support */
-@media (max-width: 414px) and (min-height: 812px) {
-  .cinematic {
-    /* Force full viewport coverage on iPhone X */
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: 100vw;
-    height: 100vh;
-    min-height: 100vh;
-    min-height: -webkit-fill-available;
-    /* Don't add padding to the main container - it cuts off content */
-  }
-  
-  .cinematic-progress {
-    top: calc(15px + env(safe-area-inset-top, 0px));
-    right: 15px;
-  }
-  
-  .cinematic-text-overlay {
-    padding: 15px;
-    padding-top: 20px;
-    padding-bottom: calc(25px + env(safe-area-inset-bottom, 10px));
-    /* Ensure text doesn't get cut off by home indicator */
-    bottom: 0;
-  }
-  
-  .cinematic-text {
-    font-size: 1rem;
-    line-height: 1.3;
-    margin-bottom: 12px;
-  }
-}
-
-/* Force proper mobile viewport behavior */
-@supports (-webkit-touch-callout: none) {
-  .cinematic {
-    /* iOS specific fixes */
-    height: -webkit-fill-available;
-    min-height: -webkit-fill-available;
-  }
-}
 
 /* High contrast mode */
 @media (prefers-contrast: high) {
