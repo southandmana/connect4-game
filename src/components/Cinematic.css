@@ -2,9 +2,13 @@
   position: fixed;
   top: 0;
   left: 0;
+  right: 0;
+  bottom: 0;
   width: 100vw;
   height: 100vh;
-  height: 100dvh; /* Dynamic viewport height for mobile browsers */
+  /* Fallback for iOS Safari that doesn't support dvh */
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
   background: #000;
   display: flex;
   flex-direction: column;
@@ -242,11 +246,16 @@
 
 @media (max-width: 480px) {
   .cinematic {
-    /* Ensure proper mobile viewport */
-    width: 100vw;
-    height: 100vh;
-    height: 100dvh;
-    min-height: -webkit-fill-available;
+    /* Force full screen coverage on all small mobile devices */
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    min-height: 100vh !important;
+    min-height: -webkit-fill-available !important;
   }
   
   .cinematic-text-overlay {
@@ -312,20 +321,30 @@
 /* iPhone X and similar with notch support */
 @media (max-width: 414px) and (min-height: 812px) {
   .cinematic {
-    /* Handle iPhone X notch and home indicator */
-    padding-top: env(safe-area-inset-top, 0px);
-    padding-bottom: env(safe-area-inset-bottom, 0px);
+    /* Force full viewport coverage on iPhone X */
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100vw;
+    height: 100vh;
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+    /* Don't add padding to the main container - it cuts off content */
   }
   
   .cinematic-progress {
-    top: 15px;
+    top: calc(15px + env(safe-area-inset-top, 0px));
     right: 15px;
-    margin-top: env(safe-area-inset-top, 10px);
   }
   
   .cinematic-text-overlay {
     padding: 15px;
-    padding-bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+    padding-top: 20px;
+    padding-bottom: calc(25px + env(safe-area-inset-bottom, 10px));
+    /* Ensure text doesn't get cut off by home indicator */
+    bottom: 0;
   }
   
   .cinematic-text {
