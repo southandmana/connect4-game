@@ -8,53 +8,62 @@
 }
 
 .logo-container {
-  margin-bottom: 30px;
+  margin-bottom: 40px;
+  padding: 0 20px;
 }
 
 .game-logo {
-  max-width: 350px;
+  max-width: 500px;
   width: 100%;
   height: auto;
   filter: 
-    hue-rotate(0deg)
-    saturate(1.4)
-    brightness(1.1)
-    contrast(1.2)
+    invert(1)
+    hue-rotate(20deg)
+    saturate(1.6)
+    brightness(1.3)
+    contrast(1.1)
     drop-shadow(0 0 25px rgba(255, 69, 0, 0.8))
-    drop-shadow(0 0 50px rgba(255, 140, 0, 0.4));
+    drop-shadow(0 0 50px rgba(255, 140, 0, 0.4))
+    drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
   animation: logoGlow 4s ease-in-out infinite alternate, logoFloat 6s ease-in-out infinite;
   transition: all 0.3s ease;
 }
 
 .game-logo:hover {
   filter: 
-    hue-rotate(10deg)
-    saturate(1.6)
-    brightness(1.2)
-    contrast(1.3)
+    invert(1)
+    hue-rotate(30deg)
+    saturate(1.8)
+    brightness(1.4)
+    contrast(1.2)
     drop-shadow(0 0 35px rgba(255, 69, 0, 1))
-    drop-shadow(0 0 70px rgba(255, 140, 0, 0.6));
+    drop-shadow(0 0 70px rgba(255, 140, 0, 0.6))
+    drop-shadow(0 0 15px rgba(255, 255, 255, 0.5));
   transform: scale(1.05);
 }
 
 @keyframes logoGlow {
   0% { 
     filter: 
-      hue-rotate(0deg)
-      saturate(1.4)
-      brightness(1.1)
-      contrast(1.2)
+      invert(1)
+      hue-rotate(20deg)
+      saturate(1.6)
+      brightness(1.3)
+      contrast(1.1)
       drop-shadow(0 0 25px rgba(255, 69, 0, 0.8))
-      drop-shadow(0 0 50px rgba(255, 140, 0, 0.4));
+      drop-shadow(0 0 50px rgba(255, 140, 0, 0.4))
+      drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
   }
   100% { 
     filter: 
-      hue-rotate(15deg)
-      saturate(1.6)
-      brightness(1.3)
-      contrast(1.3)
+      invert(1)
+      hue-rotate(35deg)
+      saturate(1.8)
+      brightness(1.5)
+      contrast(1.2)
       drop-shadow(0 0 35px rgba(255, 140, 0, 1))
-      drop-shadow(0 0 70px rgba(255, 69, 0, 0.6));
+      drop-shadow(0 0 70px rgba(255, 69, 0, 0.6))
+      drop-shadow(0 0 20px rgba(255, 255, 255, 0.4));
   }
 }
 
@@ -300,10 +309,11 @@
 /* Logo mobile responsiveness */
 @media (max-width: 768px) {
   .game-logo {
-    max-width: 280px;
+    max-width: 350px;
   }
   
   .logo-container {
-    margin-bottom: 25px;
+    margin-bottom: 30px;
+    padding: 0 15px;
   }
 }
