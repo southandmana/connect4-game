@@ -1,14 +1,18 @@
 .cinematic {
-  min-height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   width: 100vw;
-  max-width: 100vw;
+  height: 100vh;
   background: #000;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  position: relative;
+  z-index: 1000;
   font-family: 'Fredoka', 'Comic Sans MS', 'Marker Felt', 'Bradley Hand', cursive, sans-serif;
   overflow: hidden;
   box-sizing: border-box;
@@ -26,6 +30,7 @@
 .cinematic-image {
   width: 100%;
   height: 100%;
+  max-width: 100vw;
   object-fit: cover;
   object-position: center;
   transition: transform 0.5s ease-in-out;
@@ -84,10 +89,12 @@
   text-shadow: 
     2px 2px 4px rgba(0, 0, 0, 0.9),
     0 0 10px rgba(255, 69, 0, 0.5);
-  max-width: 800px;
+  max-width: calc(100vw - 40px);
+  padding: 0 20px;
   margin-left: auto;
   margin-right: auto;
   animation: textGlow 3s ease-in-out infinite alternate;
+  box-sizing: border-box;
 }
 
 @keyframes textGlow {
@@ -237,6 +244,8 @@
     font-size: 1.2rem;
     line-height: 1.4;
     margin-bottom: 15px;
+    max-width: calc(100vw - 30px);
+    padding: 0 15px;
   }
   
   .cinematic-controls {
