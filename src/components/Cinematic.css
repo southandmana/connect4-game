@@ -6,14 +6,14 @@
   bottom: 0;
   width: 100vw;
   height: 100vh;
-  background: #000;
+  background: var(--bg-primary);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   z-index: 1000;
-  font-family: 'Fredoka', 'Comic Sans MS', 'Marker Felt', 'Bradley Hand', cursive, sans-serif;
+  font-family: var(--font-mono);
   overflow: hidden;
   box-sizing: border-box;
   animation: cinematicFadeIn 0.8s ease-in-out;
@@ -83,31 +83,31 @@
 
 .cinematic-text {
   font-size: 1.8rem;
-  color: #ffccaa;
+  color: var(--text-primary);
   text-align: center;
   line-height: 1.6;
   margin-bottom: 30px;
   text-shadow: 
     2px 2px 4px rgba(0, 0, 0, 0.9),
-    0 0 10px rgba(255, 69, 0, 0.5);
+    0 0 10px rgba(0, 255, 255, 0.5);
   max-width: calc(100vw - 40px);
   padding: 0 20px;
   margin-left: auto;
   margin-right: auto;
-  animation: textGlow 3s ease-in-out infinite alternate;
+  animation: terminalGlow 3s ease-in-out infinite alternate;
   box-sizing: border-box;
 }
 
-@keyframes textGlow {
+@keyframes terminalGlow {
   0% { 
     text-shadow: 
       2px 2px 4px rgba(0, 0, 0, 0.9),
-      0 0 10px rgba(255, 69, 0, 0.5);
+      0 0 10px rgba(0, 255, 255, 0.5);
   }
   100% { 
     text-shadow: 
       2px 2px 4px rgba(0, 0, 0, 0.9),
-      0 0 15px rgba(255, 107, 53, 0.7);
+      0 0 15px rgba(0, 255, 65, 0.7);
   }
 }
 
@@ -122,14 +122,14 @@
 
 .continue-prompt {
   font-size: 1.2rem;
-  color: #ff6b35;
+  color: var(--neon-cyan);
   text-shadow: 
     1px 1px 2px rgba(0, 0, 0, 0.8),
-    0 0 5px rgba(255, 69, 0, 0.6);
-  animation: promptPulse 2s ease-in-out infinite;
+    0 0 5px rgba(0, 255, 255, 0.6);
+  animation: terminalPulse 2s ease-in-out infinite;
 }
 
-@keyframes promptPulse {
+@keyframes terminalPulse {
   0%, 100% { opacity: 0.8; transform: scale(1); }
   50% { opacity: 1; transform: scale(1.02); }
 }
@@ -137,28 +137,28 @@
 .skip-button {
   padding: 12px 20px;
   font-size: 1rem;
-  font-family: 'Fredoka', 'Comic Sans MS', 'Marker Felt', 'Bradley Hand', cursive, sans-serif;
+  font-family: var(--font-mono);
   font-weight: bold;
-  background: linear-gradient(145deg, #4d0000 0%, #1a0000 100%);
-  color: #ffccaa;
-  border: 2px solid #ff6b35;
+  background: linear-gradient(145deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+  color: var(--text-primary);
+  border: 2px solid var(--neon-cyan);
   border-radius: 20px;
   cursor: pointer;
   transition: all 0.3s ease;
   
   box-shadow: 
     0 4px 8px rgba(0, 0, 0, 0.6),
-    inset 0 1px 0 rgba(255, 140, 0, 0.2);
+    inset 0 1px 0 rgba(0, 255, 255, 0.2);
 }
 
 .skip-button:hover {
-  background: linear-gradient(145deg, #660000 0%, #2d0000 100%);
-  border-color: #ff8c50;
+  background: linear-gradient(145deg, var(--bg-tertiary) 0%, var(--bg-secondary) 100%);
+  border-color: var(--neon-green);
   transform: translateY(-2px) scale(1.05);
   box-shadow: 
     0 6px 12px rgba(0, 0, 0, 0.7),
-    inset 0 1px 0 rgba(255, 140, 0, 0.3),
-    0 0 10px rgba(255, 69, 0, 0.4);
+    inset 0 1px 0 rgba(0, 255, 255, 0.3),
+    0 0 10px rgba(0, 255, 255, 0.4);
 }
 
 .skip-button:active {
@@ -178,30 +178,30 @@
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  background: rgba(255, 107, 53, 0.3);
-  border: 2px solid rgba(255, 107, 53, 0.6);
+  background: rgba(0, 255, 255, 0.3);
+  border: 2px solid rgba(0, 255, 255, 0.6);
   transition: all 0.3s ease;
 }
 
 .progress-dot.active {
-  background: #ff6b35;
-  border-color: #ff8c50;
+  background: var(--neon-cyan);
+  border-color: var(--neon-green);
   box-shadow: 
-    0 0 10px rgba(255, 107, 53, 0.8),
-    0 0 20px rgba(255, 69, 0, 0.4);
-  animation: dotGlow 2s ease-in-out infinite alternate;
+    0 0 10px rgba(0, 255, 255, 0.8),
+    0 0 20px rgba(0, 255, 255, 0.4);
+  animation: terminalDotGlow 2s ease-in-out infinite alternate;
 }
 
-@keyframes dotGlow {
+@keyframes terminalDotGlow {
   0% { 
     box-shadow: 
-      0 0 10px rgba(255, 107, 53, 0.8),
-      0 0 20px rgba(255, 69, 0, 0.4);
+      0 0 10px rgba(0, 255, 255, 0.8),
+      0 0 20px rgba(0, 255, 255, 0.4);
   }
   100% { 
     box-shadow: 
-      0 0 15px rgba(255, 140, 0, 1),
-      0 0 30px rgba(255, 69, 0, 0.6);
+      0 0 15px rgba(0, 255, 65, 1),
+      0 0 30px rgba(0, 255, 255, 0.6);
   }
 }
 
@@ -300,18 +300,18 @@
 /* High contrast mode */
 @media (prefers-contrast: high) {
   .cinematic-text {
-    color: #ffffff;
+    color: var(--text-primary);
     
   }
   
   .continue-prompt {
-    color: #ffffff;
+    color: var(--text-primary);
   }
   
   .skip-button {
-    background: #000;
-    color: #fff;
-    border-color: #fff;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    border-color: var(--text-primary);
   }
 }
 

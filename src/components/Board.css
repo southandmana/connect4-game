@@ -1,29 +1,16 @@
 .board {
   display: inline-block;
-  /* Subtle music-reactive board background */
-  background: hsl(
-    calc(5deg + var(--bass-hue-shift, 0deg)), 
-    var(--bass-saturation, 70%), 
-    18%
-  );
+  background: var(--bg-secondary);
   transition: all 0.2s ease-out;
   
-  /* 🔥 MUSIC-REACTIVE BORDER PULSE - Board "breathes" with hellfire */
-  border-width: calc(4px + var(--bass-intensity, 5%) * 0.04); /* Thickens with bass - fallback 5% */
-  border-style: solid;
-  border-color: hsl(calc(15deg + var(--bass-hue-shift, 0deg)), 100%, 60%);
-  
-  /* 💫 Enhanced bass-reactive glow - hellish aura */
+  border: 2px solid var(--neon-cyan);
   box-shadow: 
-    /* Inner glow - hellish energy inside */
-    inset 0 0 calc(8px + var(--bass-intensity, 10%) * 0.4) hsla(calc(var(--bass-hue-shift, 0deg)), 100%, 50%, calc(0.3 + var(--bass-intensity, 10%) * 0.004)),
-    /* Outer glow - fiery aura */
-    0 0 calc(20px + var(--bass-intensity, 15%) * 0.6) hsla(calc(15deg + var(--bass-hue-shift, 0deg)), 100%, 50%, calc(0.6 + var(--bass-intensity, 15%) * 0.004)),
-    /* Secondary outer glow for depth */
-    0 0 calc(40px + var(--bass-intensity, 20%) * 0.8) hsla(calc(var(--bass-hue-shift, 0deg)), 80%, 40%, calc(0.2 + var(--bass-intensity, 20%) * 0.003));
+    inset 0 0 20px rgba(0, 255, 255, 0.2),
+    0 0 30px rgba(0, 255, 255, 0.4),
+    0 0 50px rgba(0, 255, 255, 0.2);
   
   padding: 8px;
-  border-radius: 20px;
+  border-radius: 8px;
   position: relative;
   overflow: hidden;
   max-width: calc(100vw - 40px);
@@ -32,9 +19,9 @@
 
 /* Removed board background effects for flat design */
 
-@keyframes boardFlames {
-  0%, 100% { transform: rotate(0deg) scale(1); opacity: 0.7; }
-  50% { transform: rotate(180deg) scale(1.1); opacity: 1; }
+@keyframes terminalPulse {
+  0%, 100% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.02); opacity: 1; }
 }
 
 .row {
@@ -44,9 +31,9 @@
 .cell {
   width: min(75px, calc((100vw - 80px) / 7));
   height: min(75px, calc((100vw - 80px) / 7));
-  background: #2d0000;
-  border: 2px solid #ff4500;
-  border-radius: 8px;
+  background: var(--bg-primary);
+  border: 1px solid var(--neon-cyan);
+  border-radius: 4px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -54,19 +41,19 @@
   transition: all 0.3s;
   position: relative;
   z-index: 1;
-  /* Completely flat - no shadows */
+  box-shadow: 
+    inset 0 0 5px rgba(0, 255, 255, 0.1),
+    0 0 5px rgba(0, 255, 255, 0.1);
 }
 
 .cell:hover {
-  background: hsl(calc(0deg + var(--bass-hue-shift, 0deg)), 100%, 15%);
-  border-color: hsl(calc(15deg + var(--bass-hue-shift, 0deg)), 100%, 60%);
-  /* 🎵 MUSIC-REACTIVE HOVER - More dramatic with bass */
-  transform: scale(calc(1.05 + var(--bass-intensity, 0%) * 0.1)); 
+  background: var(--bg-secondary);
+  border-color: var(--neon-green);
+  transform: scale(1.05);
   
-  /* Bass-responsive hover glow */
   box-shadow: 
-    inset 0 0 calc(8px + var(--bass-intensity, 0%) * 0.4) hsla(calc(var(--bass-hue-shift, 0deg)), 100%, 50%, calc(0.4 + var(--bass-intensity, 0%) * 0.4)),
-    0 0 calc(12px + var(--bass-intensity, 0%) * 0.6) hsla(calc(15deg + var(--bass-hue-shift, 0deg)), 100%, 50%, calc(0.6 + var(--bass-intensity, 0%) * 0.4));
+    inset 0 0 10px rgba(0, 255, 65, 0.3),
+    0 0 15px rgba(0, 255, 65, 0.4);
   
   transition: all 0.15s ease-out;
 }
@@ -81,54 +68,57 @@
 }
 
 .disc.red {
-  background: #ff4500; /* Flat red piece */
-  border: 3px solid #ff6b35;
-  /* Keep drop animation but remove glow */
-  animation: dropInHell 0.6s ease-out;
+  background: var(--neon-red);
+  border: 2px solid var(--neon-red);
+  animation: dropInTerminal 0.6s ease-out;
+  box-shadow: 
+    0 0 15px rgba(255, 42, 42, 0.6),
+    inset 0 0 10px rgba(255, 42, 42, 0.3);
 }
 
 .disc.yellow {
-  background: #ffd700; /* Flat yellow piece */
-  border: 3px solid #ffb347;
-  /* Keep drop animation but remove glow */
-  animation: dropInHell 0.6s ease-out;
+  background: var(--neon-orange);
+  border: 2px solid var(--neon-orange);
+  animation: dropInTerminal 0.6s ease-out;
+  box-shadow: 
+    0 0 15px rgba(255, 149, 0, 0.6),
+    inset 0 0 10px rgba(255, 149, 0, 0.3);
 }
 
 /* Removed glow animations for flat design */
 
 /* Removed glow animations for flat design */
 
-@keyframes dropInHell {
+@keyframes dropInTerminal {
   0% {
-    transform: translateY(-400px) rotate(-180deg) scale(0.5);
+    transform: translateY(-400px) scale(0.3);
     opacity: 0;
-    filter: blur(3px);
+    filter: blur(2px);
   }
   70% {
-    transform: translateY(10px) rotate(0deg) scale(1.1);
+    transform: translateY(8px) scale(1.1);
     opacity: 0.9;
     filter: blur(1px);
   }
   85% {
-    transform: translateY(-5px) rotate(0deg) scale(0.95);
+    transform: translateY(-3px) scale(0.95);
     opacity: 1;
     filter: blur(0px);
   }
   100% {
-    transform: translateY(0) rotate(0deg) scale(1);
+    transform: translateY(0) scale(1);
     opacity: 1;
     filter: blur(0px);
   }
 }
 
-/* 🏆 MUSIC-REACTIVE Winning Animation */
+/* 🏆 Winning Animation */
 .disc.winning {
   position: relative;
   animation: epicWinningPulse 1.5s ease-in-out infinite;
   z-index: 10;
   
-  /* 🎵 Enhanced bass-reactive winning piece scaling */
-  transform: scale(calc(1.1 + var(--bass-intensity, 0%) * 0.2));
+  transform: scale(1.1);
   transition: transform 0.15s ease-out;
 }
 
@@ -139,14 +129,12 @@
   left: -8px;
   right: -8px;
   bottom: -8px;
-  /* DRAMATIC music-reactive outline colors */
-  border: 4px solid hsl(calc(45deg + var(--bass-hue-shift, 0deg)), var(--bass-saturation, 100%), 60%);
+  border: 3px solid var(--neon-green);
   border-radius: 50%;
   animation: winningOutline 2s ease-in-out infinite;
   
-  /* Bass-reactive glow intensity */
   box-shadow: 
-    0 0 calc(20px + var(--bass-intensity, 0%) * 0.4) hsla(calc(45deg + var(--bass-hue-shift, 0deg)), 100%, 60%, calc(0.8 + var(--bass-intensity, 0%) * 0.4));
+    0 0 25px var(--neon-green);
   
   z-index: -1;
 }
@@ -158,14 +146,12 @@
   left: -12px;
   right: -12px;
   bottom: -12px;
-  /* Secondary music-reactive ring */
-  border: 2px solid hsl(calc(15deg + var(--bass-hue-shift, 0deg)), var(--bass-saturation, 90%), 50%);
+  border: 2px solid var(--neon-cyan);
   border-radius: 50%;
   animation: winningOutline 2s ease-in-out infinite reverse;
   
-  /* Additional bass-reactive outer glow */
   box-shadow: 
-    0 0 calc(30px + var(--bass-intensity, 0%) * 0.5) hsla(calc(15deg + var(--bass-hue-shift, 0deg)), 100%, 50%, calc(0.6 + var(--bass-intensity, 0%) * 0.6));
+    0 0 35px var(--neon-cyan);
   
   z-index: -2;
 }

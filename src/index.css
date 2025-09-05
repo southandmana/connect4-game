@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
 
 * {
   margin: 0;
@@ -7,10 +7,11 @@
 }
 
 body {
-  font-family: 'Fredoka', 'Comic Sans MS', 'Marker Felt', 'Bradley Hand', cursive, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: 'Fira Code', 'JetBrains Mono', 'Consolas', 'Monaco', 'Courier New', monospace;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: #1a0000; /* Flat solid color */
+  background: #0a0a0a;
+  color: #e0e0e0;
   min-height: 100vh;
   min-height: 100dvh; /* iOS viewport fix */
   display: flex;
@@ -32,6 +33,7 @@ body {
   }
 }
 
+/* Terminal-style matrix background effect */
 body::before {
   content: '';
   position: fixed;
@@ -40,21 +42,27 @@ body::before {
   width: 100%;
   height: 100%;
   background-image: 
-    radial-gradient(2px 2px at 20px 30px, rgba(255, 69, 0, 0.3), transparent),
-    radial-gradient(2px 2px at 40px 70px, rgba(255, 140, 0, 0.2), transparent),
-    radial-gradient(1px 1px at 90px 40px, rgba(255, 215, 0, 0.4), transparent),
-    radial-gradient(1px 1px at 130px 80px, rgba(255, 69, 0, 0.2), transparent),
-    radial-gradient(2px 2px at 160px 30px, rgba(255, 140, 0, 0.3), transparent);
+    radial-gradient(2px 2px at 20px 30px, rgba(0, 255, 255, 0.1), transparent),
+    radial-gradient(2px 2px at 40px 70px, rgba(0, 255, 65, 0.08), transparent),
+    radial-gradient(1px 1px at 90px 40px, rgba(0, 255, 255, 0.12), transparent),
+    radial-gradient(1px 1px at 130px 80px, rgba(0, 255, 65, 0.06), transparent),
+    radial-gradient(2px 2px at 160px 30px, rgba(0, 255, 255, 0.09), transparent);
   background-repeat: repeat;
   background-size: 200px 100px;
-  animation: sparkle 4s linear infinite;
+  animation: terminalFlicker 6s linear infinite;
   pointer-events: none;
   z-index: 0;
 }
 
-@keyframes sparkle {
-  0%, 100% { opacity: 0.8; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.05); }
+@keyframes terminalFlicker {
+  0%, 100% { 
+    opacity: 0.4; 
+    transform: scale(1); 
+  }
+  50% { 
+    opacity: 0.7; 
+    transform: scale(1.02); 
+  }
 }
 
 #root {

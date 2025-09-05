@@ -1,5 +1,60 @@
 /* 
- * Ultra-Efficient Music Visualizer System
+ * CYBERPUNK TERMINAL FIGHTER THEME
+ * Sleek, dark, monospace aesthetic for Connect 4 tournament system
+ */
+
+/* Cyberpunk Terminal Theme - CSS Custom Properties */
+:root {
+  /* Core Colors */
+  --bg-primary: #0a0a0a;
+  --bg-secondary: #1a1a1a;
+  --bg-tertiary: #2a2a2a;
+  
+  /* Neon Accent Colors */
+  --neon-cyan: #00ffff;
+  --neon-green: #00ff41;
+  --neon-purple: #ff00ff;
+  --neon-orange: #ff9500;
+  --neon-red: #ff2a2a;
+  
+  /* Text Colors */
+  --text-primary: #ffffff;
+  --text-secondary: #b0b0b0;
+  --text-accent: var(--neon-cyan);
+  
+  /* Terminal Colors */
+  --terminal-green: #00ff41;
+  --terminal-amber: #ffb000;
+  --terminal-red: #ff4444;
+  
+  /* Fonts */
+  --font-mono: 'Fira Code', 'JetBrains Mono', 'Consolas', 'Monaco', 'Courier New', monospace;
+  --font-ui: var(--font-mono);
+  
+  /* Borders and Glows */
+  --border-neon: 1px solid var(--neon-cyan);
+  --glow-cyan: 0 0 10px var(--neon-cyan);
+  --glow-green: 0 0 10px var(--neon-green);
+  --glow-purple: 0 0 10px var(--neon-purple);
+}
+
+/* Global Styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-ui);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* 
+ * Ultra-Efficient Music Visualizer System (Legacy - will be updated)
  * 
  * Uses CSS custom properties for subtle music-reactive backgrounds
  * --bass-hue-shift (0-30deg): Subtle hue shifts for color variation
@@ -13,21 +68,21 @@
 
 .app {
   text-align: center;
-  padding: 10px;
-  /* Efficient music-reactive background */
-  background: hsl(
-    calc(0deg + var(--bass-hue-shift, 0deg)), 
-    var(--bass-saturation, 70%), 
-    20%
-  );
-  transition: background-color 0.2s ease-out; /* Smooth transitions */
+  padding: 20px;
   
-  /* Subtle bass-driven glow effect */
+  /* Cyberpunk Terminal Theme */
+  background: var(--bg-primary);
+  border: 2px solid var(--neon-cyan);
+  border-radius: 8px;
+  
+  /* Terminal-style glow effect */
   box-shadow: 
-    0 0 calc(20px + var(--bass-intensity, 0%) * 0.3) hsla(calc(15deg + var(--bass-hue-shift, 0deg)), 100%, 50%, calc(var(--bass-intensity, 0%) * 0.4)),
-    inset 0 0 calc(30px + var(--bass-intensity, 0%) * 0.2) hsla(calc(30deg + var(--bass-hue-shift, 0deg)), 80%, 60%, calc(var(--bass-intensity, 0%) * 0.2));
-  border-radius: 20px;
-  border: 3px solid #ff4500;
+    0 0 20px rgba(0, 255, 255, 0.3),
+    inset 0 0 20px rgba(0, 255, 255, 0.1);
+  
+  transition: all 0.3s ease;
+  
+  /* Subtle scan line effect */
   position: relative;
   overflow: hidden;
   min-height: 100vh;
@@ -42,7 +97,7 @@
 
 /* Removed heavy background effects for performance */
 
-/* Removed flames keyframes for performance */
+/* Removed heavy animation keyframes for performance */
 
 .app > * {
   position: relative;
@@ -68,13 +123,13 @@
   box-shadow: 
     0 0 calc(15px + var(--bass-intensity, 0%) * 0.25) hsla(calc(var(--bass-hue-shift, 0deg)), 100%, 60%, calc(var(--bass-intensity, 0%) * 0.6));
   
-  color: #ffccaa;
+  color: var(--text-secondary);
   padding: 15px 20px;
   border-radius: 15px;
   margin-bottom: 20px;
   font-weight: bold;
-  border: 2px solid #ff6b35;
-  font-family: 'Fredoka', 'Comic Sans MS', 'Marker Felt', 'Bradley Hand', cursive, sans-serif;
+  border: 2px solid var(--neon-orange);
+  font-family: var(--font-mono);
 }
 
 .code-label {
@@ -105,18 +160,20 @@
 .copy-button {
   padding: 8px 15px;
   font-size: 0.9rem;
-  background: #ff4500; /* Solid color instead of gradient */
+  background: var(--neon-orange);
   color: white;
-  border: 2px solid #ffaa80;
+  border: 2px solid var(--neon-orange);
   border-radius: 20px;
   cursor: pointer;
   transition: all 0.3s;
-  font-family: 'Fredoka', 'Comic Sans MS', 'Marker Felt', 'Bradley Hand', cursive, sans-serif;
+  font-family: var(--font-mono);
   font-weight: bold;
 }
 
 .copy-button:hover {
-  background: #ff6b35; /* Solid hover color */
+  background: var(--bg-tertiary);
+  border-color: var(--neon-green);
+  color: var(--neon-green);
   transform: translateY(-2px);
 }
 
@@ -142,14 +199,16 @@
   gap: 10px;
   padding: 12px 20px;
   border-radius: 25px;
-  background: #2d0000; /* Solid color instead of gradient */
-  border: 2px solid #ff6b35;
+  background: var(--bg-secondary);
+  border: 2px solid var(--neon-orange);
   transition: all 0.3s;
-  font-family: 'Fredoka', 'Comic Sans MS', 'Marker Felt', 'Bradley Hand', cursive, sans-serif;
+  font-family: var(--font-mono);
 }
 
 .player-info.active {
-  background: #8b0000; /* Flat active background */
+  background: var(--bg-tertiary);
+  border-color: var(--neon-green);
+  color: var(--neon-green);
   transform: scale(1.1);
   /* Flat design - no shadows */
   transition: transform 0.3s ease;
@@ -159,7 +218,7 @@
 
 .player-name {
   font-weight: bold;
-  color: #ffccaa;
+  color: var(--text-secondary);
   /* Flat design - no text shadow */
 }
 
@@ -167,14 +226,14 @@
   margin-bottom: 20px;
   font-size: 1.3rem;
   font-weight: bold;
-  color: #ffccaa;
-  font-family: 'Fredoka', 'Comic Sans MS', 'Marker Felt', 'Bradley Hand', cursive, sans-serif;
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
   /* Flat design - no text shadow */
 }
 
 .current-turn {
   font-size: 1.4rem;
-  color: #ff6b35;
+  color: var(--neon-cyan);
   /* Flat design - no text shadows */
 }
 
@@ -189,12 +248,12 @@
 }
 
 .player-indicator.red {
-  background: #ff4757;
+  background: var(--neon-red);
   /* Flat design - no shadow */
 }
 
 .player-indicator.yellow {
-  background: #ffd700;
+  background: var(--neon-orange);
   /* Flat design - no shadow */
 }
 
@@ -202,21 +261,20 @@
 .draw-message {
   font-size: 1.8rem;
   font-weight: bold;
-  color: #ff6b35;
-  font-family: 'Fredoka', 'Comic Sans MS', 'Marker Felt', 'Bradley Hand', cursive, sans-serif;
+  color: var(--neon-cyan);
+  font-family: var(--font-mono);
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 15px;
   text-shadow: 
-    0 0 10px #ff4500,
-    0 0 20px #ff4500,
-    2px 2px 4px rgba(0, 0, 0, 0.8);
+    0 0 10px var(--neon-cyan),
+    0 0 20px var(--neon-cyan);
   /* Static victory text for performance */
   
 }
 
-@keyframes victoryFlame {
+@keyframes victoryGlow {
   0% { 
     
     transform: scale(1);
@@ -240,52 +298,52 @@
   font-size: 1.2rem;
   font-weight: bold;
   color: white;
-  background: linear-gradient(145deg, #ff4500 0%, #8b0000 50%, #330000 100%);
-  border: 3px solid #ff6b35;
+  background: linear-gradient(145deg, var(--bg-secondary) 0%, var(--bg-tertiary) 50%, var(--bg-primary) 100%);
+  border: 3px solid var(--neon-cyan);
   border-radius: 25px;
   cursor: pointer;
   transition: all 0.3s;
-  font-family: 'Fredoka', 'Comic Sans MS', 'Marker Felt', 'Bradley Hand', cursive, sans-serif;
+  font-family: var(--font-mono);
   
   box-shadow: 
-    0 6px 12px rgba(255, 69, 0, 0.4),
-    inset 0 2px 0 rgba(255, 140, 0, 0.2),
-    inset 0 -2px 0 rgba(139, 0, 0, 0.8);
+    0 6px 12px rgba(0, 255, 255, 0.4),
+    inset 0 2px 0 rgba(0, 255, 255, 0.2),
+    inset 0 -2px 0 rgba(0, 255, 255, 0.3);
   position: relative;
   overflow: hidden;
 }
 
 .mute-button {
-  background: linear-gradient(145deg, #ff6b35 0%, #ff4500 50%, #8b0000 100%);
+  background: linear-gradient(145deg, var(--neon-orange) 0%, var(--bg-tertiary) 50%, var(--bg-secondary) 100%);
 }
 
 .reset-button:hover,
 .mute-button:hover {
   transform: translateY(-3px) scale(1.05);
   box-shadow: 
-    0 8px 16px rgba(255, 69, 0, 0.6),
-    inset 0 2px 0 rgba(255, 140, 0, 0.3),
-    inset 0 -2px 0 rgba(139, 0, 0, 0.8);
-  animation: buttonFlame 0.5s ease-in-out;
+    0 8px 16px rgba(0, 255, 255, 0.6),
+    inset 0 2px 0 rgba(0, 255, 255, 0.3),
+    inset 0 -2px 0 rgba(0, 255, 255, 0.4);
+  animation: buttonGlow 0.5s ease-in-out;
 }
 
 .reset-button:active,
 .mute-button:active {
   transform: translateY(-1px) scale(1.02);
   box-shadow: 
-    0 4px 8px rgba(255, 69, 0, 0.4),
-    inset 0 2px 0 rgba(255, 140, 0, 0.1),
-    inset 0 -2px 0 rgba(139, 0, 0, 0.9);
+    0 4px 8px rgba(0, 255, 255, 0.4),
+    inset 0 2px 0 rgba(0, 255, 255, 0.1),
+    inset 0 -2px 0 rgba(0, 255, 255, 0.5);
 }
 
-@keyframes buttonFlame {
+@keyframes buttonGlow {
   0%, 100% {  }
   50% {  }
 }
 
-/* Cute Hell Characters */
+/* Cyberpunk Terminal Symbols */
 .app::after {
-  content: '😈🔥👹🔥😈🔥👹🔥😈';
+  content: '[>] {SYSTEM} [>] {READY} [>]';
   position: absolute;
   bottom: 20px;
   left: 0;
@@ -308,24 +366,24 @@
   position: relative;
 }
 
-/* Floating fire particles */
-.fire-particle {
+/* Terminal matrix particles */
+.matrix-particle {
   position: absolute;
   width: 6px;
   height: 6px;
-  background: radial-gradient(circle, #ff4500, #ff6b35);
+  background: radial-gradient(circle, var(--neon-cyan), var(--neon-green));
   border-radius: 50%;
   pointer-events: none;
   /* Removed floating animation for performance */
   opacity: 0.8;
 }
 
-.fire-particle::before {
+.matrix-particle::before {
   content: '';
   position: absolute;
   width: 100%;
   height: 100%;
-  background: radial-gradient(circle, #ffd700, transparent);
+  background: radial-gradient(circle, var(--neon-cyan), transparent);
   border-radius: 50%;
   /* Static glow for performance */
   opacity: 0.9;
@@ -553,42 +611,42 @@
 .tournament-header {
   text-align: center;
   padding: 15px 20px;
-  background: linear-gradient(145deg, rgba(255, 69, 0, 0.2), rgba(139, 0, 0, 0.1));
-  border: 2px solid rgba(255, 107, 53, 0.5);
+  background: var(--bg-secondary);
+  border: 2px solid var(--neon-cyan);
   border-radius: 15px;
   margin-bottom: 20px;
 }
 
 .tournament-progress h3 {
   font-size: 1.3rem;
-  color: #ff6b35;
+  color: var(--neon-cyan);
   margin: 0 0 8px 0;
   
 }
 
 .tournament-progress p {
   font-size: 1rem;
-  color: #ffccaa;
+  color: var(--text-secondary);
   margin: 5px 0;
   
 }
 
 .final-boss-indicator {
-  color: #ffd700 !important;
+  color: var(--neon-orange) !important;
   font-weight: bold;
   
   /* Static boss glow for performance */
-  color: #ffd700;
+  color: var(--neon-orange);
   
 }
 
 @keyframes finalBossGlow {
   0% { 
-    color: #ffd700;
+    color: var(--neon-orange);
     
   }
   100% { 
-    color: #ffff00;
+    color: var(--neon-cyan);
     
   }
 }
@@ -607,23 +665,22 @@
   font-size: 3rem;
   margin-bottom: 30px;
   text-shadow: 
-    0 0 15px #ff4500,
-    3px 3px 0px #660000,
-    5px 5px 0px #330000;
+    0 0 15px var(--neon-cyan),
+    0 0 30px var(--neon-cyan);
   /* Static title for performance */
 }
 
 .results-title:first-child {
-  color: #ffd700; /* Victory - gold */
+  color: var(--neon-green); /* Victory - green */
 }
 
 .results-title:not(:first-child) {
-  color: #dc143c; /* Defeat - red */
+  color: var(--neon-red); /* Defeat - red */
 }
 
 .results-info {
-  background: linear-gradient(145deg, rgba(255, 69, 0, 0.2), rgba(139, 0, 0, 0.1));
-  border: 2px solid rgba(255, 107, 53, 0.5);
+  background: var(--bg-secondary);
+  border: 2px solid var(--neon-cyan);
   border-radius: 20px;
   padding: 25px;
   margin-bottom: 40px;
@@ -633,7 +690,7 @@
 .victory-message,
 .defeat-message {
   font-size: 1.3rem;
-  color: #ffccaa;
+  color: var(--text-secondary);
   line-height: 1.6;
   margin: 0;
   
@@ -647,12 +704,12 @@
 }
 
 .retry-button {
-  background: linear-gradient(145deg, #32cd32 0%, #228b22 50%, #006400 100%) !important;
-  border-color: #90ee90 !important;
+  background: linear-gradient(145deg, var(--neon-green) 0%, var(--bg-tertiary) 50%, var(--bg-secondary) 100%) !important;
+  border-color: var(--neon-green) !important;
 }
 
 .retry-button:hover {
-  background: linear-gradient(145deg, #3cb371 0%, #2e8b57 50%, #228b22 100%) !important;
+  background: linear-gradient(145deg, var(--neon-green) 0%, var(--bg-tertiary) 50%, var(--bg-secondary) 100%) !important;
   transform: translateY(-3px) scale(1.05);
   box-shadow: 
     0 8px 16px rgba(50, 205, 50, 0.4),
@@ -666,19 +723,206 @@
   align-items: center;
   min-height: 60vh;
   gap: 20px;
-  font-family: 'Fredoka', 'Comic Sans MS', 'Marker Felt', 'Bradley Hand', cursive, sans-serif;
+  font-family: var(--font-mono);
 }
 
 .arcade-placeholder h1 {
   font-size: 2.5rem;
-  color: #ff6b35;
+  color: var(--neon-cyan);
   
 }
 
 .arcade-placeholder p {
   font-size: 1.3rem;
-  color: #ffccaa;
+  color: var(--text-secondary);
   
+}
+
+/* Cyberpunk Terminal Button System */
+.reset-button,
+.mute-button,
+.menu-button {
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: normal;
+  font-family: var(--font-mono);
+  color: var(--text-primary);
+  background: var(--bg-secondary);
+  border: 1px solid var(--neon-cyan);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  
+  /* Terminal glow effect */
+  box-shadow: 
+    0 0 5px rgba(0, 255, 255, 0.3),
+    inset 0 0 5px rgba(0, 255, 255, 0.1);
+}
+
+.reset-button:hover,
+.mute-button:hover,
+.menu-button:hover {
+  background: var(--bg-tertiary);
+  border-color: var(--neon-green);
+  color: var(--neon-green);
+  
+  /* Enhanced terminal glow on hover */
+  box-shadow: 
+    0 0 10px rgba(0, 255, 65, 0.5),
+    inset 0 0 10px rgba(0, 255, 65, 0.2);
+  
+  transform: translateY(-1px);
+}
+
+.reset-button:active,
+.mute-button:active,
+.menu-button:active {
+  transform: translateY(0);
+  box-shadow: 
+    0 0 5px rgba(0, 255, 65, 0.3),
+    inset 0 0 10px rgba(0, 255, 65, 0.3);
+}
+
+/* Terminal Action Buttons - Success/Retry */
+.retry-button {
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: normal;
+  font-family: var(--font-mono);
+  color: var(--terminal-green);
+  background: var(--bg-secondary);
+  border: 1px solid var(--terminal-green);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  
+  /* Terminal green glow */
+  box-shadow: 
+    0 0 5px rgba(0, 255, 65, 0.3),
+    inset 0 0 5px rgba(0, 255, 65, 0.1);
+}
+
+.retry-button:hover {
+  background: var(--bg-tertiary);
+  color: var(--neon-green);
+  border-color: var(--neon-green);
+  
+  /* Enhanced green glow on hover */
+  box-shadow: 
+    0 0 10px rgba(0, 255, 65, 0.5),
+    inset 0 0 10px rgba(0, 255, 65, 0.2);
+  
+  transform: translateY(-1px);
+}
+
+.retry-button:active {
+  transform: translateY(0);
+  box-shadow: 
+    0 0 5px rgba(0, 255, 65, 0.3),
+    inset 0 0 10px rgba(0, 255, 65, 0.3);
+}
+
+/* Terminal Utility Buttons - Copy etc */
+.copy-button {
+  padding: 8px 15px;
+  font-size: 0.9rem;
+  font-weight: normal;
+  font-family: var(--font-mono);
+  color: var(--neon-orange);
+  background: var(--bg-secondary);
+  border: 1px solid var(--neon-orange);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  
+  /* Orange terminal glow */
+  box-shadow: 
+    0 0 5px rgba(255, 149, 0, 0.3),
+    inset 0 0 5px rgba(255, 149, 0, 0.1);
+}
+
+.copy-button:hover {
+  background: var(--bg-tertiary);
+  border-color: var(--neon-orange);
+  
+  /* Enhanced orange glow on hover */
+  box-shadow: 
+    0 0 10px rgba(255, 149, 0, 0.5),
+    inset 0 0 10px rgba(255, 149, 0, 0.2);
+  
+  transform: translateY(-1px);
+}
+
+/* Development Test Buttons */
+.dev-test-buttons {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 100;
+}
+
+.dev-label {
+  font-size: 0.7rem;
+  color: #888;
+  text-align: center;
+  font-family: monospace;
+  letter-spacing: 1px;
+  margin-bottom: 5px;
+}
+
+.dev-button {
+  padding: 6px 12px;
+  font-size: 0.8rem;
+  font-family: monospace;
+  background: rgba(40, 40, 40, 0.9);
+  border: 1px solid #666;
+  border-radius: 4px;
+  color: #ccc;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.dev-button:hover {
+  background: rgba(60, 60, 60, 0.9);
+  border-color: #888;
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.dev-button.dev-lose {
+  border-color: var(--terminal-red);
+  color: var(--neon-red);
+}
+
+.dev-button.dev-lose:hover {
+  background: rgba(60, 20, 20, 0.9);
+  border-color: var(--neon-red);
+  color: var(--neon-red);
+}
+
+.dev-button.dev-win {
+  border-color: var(--neon-green);
+  color: var(--neon-green);
+}
+
+.dev-button.dev-win:hover {
+  background: rgba(20, 60, 20, 0.9);
+  border-color: var(--neon-green);
+  color: var(--neon-green);
 }
 
 /* Story Intro Transition */
@@ -704,9 +948,9 @@
 }
 
 .story-text h1 {
-  font-family: 'Fredoka', 'Comic Sans MS', 'Marker Felt', 'Bradley Hand', cursive, sans-serif;
+  font-family: var(--font-mono);
   font-size: 4rem;
-  background: linear-gradient(45deg, #ff6b35, #ffa500, #ff4500);
+  background: linear-gradient(45deg, var(--neon-cyan), var(--neon-green), var(--neon-orange));
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -768,7 +1012,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(45deg, #1a0000, #4d0000, #800000, #4d0000, #1a0000);
+  background: linear-gradient(45deg, var(--bg-primary), var(--bg-secondary), var(--bg-tertiary), var(--bg-secondary), var(--bg-primary));
   background-size: 400% 400%;
   display: flex;
   justify-content: center;
@@ -783,9 +1027,9 @@
 }
 
 .battle-text h1 {
-  font-family: 'Fredoka', 'Comic Sans MS', 'Marker Felt', 'Bradley Hand', cursive, sans-serif;
+  font-family: var(--font-mono);
   font-size: 6rem;
-  background: linear-gradient(45deg, #ff0000, #ff4500, #ff6b35, #ff8c50);
+  background: linear-gradient(45deg, var(--neon-red), var(--neon-orange), var(--neon-cyan), var(--neon-green));
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -796,9 +1040,9 @@
 }
 
 .battle-subtitle {
-  font-family: 'Fredoka', 'Comic Sans MS', 'Marker Felt', 'Bradley Hand', cursive, sans-serif;
+  font-family: var(--font-mono);
   font-size: 1.8rem;
-  color: #ffccaa;
+  color: var(--text-secondary);
   
   margin-top: 20px;
   opacity: 0;
@@ -906,7 +1150,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(45deg, #ffd700, #ffb347, #ff8c00, #ffb347, #ffd700);
+  background: linear-gradient(45deg, var(--neon-green), var(--neon-cyan), var(--neon-orange), var(--neon-cyan), var(--neon-green));
   background-size: 400% 400%;
   display: flex;
   justify-content: center;
@@ -921,9 +1165,9 @@
 }
 
 .victory-text h1 {
-  font-family: 'Fredoka', 'Comic Sans MS', 'Marker Felt', 'Bradley Hand', cursive, sans-serif;
+  font-family: var(--font-mono);
   font-size: 5rem;
-  background: linear-gradient(45deg, #ff6b35, #ffd700, #ff8c00);
+  background: linear-gradient(45deg, var(--neon-cyan), var(--neon-green), var(--neon-orange));
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -934,18 +1178,18 @@
 }
 
 .victory-subtitle {
-  font-family: 'Fredoka', 'Comic Sans MS', 'Marker Felt', 'Bradley Hand', cursive, sans-serif;
+  font-family: var(--font-mono);
   font-size: 2rem;
-  color: #8b4513;
+  color: var(--text-secondary);
   
   margin-top: 20px;
   opacity: 0;
 }
 
 .victory-description {
-  font-family: 'Fredoka', 'Comic Sans MS', 'Marker Felt', 'Bradley Hand', cursive, sans-serif;
+  font-family: var(--font-mono);
   font-size: 1.4rem;
-  color: #8b4513;
+  color: var(--text-secondary);
   
   margin-top: 15px;
   opacity: 0;
@@ -958,7 +1202,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(45deg, #2f0000, #4d0000, #800000, #4d0000, #2f0000);
+  background: linear-gradient(45deg, var(--bg-primary), var(--bg-secondary), var(--bg-tertiary), var(--bg-secondary), var(--bg-primary));
   background-size: 400% 400%;
   display: flex;
   justify-content: center;
@@ -973,9 +1217,9 @@
 }
 
 .defeat-text h1 {
-  font-family: 'Fredoka', 'Comic Sans MS', 'Marker Felt', 'Bradley Hand', cursive, sans-serif;
+  font-family: var(--font-mono);
   font-size: 5rem;
-  background: linear-gradient(45deg, #dc143c, #8b0000, #4d0000);
+  background: linear-gradient(45deg, var(--neon-red), var(--bg-tertiary), var(--bg-secondary));
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -986,18 +1230,18 @@
 }
 
 .defeat-subtitle {
-  font-family: 'Fredoka', 'Comic Sans MS', 'Marker Felt', 'Bradley Hand', cursive, sans-serif;
+  font-family: var(--font-mono);
   font-size: 2rem;
-  color: #ffccaa;
+  color: var(--text-secondary);
   
   margin-top: 20px;
   opacity: 0;
 }
 
 .defeat-description {
-  font-family: 'Fredoka', 'Comic Sans MS', 'Marker Felt', 'Bradley Hand', cursive, sans-serif;
+  font-family: var(--font-mono);
   font-size: 1.4rem;
-  color: #ffccaa;
+  color: var(--text-secondary);
   
   margin-top: 15px;
   opacity: 0;
@@ -1114,7 +1358,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(45deg, #1a1a2e, #16213e, #0f3460, #16213e, #1a1a2e);
+  background: linear-gradient(45deg, var(--bg-primary), var(--bg-secondary), var(--bg-tertiary), var(--bg-secondary), var(--bg-primary));
   background-size: 400% 400%;
   display: flex;
   justify-content: center;
@@ -1129,9 +1373,9 @@
 }
 
 .advancing-text h1 {
-  font-family: 'Fredoka', 'Comic Sans MS', 'Marker Felt', 'Bradley Hand', cursive, sans-serif;
+  font-family: var(--font-mono);
   font-size: 4.5rem;
-  background: linear-gradient(45deg, #4169e1, #00bfff, #1e90ff);
+  background: linear-gradient(45deg, var(--neon-purple), var(--neon-cyan), var(--neon-green));
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -1142,25 +1386,25 @@
 }
 
 .advancing-subtitle {
-  font-family: 'Fredoka', 'Comic Sans MS', 'Marker Felt', 'Bradley Hand', cursive, sans-serif;
+  font-family: var(--font-mono);
   font-size: 1.8rem;
-  color: #b0c4de;
+  color: var(--text-secondary);
   
   margin-top: 20px;
   opacity: 0;
 }
 
 .advancing-description {
-  font-family: 'Fredoka', 'Comic Sans MS', 'Marker Felt', 'Bradley Hand', cursive, sans-serif;
+  font-family: var(--font-mono);
   font-size: 1.4rem;
-  color: #b0c4de;
+  color: var(--text-secondary);
   
   margin-top: 15px;
   opacity: 0;
 }
 
 .opponent-name {
-  color: #ff6b35;
+  color: var(--neon-cyan);
   
   font-weight: bold;
 }
@@ -1256,40 +1500,37 @@
 .vs-text {
   font-size: 2.5rem;
   font-weight: bold;
-  color: #ffd700;
+  color: var(--neon-cyan);
   text-shadow: 
-    0 0 15px #ff4500,
-    3px 3px 0px #660000,
-    5px 5px 0px #330000;
+    0 0 15px var(--neon-cyan),
+    0 0 30px var(--neon-cyan);
   /* Static VS glow for performance */
-  color: #ffd700;
+  color: var(--neon-cyan);
   
-  font-family: 'Fredoka', 'Comic Sans MS', 'Marker Felt', 'Bradley Hand', cursive, sans-serif;
+  font-family: var(--font-mono);
 }
 
 @keyframes vsGlow {
   0% { 
-    color: #ffd700;
+    color: var(--neon-cyan);
     text-shadow: 
-      0 0 15px #ff4500,
-      3px 3px 0px #660000,
-      5px 5px 0px #330000;
+      0 0 15px var(--neon-cyan),
+      0 0 30px var(--neon-cyan);
   }
   100% { 
-    color: #ffff00;
+    color: var(--neon-green);
     text-shadow: 
-      0 0 25px #ff6b35,
-      3px 3px 0px #660000,
-      5px 5px 0px #330000;
+      0 0 25px var(--neon-green),
+      0 0 40px var(--neon-green);
   }
 }
 
 .battle-result {
   font-size: 1.5rem;
   font-weight: bold;
-  color: #ff6b35;
+  color: var(--neon-cyan);
   
-  font-family: 'Fredoka', 'Comic Sans MS', 'Marker Felt', 'Bradley Hand', cursive, sans-serif;
+  font-family: var(--font-mono);
   /* Static result text for performance */
   text-align: center;
 }
@@ -1301,17 +1542,17 @@
 
 .battle-status {
   font-size: 1.2rem;
-  color: #ffccaa;
+  color: var(--text-secondary);
   
-  font-family: 'Fredoka', 'Comic Sans MS', 'Marker Felt', 'Bradley Hand', cursive, sans-serif;
+  font-family: var(--font-mono);
   /* Static status for performance */
-  color: #ff6b35;
+  color: var(--neon-cyan);
   text-align: center;
 }
 
 @keyframes statusGlow {
-  0% { color: #ffccaa; }
-  100% { color: #ff6b35; }
+  0% { color: var(--text-secondary); }
+  100% { color: var(--neon-cyan); }
 }
 
 /* Responsive Battle Interface */

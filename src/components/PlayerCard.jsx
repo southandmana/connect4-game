@@ -12,8 +12,30 @@ function PlayerCard({
 }) {
   const [stressEmoji, setStressEmoji] = useState('')
   const [showEmoji, setShowEmoji] = useState(false)
+  const [isHealing, setIsHealing] = useState(false)
+  const [previousStressLevel, setPreviousStressLevel] = useState(0)
 
   // Removed debug logging for performance
+
+  // Detect stress relief and trigger healing animation
+  useEffect(() => {
+    const stressDecrease = previousStressLevel - stressLevel
+    
+    // Trigger healing animation if stress decreased by 2% or more
+    if (stressDecrease >= 2 && previousStressLevel > 0) {
+      console.log(`💚 Stress relief detected: ${stressDecrease.toFixed(1)}% decrease for ${characterName}`)
+      setIsHealing(true)
+      
+      // Remove healing class after animation completes
+      const healingTimer = setTimeout(() => {
+        setIsHealing(false)
+      }, 1200) // Match animation duration
+      
+      return () => clearTimeout(healingTimer)
+    }
+    
+    setPreviousStressLevel(stressLevel)
+  }, [stressLevel, previousStressLevel, characterName])
 
   // Determine stress emoji based on turn duration and stress level
   useEffect(() => {
@@ -100,9 +122,9 @@ function PlayerCard({
           <span className="stress-percentage">{Math.round(stressLevel)}%</span>
         </div>
         <div className="stress-meter">
-          <div className="stress-meter-bg">
+          <div className={`stress-meter-bg ${isHealing ? 'healing' : ''}`}>
             <div 
-              className="stress-meter-fill"
+              className={`stress-meter-fill ${isHealing ? 'healing' : ''}`}
               style={{ 
                 width: `${Math.min(stressLevel, 100)}%`,
                 backgroundColor: stressColor

@@ -34,8 +34,8 @@
       saturate(1.6)
       brightness(1.3)
       contrast(1.1)
-      drop-shadow(0 0 25px rgba(255, 69, 0, 0.8))
-      drop-shadow(0 0 50px rgba(255, 140, 0, 0.4))
+      drop-shadow(0 0 25px rgba(0, 255, 255, 0.8))
+      drop-shadow(0 0 50px rgba(0, 255, 255, 0.4))
       
   }
   100% { 
@@ -45,8 +45,8 @@
       saturate(1.8)
       brightness(1.5)
       contrast(1.2)
-      drop-shadow(0 0 35px rgba(255, 140, 0, 1))
-      drop-shadow(0 0 70px rgba(255, 69, 0, 0.6))
+      drop-shadow(0 0 35px rgba(0, 255, 255, 1))
+      drop-shadow(0 0 70px rgba(0, 255, 255, 0.6))
       
   }
 }
@@ -61,15 +61,14 @@
 .game-title {
   font-size: 3.5rem;
   margin: 0;
-  font-family: 'Fredoka', 'Comic Sans MS', 'Marker Felt', 'Bradley Hand', cursive, sans-serif;
+  font-family: var(--font-mono);
   font-weight: bold;
-  color: #ff6b35;
+  color: var(--neon-cyan);
   text-shadow: 
-    0 0 15px #ff4500,
-    3px 3px 0px #660000,
-    5px 5px 0px #330000;
-  /* Static title for performance - removed pulse animation */
-  letter-spacing: 2px;
+    0 0 20px var(--neon-cyan),
+    0 0 40px rgba(0, 255, 255, 0.5);
+  letter-spacing: 4px;
+  text-transform: uppercase;
 }
 
 @keyframes titlePulse {
@@ -79,14 +78,14 @@
 
 
 .menu-content {
-  background: linear-gradient(145deg, #330000 0%, #1a0000 50%, #0d0000 100%);
-  border: 4px solid #ff6b35;
-  border-radius: 25px;
+  background: var(--bg-secondary);
+  border: 2px solid var(--neon-cyan);
+  border-radius: 8px;
   padding: 35px;
   box-shadow: 
-    0 25px 50px rgba(255, 69, 0, 0.4),
-    inset 0 0 30px rgba(255, 140, 0, 0.1),
-    0 0 40px rgba(255, 69, 0, 0.3);
+    0 0 20px rgba(0, 255, 255, 0.3),
+    inset 0 0 20px rgba(0, 255, 255, 0.1),
+    0 0 40px rgba(0, 255, 255, 0.2);
   position: relative;
   overflow: hidden;
 }
@@ -94,14 +93,13 @@
 .menu-content::before {
   content: '';
   position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   background: 
-    radial-gradient(circle at 25% 75%, transparent 20%, rgba(255, 69, 0, 0.03) 21%, rgba(255, 69, 0, 0.03) 25%, transparent 26%),
-    radial-gradient(circle at 75% 25%, transparent 20%, rgba(255, 140, 0, 0.02) 21%, rgba(255, 140, 0, 0.02) 25%, transparent 26%);
-  /* Static flames for performance - removed heavy animation */
+    linear-gradient(90deg, transparent 0%, rgba(0, 255, 255, 0.02) 50%, transparent 100%),
+    linear-gradient(0deg, transparent 0%, rgba(0, 255, 65, 0.01) 50%, transparent 100%);
   pointer-events: none;
   z-index: 1;
 }
@@ -111,9 +109,9 @@
   z-index: 2;
 }
 
-@keyframes menuFlames {
-  0% { transform: rotate(0deg) scale(1); }
-  100% { transform: rotate(360deg) scale(1.1); }
+@keyframes terminalGlow {
+  0% { transform: scale(1); opacity: 0.8; }
+  100% { transform: scale(1.02); opacity: 1; }
 }
 
 .player-name-input,
@@ -121,37 +119,34 @@
   width: 100%;
   padding: 15px 20px;
   font-size: 1.2rem;
-  font-family: 'Fredoka', 'Comic Sans MS', 'Marker Felt', 'Bradley Hand', cursive, sans-serif;
-  font-weight: bold;
-  background: linear-gradient(145deg, #4d0000, #1a0000);
-  color: #ffccaa;
-  border: 3px solid #ff6b35;
-  border-radius: 20px;
+  font-family: var(--font-mono);
+  font-weight: normal;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  border: 1px solid var(--neon-cyan);
+  border-radius: 4px;
   margin-bottom: 20px;
   transition: all 0.3s;
   box-shadow: 
-    inset 0 2px 0 rgba(255, 140, 0, 0.1),
-    inset 0 -2px 0 rgba(139, 0, 0, 0.3),
-    0 4px 8px rgba(0, 0, 0, 0.4);
-  
+    inset 0 0 10px rgba(0, 255, 255, 0.1),
+    0 0 10px rgba(0, 255, 255, 0.2);
 }
 
 .player-name-input::placeholder,
 .room-code-input::placeholder {
-  color: rgba(255, 204, 170, 0.6);
-  font-family: 'Fredoka', 'Comic Sans MS', 'Marker Felt', 'Bradley Hand', cursive, sans-serif;
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  opacity: 0.6;
 }
 
 .player-name-input:focus,
 .room-code-input:focus {
   outline: none;
-  border-color: #ff8c50;
-  background: linear-gradient(145deg, #660000, #2d0000);
+  border-color: var(--neon-green);
+  background: var(--bg-primary);
   box-shadow: 
-    inset 0 2px 0 rgba(255, 140, 0, 0.2),
-    inset 0 -2px 0 rgba(139, 0, 0, 0.3),
-    0 6px 12px rgba(255, 69, 0, 0.3),
-    0 0 15px rgba(255, 69, 0, 0.4);
+    inset 0 0 15px rgba(0, 255, 65, 0.2),
+    0 0 20px rgba(0, 255, 65, 0.4);
   transform: scale(1.02);
 }
 
@@ -166,19 +161,20 @@
   padding: 18px 35px;
   font-size: 1.3rem;
   font-weight: bold;
-  font-family: 'Fredoka', 'Comic Sans MS', 'Marker Felt', 'Bradley Hand', cursive, sans-serif;
-  color: white;
-  border: 3px solid #ff6b35;
-  border-radius: 25px;
+  font-family: var(--font-mono);
+  color: var(--text-primary);
+  border: 1px solid var(--neon-cyan);
+  border-radius: 4px;
   cursor: pointer;
   transition: all 0.3s;
   position: relative;
   overflow: hidden;
-  
+  background: var(--bg-secondary);
+  text-transform: uppercase;
+  letter-spacing: 1px;
   box-shadow: 
-    0 6px 12px rgba(255, 69, 0, 0.3),
-    inset 0 2px 0 rgba(255, 140, 0, 0.2),
-    inset 0 -2px 0 rgba(139, 0, 0, 0.6);
+    0 0 10px rgba(0, 255, 255, 0.3),
+    inset 0 0 10px rgba(0, 255, 255, 0.1);
 }
 
 .menu-button:before {
@@ -188,7 +184,7 @@
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 140, 0, 0.3), transparent);
+  background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.3), transparent);
   transition: left 0.6s;
   z-index: 1;
 }
@@ -203,43 +199,54 @@
 }
 
 .arcade-mode {
-  background: linear-gradient(145deg, #ff6b35 0%, #ff4500 50%, #8b0000 100%);
+  background: var(--bg-secondary);
+  border-color: var(--neon-green);
+  color: var(--neon-green);
+  text-shadow: 0 0 10px var(--neon-green);
 }
 
 .create-room {
-  background: linear-gradient(145deg, #ff6b35 0%, #ff4500 50%, #8b0000 100%);
+  background: var(--bg-secondary);
+  border-color: var(--neon-purple);
+  color: var(--neon-purple);
+  text-shadow: 0 0 10px var(--neon-purple);
 }
 
 .join-room {
-  background: linear-gradient(145deg, #ff8c50 0%, #ff6b35 50%, #ff4500 100%);
+  background: var(--bg-secondary);
+  border-color: var(--neon-orange);
+  color: var(--neon-orange);
+  text-shadow: 0 0 10px var(--neon-orange);
 }
 
 .confirm-join {
-  background: linear-gradient(145deg, #32cd32 0%, #228b22 50%, #006400 100%);
-  border-color: #90ee90;
+  background: var(--bg-secondary);
+  border-color: var(--neon-green);
+  color: var(--neon-green);
+  text-shadow: 0 0 10px var(--neon-green);
 }
 
 .cancel-join {
-  background: linear-gradient(145deg, #dc143c 0%, #8b0000 50%, #4b0000 100%);
-  border-color: #ff6b6b;
+  background: var(--bg-secondary);
+  border-color: var(--neon-red);
+  color: var(--neon-red);
+  text-shadow: 0 0 10px var(--neon-red);
 }
 
 .menu-button:hover {
-  transform: translateY(-4px) scale(1.05);
+  transform: translateY(-2px) scale(1.02);
   box-shadow: 
-    0 10px 20px rgba(255, 69, 0, 0.5),
-    inset 0 2px 0 rgba(255, 140, 0, 0.3),
-    inset 0 -2px 0 rgba(139, 0, 0, 0.6);
-  animation: buttonHellGlow 0.5s ease-in-out;
+    0 0 20px var(--neon-cyan),
+    inset 0 0 15px rgba(0, 255, 255, 0.2);
 }
 
 .menu-button:active {
   transform: translateY(-1px) scale(1.02);
 }
 
-@keyframes buttonHellGlow {
-  0%, 100% {  }
-  50% {  }
+@keyframes terminalButtonGlow {
+  0%, 100% { opacity: 0.8; }
+  50% { opacity: 1; }
 }
 
 .join-room-section {
@@ -267,16 +274,18 @@
 }
 
 .instructions {
-  color: #ffccaa;
+  color: var(--text-secondary);
   font-size: 1rem;
   line-height: 1.6;
-  font-family: 'Fredoka', 'Comic Sans MS', 'Marker Felt', 'Bradley Hand', cursive, sans-serif;
+  font-family: var(--font-mono);
   
-  background: linear-gradient(145deg, rgba(255, 69, 0, 0.1), rgba(139, 0, 0, 0.1));
+  background: var(--bg-primary);
   padding: 15px;
-  border-radius: 15px;
-  border: 2px solid rgba(255, 107, 53, 0.3);
-  
+  border-radius: 4px;
+  border: 1px solid var(--neon-cyan);
+  box-shadow: 
+    0 0 10px rgba(0, 255, 255, 0.2),
+    inset 0 0 10px rgba(0, 255, 255, 0.1);
 }
 
 .instructions p {
@@ -285,9 +294,11 @@
 }
 
 .instructions p::before {
-  content: '🔥';
+  content: '>';
   margin-right: 8px;
   font-size: 0.9rem;
+  color: var(--neon-green);
+  font-weight: bold;
 }
 
 /* Mobile responsiveness */

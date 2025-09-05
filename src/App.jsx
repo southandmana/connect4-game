@@ -43,6 +43,10 @@ function App() {
   const [gameStartTime, setGameStartTime] = useState(null);
   const [totalScore, setTotalScore] = useState(0);
   const [defeatReason, setDefeatReason] = useState(null); // 'stress', 'opponent', or null
+  
+  // Cumulative Time Tracking - total time spent by each player across ALL turns
+  const [playerCumulativeTime, setPlayerCumulativeTime] = useState(0); // seconds
+  const [opponentCumulativeTime, setOpponentCumulativeTime] = useState(0); // seconds
 
   const onlineGameRef = useRef(null);
   const playerColorRef = useRef(null);
@@ -138,10 +142,10 @@ function App() {
     }
   }, [arcadeStage]);
 
-  // Stress System - Game State Management
+  // UNIFIED STRESS & TIMER SYSTEM - Fixed all bugs
   useEffect(() => {
+    // Clear all timers when not in active game
     if (arcadeStage !== "game" || !currentAI || winner || isDraw) {
-      // Clear timers when not in active game
       if (stressTimerRef.current) {
         clearInterval(stressTimerRef.current);
         stressTimerRef.current = null;
@@ -152,57 +156,75 @@ function App() {
       }
       return;
     }
-  }, [arcadeStage, currentAI, winner, isDraw]);
 
-  // Highly Optimized Stress System - Starts immediately when match begins
-  useEffect(() => {
-    if (arcadeStage !== "game" || !currentAI || winner || isDraw) {
-      return;
-    }
-    
-    // Reset turn start time when game starts or turn changes
+    // Start timing from cumulative time for current player
     const turnStart = Date.now();
     setTurnStartTime(turnStart);
+    
+    // Get starting cumulative time for current player
+    const startingCumulativeTime = isPlayerTurn ? playerCumulativeTime : opponentCumulativeTime;
     setTurnDuration(0);
 
-    // Clear existing timers
+    // Clear existing timers before creating new ones
     if (stressTimerRef.current) clearInterval(stressTimerRef.current);
     if (turnTimerRef.current) clearInterval(turnTimerRef.current);
 
-    // Ultra-efficient timer - runs every 3 seconds for minimal CPU usage
-    stressTimerRef.current = setInterval(() => {
-      const elapsed = (Date.now() - turnStart) / 1000;
-      const turnStress = Math.min(100, (elapsed / maxTurnTime) * 100);
-      
-      // Update duration for visual timer
-      setTurnDuration(elapsed);
+    console.log(`🎯 Starting timer for ${isPlayerTurn ? 'PLAYER' : 'AI'} turn. Cumulative time: ${startingCumulativeTime}s`);
 
+    // Single unified timer - updates every 1 second for smooth visuals
+    stressTimerRef.current = setInterval(() => {
+      const now = Date.now();
+      const currentTurnElapsed = (now - turnStart) / 1000;
+      const totalCumulativeTime = startingCumulativeTime + currentTurnElapsed;
+      const cumulativeStress = Math.min(100, (totalCumulativeTime / maxTurnTime) * 100);
+      
+      // Update duration for visual timer (current turn only)
+      setTurnDuration(currentTurnElapsed);
+
+      // CUMULATIVE STRESS LOGIC - builds from previous accumulated time
       if (isPlayerTurn) {
-        setPlayerStress(turnStress);
-        setOpponentStress(prev => Math.max(0, prev - 2)); // Faster decrease
+        setPlayerStress(cumulativeStress);
+        
+        // Give AI relief during player thinking time (balance for player getting relief during AI thinking)
+        const playerThinkingRelief = 1.0; // 1 second of player thinking = 1 second of AI stress relief
+        setOpponentCumulativeTime(prev => Math.max(0, prev - playerThinkingRelief));
+        
       } else {
-        setOpponentStress(turnStress);
-        setPlayerStress(prev => Math.max(0, prev - 2)); // Faster decrease
+        setOpponentStress(cumulativeStress);
+        // Player stress stays the same during AI turn
       }
 
       // Check for timeout/stress death
-      if (elapsed >= maxTurnTime) {
+      if (totalCumulativeTime >= maxTurnTime) {
+        console.log(`⏰ Timeout! ${isPlayerTurn ? 'Player' : 'AI'} took too long`);
+        
+        // Save final elapsed time before timeout
+        if (isPlayerTurn) {
+          setPlayerCumulativeTime(prev => prev + currentTurnElapsed);
+        } else {
+          setOpponentCumulativeTime(prev => prev + currentTurnElapsed);
+        }
+        
+        // Clear timers before handling game completion
+        if (stressTimerRef.current) {
+          clearInterval(stressTimerRef.current);
+          stressTimerRef.current = null;
+        }
+
         if (isPlayerTurn) {
           setWinner("yellow");
-          // Shorter delay for timeout wins (no Connect 4 animation to show)
           setTimeout(() => {
             handleGameComplete(false, 'stress');
           }, 1500);
         } else {
           setWinner("red");
-          // Shorter delay for timeout wins (no Connect 4 animation to show)
           setTimeout(() => {
             handleGameComplete(true);
           }, 1500);
         }
         return;
       }
-    }, 3000); // Update every 3 seconds - ultra-efficient!
+    }, 1000); // Update every second for smooth visuals
 
     return () => {
       if (stressTimerRef.current) {
@@ -210,18 +232,8 @@ function App() {
         stressTimerRef.current = null;
       }
     };
-  }, [isPlayerTurn, arcadeStage, currentAI]); // Depend on turn changes AND game start
+  }, [isPlayerTurn, arcadeStage, currentAI, winner, isDraw]); // Complete dependency list
 
-  // Reset stress when starting new game
-  useEffect(() => {
-    if (arcadeStage === "game") {
-      setPlayerStress(0);
-      setOpponentStress(0);
-      setTurnDuration(0);
-      setTurnStartTime(Date.now());
-      setGameStartTime(Date.now());
-    }
-  }, [arcadeStage]);
 
   const checkWinner = (board, row, col, player) => {
     const checkDirection = (deltaRow, deltaCol) => {
@@ -349,6 +361,7 @@ function App() {
 
   const handleBattleTransitionComplete = () => {
     // After battle transition, start the actual game
+    // React 18+ automatically batches state updates
     setArcadeStage("game");
     setBoard(
       Array(6)
@@ -361,6 +374,15 @@ function App() {
     setWinningPieces([]); // Clear any winning animation
     setDefeatReason(null); // Clear defeat reason for new game
     setIsPlayerTurn(true);
+    // Reset stress for new game
+    setPlayerStress(0);
+    setOpponentStress(0);
+    setTurnDuration(0);
+    setGameStartTime(Date.now());
+    
+    // Reset cumulative time tracking for new game
+    setPlayerCumulativeTime(0);
+    setOpponentCumulativeTime(0);
   };
 
   const handleGameComplete = (playerWon, reason = null) => {
@@ -537,10 +559,31 @@ function App() {
           setIsDraw(true);
           handleGameComplete(false, 'opponent'); // Draw (counts as loss in tournament)
         } else {
-          // Switch back to player turn
+          // Save current turn elapsed time and calculate AI stress relief
+          if (turnStartTime) {
+            const currentTurnElapsed = (Date.now() - turnStartTime) / 1000;
+            setOpponentCumulativeTime(prev => {
+              const newCumulativeTime = prev + currentTurnElapsed;
+              
+              // Calculate AI stress relief for completing the turn (same logic as player)
+              const baseTurnRelief = 3; // 3% base relief for any completed turn
+              const quickPlayBonus = currentTurnElapsed < 5 ? (5 - currentTurnElapsed) * 2 : 0; // AI typically moves in 1s = 8% bonus
+              const totalRelief = baseTurnRelief + quickPlayBonus;
+              
+              // Apply stress relief (convert % to seconds of relief)
+              const stressReliefInSeconds = (totalRelief / 100) * maxTurnTime;
+              const relievedCumulativeTime = Math.max(0, newCumulativeTime - stressReliefInSeconds);
+              
+              console.log(`🤖 AI turn relief: ${totalRelief.toFixed(1)}% (${stressReliefInSeconds.toFixed(1)}s) - Turn time: ${currentTurnElapsed.toFixed(1)}s`);
+              
+              return relievedCumulativeTime;
+            });
+          }
+          
+          // Switch back to player turn - React 18+ automatically batches
           setCurrentPlayer("red");
           setIsPlayerTurn(true);
-          setTurnStartTime(Date.now()); // Reset turn timer
+          // Timer reset handled by unified timer useEffect
         }
         break;
       }
@@ -643,13 +686,39 @@ function App() {
             setIsDraw(true);
             handleGameComplete(false, 'opponent'); // Draw (counts as loss in tournament)
           } else {
-            // Switch to AI turn
+            // Save current turn elapsed time and calculate stress relief
+            if (turnStartTime) {
+              const currentTurnElapsed = (Date.now() - turnStartTime) / 1000;
+              setPlayerCumulativeTime(prev => {
+                const newCumulativeTime = prev + currentTurnElapsed;
+                
+                // Calculate stress relief for completing the turn
+                const baseTurnRelief = 3; // 3% base relief for any completed turn
+                const quickPlayBonus = currentTurnElapsed < 5 ? (5 - currentTurnElapsed) * 2 : 0; // Extra relief for turns under 5 seconds
+                const totalRelief = baseTurnRelief + quickPlayBonus;
+                
+                // Apply stress relief (convert % to seconds of relief)
+                const stressReliefInSeconds = (totalRelief / 100) * maxTurnTime;
+                const relievedCumulativeTime = Math.max(0, newCumulativeTime - stressReliefInSeconds);
+                
+                console.log(`🎯 Player turn relief: ${totalRelief.toFixed(1)}% (${stressReliefInSeconds.toFixed(1)}s) - Turn time: ${currentTurnElapsed.toFixed(1)}s`);
+                
+                return relievedCumulativeTime;
+              });
+            }
+            
+            // Switch to AI turn - React 18+ automatically batches
             setCurrentPlayer("yellow");
             setIsPlayerTurn(false);
-            setTurnStartTime(Date.now()); // Reset turn timer for AI
+            // Timer reset handled by unified timer useEffect
 
-            // AI makes move after delay
+            // AI makes move after delay with stress relief during thinking
             aiMoveTimeoutRef.current = setTimeout(() => {
+              // Apply AI thinking time stress relief to player
+              const aiThinkingRelief = 1.0; // 1 second of AI thinking = 1 second of stress relief
+              setPlayerCumulativeTime(prev => Math.max(0, prev - aiThinkingRelief));
+              console.log(`🤖 AI thinking relief: ${aiThinkingRelief}s stress relief for player`);
+              
               makeAIMove(newBoard);
             }, 1000); // 1 second delay for dramatic effect
           }
@@ -901,78 +970,65 @@ function App() {
             <button className="mute-button" onClick={toggleMute}>
               {isMuted ? "🔇 Unmute" : "🔊 Mute"}
             </button>
-            {/* TEST BUTTONS - For debugging */}
+          </div>
+
+          {/* Development Test Buttons */}
+          <div className="dev-test-buttons">
+            <div className="dev-label">DEV TOOLS</div>
             <button 
-              style={{backgroundColor: 'green', color: 'white'}}
+              className="dev-button"
               onClick={() => {
-                setWinner("red");
-                handleGameComplete(true);
-              }}
-            >
-              🏆 TEST: Win Now
-            </button>
-            <button 
-              style={{backgroundColor: 'red', color: 'white'}}
-              onClick={() => {
-                setWinner("yellow");
-                handleGameComplete(false);
-              }}
-            >
-              💀 TEST: Lose Now
-            </button>
-            <button 
-              style={{backgroundColor: 'purple', color: 'white'}}
-              onClick={async () => {
-                // Skip directly to opponent 9
-                if (tournamentManager) {
-                  tournamentManager.currentOpponent = 9;
-                  tournamentManager.wins = 8; // Simulate 8 wins
-                  const AIOpponentModule = await import('./utils/AIOpponent.js');
-                  const opponent9 = new AIOpponentModule.default(9, 9);
-                  setCurrentAI(opponent9);
-                  // Reset board for new match
-                  setBoard(
-                    Array(6)
-                      .fill(null)
-                      .map(() => Array(7).fill(null))
-                  );
-                  setWinner(null);
-                  setIsDraw(false);
-                  setWinningPieces([]); // Clear winning animation
-                  setIsPlayerTurn(true);
-                  setCurrentPlayer("red");
-                  console.log("TEST: Skipped to opponent 9 - Soul Reaper");
-                }
-              }}
-            >
-              ⚡ TEST: Skip to Match 9
-            </button>
-            <button 
-              style={{backgroundColor: 'gold', color: 'black'}}
-              onClick={async () => {
-                // Skip directly to opponent 10 (final boss)
+                // Skip to match 10 (final boss)
                 if (tournamentManager) {
                   tournamentManager.currentOpponent = 10;
-                  tournamentManager.wins = 9; // Simulate 9 wins
-                  const AIOpponentModule = await import('./utils/AIOpponent.js');
-                  const opponent10 = new AIOpponentModule.default(10, 10);
-                  setCurrentAI(opponent10);
-                  // Reset board for new match
-                  setBoard(
-                    Array(6)
-                      .fill(null)
-                      .map(() => Array(7).fill(null))
-                  );
+                  tournamentManager.wins = 9;
+                  const finalBossAI = new (require('./utils/AIOpponent.js').default)(10, 10);
+                  tournamentManager.currentAI = finalBossAI;
+                  setCurrentAI(finalBossAI);
+                  
+                  // Reset game state for new match
+                  setBoard(Array(6).fill(null).map(() => Array(7).fill(null)));
+                  setCurrentPlayer("red");
                   setWinner(null);
                   setIsDraw(false);
-                  setWinningPieces([]); // Clear winning animation
+                  setWinningPieces([]);
                   setIsPlayerTurn(true);
-                  setCurrentPlayer("red");
-                  console.log("TEST: Skipped to opponent 10 - THE FINAL BOSS!");
+                  setPlayerStress(0);
+                  setOpponentStress(0);
+                  setPlayerCumulativeTime(0);
+                  setOpponentCumulativeTime(0);
+                  setTurnDuration(0);
+                  setGameStartTime(Date.now());
+                  
+                  console.log("🎮 DEV: Skipped to Final Boss (Match 10)");
                 }
               }}
             >
-              👑 TEST: Skip to Final Boss
+              Skip to Match 10
+            </button>
+            <button 
+              className="dev-button dev-lose"
+              onClick={() => {
+                setWinner("yellow");
+                setTimeout(() => {
+                  handleGameComplete(false, 'opponent');
+                }, 1000);
+                console.log("🎮 DEV: Forced match loss");
+              }}
+            >
+              Lose Match
+            </button>
+            <button 
+              className="dev-button dev-win"
+              onClick={() => {
+                setWinner("red");
+                setTimeout(() => {
+                  handleGameComplete(true);
+                }, 1000);
+                console.log("🎮 DEV: Forced match win");
+              }}
+            >
+              Win Match
             </button>
           </div>
         </div>
