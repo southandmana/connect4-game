@@ -22,14 +22,26 @@ function MainMenu({ onStartGame }) {
 
   return (
     <div className="main-menu">
-      <div className="logo-container">
-        <img src="/images/logo.svg" className="game-logo" alt="Connect 4" />
-      </div>
-      <div className="menu-content">
+      <header className="logo-container">
+        <img 
+          src="/images/logo.svg" 
+          className="game-logo" 
+          alt="Connect 4 Tournament Fighter - Cyberpunk Terminal Edition" 
+        />
+      </header>
+      
+      <main className="menu-content" role="main">
         <div className="menu-buttons">
-          <button className="menu-button arcade-mode" onClick={handleArcadeMode}>
-            🎮 Arcade Mode
+          <button 
+            className="menu-button arcade-mode" 
+            onClick={handleArcadeMode}
+            aria-describedby="arcade-description"
+          >
+            <span role="img" aria-label="Game controller">🎮</span> Arcade Mode
           </button>
+          <div id="arcade-description" className="visually-hidden">
+            Play single-player tournament against 10 AI opponents
+          </div>
           
           <button className="menu-button create-room" onClick={handleCreateRoom}>
             Create Online Room

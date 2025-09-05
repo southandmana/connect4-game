@@ -45,6 +45,40 @@
   padding: 0;
 }
 
+/* Accessibility: Screen reader only content */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* Accessibility: Focus indicators */
+button:focus,
+input:focus,
+[tabindex]:focus {
+  outline: 2px solid var(--neon-cyan) !important;
+  outline-offset: 2px !important;
+  box-shadow: 
+    0 0 0 4px rgba(0, 255, 255, 0.3),
+    var(--glow-cyan) !important;
+}
+
+/* Enhanced focus for interactive game elements */
+.cell:focus {
+  outline: 3px solid var(--neon-green) !important;
+  outline-offset: 2px !important;
+  box-shadow: 
+    0 0 0 6px rgba(0, 255, 65, 0.4),
+    inset 0 0 15px rgba(0, 255, 65, 0.3) !important;
+  transform: scale(1.05) !important;
+}
+
 body {
   font-family: var(--font-ui);
   background: var(--bg-primary);
