@@ -1,6 +1,20 @@
 import React from 'react'
 import './Board.css'
 
+/**
+ * Render a Connect Four board and handle user interaction (click & keyboard).
+ *
+ * Renders a 2D board grid from the provided board state, marks winning pieces,
+ * exposes playable cells (tab-focusable) when the game is active, and invokes
+ * onColumnClick when a column is selected via click or Enter/Space key.
+ *
+ * @param {Array<Array<string|null>>} board - 2D array of rows×columns representing the board state; each cell is 'red', another player token string, or null/empty. Expected to be 6 rows by 7 columns.
+ * @param {function(number):void} onColumnClick - Called with the column index when the user selects a column.
+ * @param {Array<{row:number,col:number}>} [winningPieces=[]] - Coordinates of cells that are part of the winning sequence.
+ * @param {string} [currentPlayer='red'] - Identifier of the current player (used for accessible status messaging).
+ * @param {string} [gameStatus='playing'] - Current game status (e.g., 'playing', 'won', 'draw'); when not 'playing' interaction is disabled.
+ * @returns {import('react').JSX.Element} The rendered board element with appropriate ARIA roles/labels for screen readers.
+ */
 function Board({ board, onColumnClick, winningPieces = [], currentPlayer = 'red', gameStatus = 'playing' }) {
   console.log('Board component received board:', board, 'Type:', typeof board, 'Is array:', Array.isArray(board))
   

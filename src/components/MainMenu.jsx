@@ -1,7 +1,17 @@
 import React, { useState } from 'react'
 import './MainMenu.css'
 
-// Main menu component for Connect 4 game - handles game mode selection
+/**
+ * Main menu UI for selecting a game mode and initiating a game.
+ *
+ * Renders controls to start Arcade, create an online room, or join an existing room.
+ * Player name input is used when available; defaults to "Player 1" for arcade/create and "Player 2" for join.
+ * Room codes are converted to uppercase and trimmed before being passed to the start callback; joining is only attempted when the room code is non-empty.
+ *
+ * @param {(mode: 'arcade'|'create'|'join', playerName: string, roomCode?: string) => void} onStartGame
+ *   Callback invoked to start the game. For 'join', the third argument is the trimmed uppercase room code.
+ * @returns {JSX.Element} The rendered main menu component.
+ */
 function MainMenu({ onStartGame }) {
   const [playerName, setPlayerName] = useState('')
   const [roomCode, setRoomCode] = useState('')
