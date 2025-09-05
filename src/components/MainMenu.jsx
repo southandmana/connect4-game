@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import './MainMenu.css'
 
+// Main menu component for Connect 4 game - handles game mode selection
 function MainMenu({ onStartGame }) {
   const [playerName, setPlayerName] = useState('')
   const [roomCode, setRoomCode] = useState('')
@@ -81,7 +82,7 @@ function MainMenu({ onStartGame }) {
           <p>Connect 4 discs in a row to win!</p>
           <p>Play locally or online with friends</p>
         </div>
-      </div>
+      </main>
     </div>
   )
 }
