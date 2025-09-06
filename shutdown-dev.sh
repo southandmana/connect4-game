@@ -76,23 +76,6 @@ else
     echo "  ℹ️  Dev server not running"
 fi
 
-# Stop TTS server (port 5000)
-if lsof -Pi :5000 -sTCP:LISTEN -t >/dev/null ; then
-    echo "  Stopping TTS server..."
-    lsof -ti:5000 | xargs kill -9 2>/dev/null
-    echo -e "  ${GREEN}✅ TTS server stopped${NC}"
-else
-    echo "  ℹ️  TTS server not running"
-fi
-
-# Stop Whisper server (port 8080)
-if lsof -Pi :8080 -sTCP:LISTEN -t >/dev/null ; then
-    echo "  Stopping Whisper server..."
-    lsof -ti:8080 | xargs kill -9 2>/dev/null
-    echo -e "  ${GREEN}✅ Whisper server stopped${NC}"
-else
-    echo "  ℹ️  Whisper server not running"
-fi
 
 # Stop preview server (port 4173)
 if lsof -Pi :4173 -sTCP:LISTEN -t >/dev/null ; then
@@ -103,25 +86,18 @@ else
     echo "  ℹ️  Preview server not running"
 fi
 
-# Step 3: Kill any remaining node/python processes
+# Step 3: Kill any remaining processes and close browser tabs
 echo ""
 echo "🧹 Cleaning up background processes..."
 
 # Count processes before killing
 NODE_COUNT=$(pgrep -f "node.*connect4" | wc -l | tr -d ' ')
-PYTHON_COUNT=$(pgrep -f "python.*voice-tools" | wc -l | tr -d ' ')
+
 
 if [ "$NODE_COUNT" -gt 0 ]; then
     pkill -f "node.*connect4"
     echo -e "  ${GREEN}✅ Stopped $NODE_COUNT Node.js process(es)${NC}"
-fi
-
-if [ "$PYTHON_COUNT" -gt 0 ]; then
-    pkill -f "python.*voice-tools"
-    echo -e "  ${GREEN}✅ Stopped $PYTHON_COUNT Python process(es)${NC}"
-fi
-
-if [ "$NODE_COUNT" -eq 0 ] && [ "$PYTHON_COUNT" -eq 0 ]; then
+else
     echo "  ℹ️  No background processes to clean"
 fi
 
@@ -130,7 +106,7 @@ echo ""
 echo "🔍 Verifying clean shutdown..."
 
 PORTS_IN_USE=""
-for PORT in 5173 5000 8080 4173; do
+for PORT in 5173 4173; do
     if lsof -Pi :$PORT -sTCP:LISTEN -t >/dev/null 2>&1; then
         PORTS_IN_USE="$PORTS_IN_USE $PORT"
     fi
@@ -150,8 +126,8 @@ echo -e "${GREEN}✅ Shutdown Complete!${NC}"
 echo ""
 echo "📊 Summary:"
 echo "  • Git status: $(if [ -n "$CHANGES" ] && [[ $REPLY =~ ^[Yy]$ ]]; then echo "Changes saved & pushed"; else echo "No changes to save"; fi)"
-echo "  • Servers stopped: npm, TTS, Whisper, preview"
-echo "  • Ports freed: 5173, 5000, 8080, 4173"
+echo "  • Servers stopped: npm, preview"
+echo "  • Ports freed: 5173, 4173"
 echo ""
 echo "💡 To restart tomorrow:"
 echo "  ./start-dev.sh"
