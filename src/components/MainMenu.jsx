@@ -22,18 +22,6 @@ function MainMenu({ onStartGame }) {
 
   return (
     <div className="main-menu">
-      <div className="test-deployment-banner" style={{
-        background: '#ff6b6b',
-        color: 'white',
-        padding: '10px',
-        textAlign: 'center',
-        fontWeight: 'bold',
-        margin: '10px',
-        borderRadius: '5px',
-        fontSize: '16px'
-      }}>
-        🚀 DEPLOYMENT TEST - This message confirms auto-deployment is working!
-      </div>
       <div className="logo-container">
         <img src="/images/logo.svg" className="game-logo" alt="Connect 4" />
       </div>
