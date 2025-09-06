@@ -1,28 +1,21 @@
 .board {
-  display: inline-block;
+  display: block;
   background: var(--bg-secondary);
   transition: all 0.2s ease-out;
   
-  border: 2px solid var(--neon-cyan);
-  box-shadow: 
-    inset 0 0 20px rgba(0, 255, 255, 0.2),
-    0 0 30px rgba(0, 255, 255, 0.4),
-    0 0 50px rgba(0, 255, 255, 0.2);
+  border: var(--border);
+  border-radius: var(--radius);
   
-  padding: 8px;
-  border-radius: 8px;
+  padding: var(--space-base);
   position: relative;
   overflow: hidden;
   max-width: calc(100vw - 40px);
   box-sizing: border-box;
+  margin: 0 auto;
+  width: fit-content;
 }
 
-/* Removed board background effects for flat design */
-
-@keyframes terminalPulse {
-  0%, 100% { transform: scale(1); opacity: 0.8; }
-  50% { transform: scale(1.02); opacity: 1; }
-}
+/* Clean cartoon board - no effects */
 
 .row {
   display: flex;
@@ -32,29 +25,21 @@
   width: min(75px, calc((100vw - 80px) / 7));
   height: min(75px, calc((100vw - 80px) / 7));
   background: var(--bg-primary);
-  border: 1px solid var(--neon-cyan);
-  border-radius: 4px;
+  border: var(--border-light);
+  border-radius: var(--radius);
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  transition: all 0.3s;
+  transition: all 0.2s;
   position: relative;
   z-index: 1;
-  box-shadow: 
-    inset 0 0 5px rgba(0, 255, 255, 0.1),
-    0 0 5px rgba(0, 255, 255, 0.1);
 }
 
 .cell:hover {
-  background: var(--bg-secondary);
-  border-color: var(--neon-green);
-  transform: scale(1.05);
-  
-  box-shadow: 
-    inset 0 0 10px rgba(0, 255, 65, 0.3),
-    0 0 15px rgba(0, 255, 65, 0.4);
-  
+  background: var(--bg-accent);
+  border-color: var(--accent);
+  transform: translateY(-2px);
   transition: all 0.15s ease-out;
 }
 
@@ -68,110 +53,74 @@
 }
 
 .disc.red {
-  background: var(--neon-red);
-  border: 2px solid var(--neon-red);
-  animation: dropInTerminal 0.6s ease-out;
-  box-shadow: 
-    0 0 15px rgba(255, 42, 42, 0.6),
-    inset 0 0 10px rgba(255, 42, 42, 0.3);
+  background: var(--error);
+  border: var(--border);
+  animation: dropInCartoon 0.6s ease-out;
 }
 
 .disc.yellow {
-  background: var(--neon-orange);
-  border: 2px solid var(--neon-orange);
-  animation: dropInTerminal 0.6s ease-out;
-  box-shadow: 
-    0 0 15px rgba(255, 149, 0, 0.6),
-    inset 0 0 10px rgba(255, 149, 0, 0.3);
+  background: var(--accent);
+  border: var(--border);
+  animation: dropInCartoon 0.6s ease-out;
 }
 
-/* Removed glow animations for flat design */
-
-/* Removed glow animations for flat design */
-
-@keyframes dropInTerminal {
+/* Cartoon drop animation */
+@keyframes dropInCartoon {
   0% {
-    transform: translateY(-400px) scale(0.3);
+    transform: translateY(-400px) scale(0.8);
     opacity: 0;
-    filter: blur(2px);
   }
-  70% {
-    transform: translateY(8px) scale(1.1);
-    opacity: 0.9;
-    filter: blur(1px);
-  }
-  85% {
-    transform: translateY(-3px) scale(0.95);
+  60% {
+    transform: translateY(8px) scale(1.2);
     opacity: 1;
-    filter: blur(0px);
+  }
+  80% {
+    transform: translateY(-3px) scale(0.9);
   }
   100% {
     transform: translateY(0) scale(1);
     opacity: 1;
-    filter: blur(0px);
   }
 }
 
-/* 🏆 Winning Animation */
+/* Cartoon winning animation */
 .disc.winning {
   position: relative;
-  animation: epicWinningPulse 1.5s ease-in-out infinite;
+  animation: cartoonWinningBounce 1s ease-in-out infinite;
   z-index: 10;
-  
-  transform: scale(1.1);
+  transform: scale(1.2);
   transition: transform 0.15s ease-out;
 }
 
 .disc.winning::before {
   content: '';
   position: absolute;
-  top: -8px;
-  left: -8px;
-  right: -8px;
-  bottom: -8px;
-  border: 3px solid var(--neon-green);
+  top: -6px;
+  left: -6px;
+  right: -6px;
+  bottom: -6px;
+  border: var(--border-accent);
   border-radius: 50%;
-  animation: winningOutline 2s ease-in-out infinite;
-  
-  box-shadow: 
-    0 0 25px var(--neon-green);
-  
+  animation: winningOutline 1.5s ease-in-out infinite;
   z-index: -1;
 }
 
-.disc.winning::after {
-  content: '';
-  position: absolute;
-  top: -12px;
-  left: -12px;
-  right: -12px;
-  bottom: -12px;
-  border: 2px solid var(--neon-cyan);
-  border-radius: 50%;
-  animation: winningOutline 2s ease-in-out infinite reverse;
-  
-  box-shadow: 
-    0 0 35px var(--neon-cyan);
-  
-  z-index: -2;
-}
-
-@keyframes epicWinningPulse {
+@keyframes cartoonWinningBounce {
   0%, 100% {
-    transform: scale(1);
+    transform: scale(1.2);
   }
   50% {
-    transform: scale(1.15);
+    transform: scale(1.3);
   }
 }
 
 @keyframes winningOutline {
   0%, 100% {
     opacity: 1;
-    transform: scale(1) rotate(0deg);
+    transform: scale(1);
   }
   50% {
-    opacity: 0.6;
-    transform: scale(1.1) rotate(180deg);
+    opacity: 0.7;
+    transform: scale(1.1);
   }
 }

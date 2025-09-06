@@ -1,0 +1,212 @@
+/* 
+ * Core Game Layout Styles - Cartoon King of the Hill Style
+ * Main app container, game info, and player displays
+ */
+
+.app {
+  text-align: center;
+  padding: var(--space-large);
+  
+  /* Cartoon Theme */
+  background: var(--bg-primary);
+  border: var(--border);
+  border-radius: var(--radius);
+  font-family: var(--font);
+  
+  transition: all 0.3s ease;
+  
+  position: relative;
+  overflow: hidden;
+  min-height: 100vh;
+  max-width: 100vw;
+  box-sizing: border-box;
+  
+  /* Performance optimizations */
+  will-change: auto;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+.app > * {
+  position: relative;
+  z-index: 2;
+}
+
+.game-header {
+  margin-bottom: var(--space-large);
+  min-height: 20px;
+}
+
+.players-info {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-large);
+  margin-bottom: var(--space-large);
+}
+
+.player-info {
+  display: flex;
+  align-items: center;
+  gap: var(--space-small);
+  padding: var(--space-base);
+  border-radius: var(--radius);
+  background: var(--bg-secondary);
+  border: var(--border-light);
+  transition: all 0.3s;
+  font-family: var(--font);
+}
+
+.player-info.active {
+  background: var(--bg-accent);
+  border-color: var(--accent);
+  color: var(--accent);
+  transform: translateY(-2px);
+  transition: transform 0.3s ease;
+}
+
+.player-name {
+  font-weight: bold;
+  color: var(--text-primary);
+}
+
+.game-info {
+  margin-bottom: var(--space-large);
+  font-size: var(--text-large);
+  font-weight: bold;
+  color: var(--text-primary);
+  font-family: var(--font);
+}
+
+.current-turn {
+  font-size: var(--text-large);
+  color: var(--accent);
+  font-family: var(--font);
+}
+
+.player-indicator {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  vertical-align: middle;
+  border: var(--border);
+}
+
+.player-indicator.red {
+  background: var(--error);
+}
+
+.player-indicator.yellow {
+  background: var(--accent);
+}
+
+.winner-message,
+.draw-message {
+  font-size: var(--text-large);
+  font-weight: bold;
+  color: var(--accent);
+  font-family: var(--font);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-base);
+}
+
+.game-controls {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-base);
+  margin-top: var(--space-large);
+}
+
+/* Game Container with Background Support */
+.game-container {
+  position: relative;
+  min-height: 100vh;
+  padding: var(--space-large);
+  background: var(--bg-primary);
+  background-image: var(--bg-game);
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+/* No overlay - full background visibility */
+
+/* Ensure game content appears above overlay */
+.game-container > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* Board Container Centering */
+.board-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin: var(--space-large) 0;
+}
+
+/* Ensure board is properly centered */
+.app .board {
+  margin: 0 auto;
+  display: block;
+}
+
+/* Clean cartoon style - no terminal symbols */
+
+/* Background Characters - Simplified for cartoon style */
+.background-characters {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.3; /* More subtle for flat design */
+}
+
+.character {
+  position: absolute;
+  opacity: 0.4;
+  border-radius: var(--radius); /* Cartoon rounded corners */
+}
+
+/* Character positioning - smaller and more subtle */
+.char-1 {
+  top: 10%;
+  left: 5%;
+  width: 60px;
+  height: 60px;
+}
+
+.char-2 {
+  top: 15%;
+  right: 8%;
+  width: 70px;
+  height: 70px;
+}
+
+.char-3 {
+  bottom: 10%;
+  left: 10%;
+  width: 80px;
+  height: 80px;
+}
+
+.char-4 {
+  top: 45%;
+  right: 5%;
+  width: 65px;
+  height: 65px;
+}
+
+.char-5 {
+  bottom: 15%;
+  right: 10%;
+  width: 75px;
+  height: 75px;
+}

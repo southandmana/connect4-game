@@ -1,0 +1,119 @@
+/* 
+ * KING OF THE HILL CARTOON FLAT DESIGN SYSTEM
+ * Simple, clean, and cartoonish like the TV show
+ */
+
+:root {
+  /* KING OF THE HILL COLOR PALETTE */
+  --bg-primary: #f5f3e8;      /* Cream/beige background (Arlen Texas suburban feel) */
+  --bg-secondary: #e8e3d3;    /* Slightly darker beige */
+  --bg-accent: #d4d0c4;       /* Even darker beige for cards */
+  --text-primary: #2c2c2c;    /* Dark brown/black text */
+  --text-secondary: #666666;  /* Gray text */
+  --accent: #c8860d;          /* Golden yellow (propane flame inspired) */
+  --accent-hover: #a06f0b;    /* Darker golden yellow */
+  --success: #7a8b3a;         /* Muted green (lawn/suburban green) */
+  --error: #b8573e;           /* Muted red (brick red) */
+  
+  /* STRESS METER COLORS */
+  --stress-minimal: #7a8b3a;  /* Green - no stress */
+  --stress-low: #c8860d;      /* Golden - low stress */
+  --stress-medium: #d4950f;   /* Orange - medium stress */
+  --stress-high: #c8573e;     /* Orange-red - high stress */
+  --stress-critical: #b8573e; /* Red - critical stress */
+  
+  /* ARCADE MODE BACKGROUNDS */
+  --bg-character-selection: url('/images/backgrounds/character-selection.webp');
+  --bg-story-intro: url('/images/backgrounds/story-intro.webp');
+  --bg-battle-transition: url('/images/backgrounds/battle-transition.webp');
+  --bg-vs-screen: url('/images/backgrounds/vs-screen.webp');
+  --bg-victory-moment: url('/images/backgrounds/victory-moment.webp');
+  --bg-defeat-moment: url('/images/backgrounds/defeat-moment.webp');
+  --bg-advancing: url('/images/backgrounds/advancing-transition.webp');
+  --bg-tournament-results: url('/images/backgrounds/tournament-results.webp');
+  --bg-game: url('/images/backgrounds/game-background.webp');
+  
+  /* SIMPLIFIED TYPOGRAPHY - Only 3 sizes, cartoon-friendly font */
+  --text-small: 0.875rem;     /* 14px - small text */
+  --text-base: 1rem;          /* 16px - normal text */
+  --text-large: 1.5rem;       /* 24px - headers only */
+  
+  /* CARTOON FONT FAMILY - rounded and friendly */
+  --font: "Comic Sans MS", "Chalkboard SE", "Marker Felt", cursive, system-ui, sans-serif;
+  
+  /* SIMPLIFIED SPACING - Only 3 sizes */
+  --space-small: 8px;
+  --space-base: 16px;
+  --space-large: 32px;
+  
+  /* CARTOON BORDERS & SHAPES */
+  --border: 2px solid var(--text-primary);
+  --border-light: 2px solid var(--text-secondary);
+  --border-accent: 2px solid var(--accent);
+  --shadow: none; /* Flat design - no shadows */
+  --radius: 12px; /* More rounded for cartoon feel */
+}
+
+/* GLOBAL RESET */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font);
+  font-size: var(--text-base);
+  color: var(--text-primary);
+  background: var(--bg-primary);
+  line-height: 1.5;
+}
+
+/* CARTOON BUTTON SYSTEM - Rounded and friendly */
+.btn {
+  font-family: var(--font);
+  font-size: var(--text-base);
+  font-weight: bold;
+  padding: var(--space-base);
+  border: var(--border-accent);
+  border-radius: var(--radius);
+  background: var(--bg-secondary);
+  color: var(--accent);
+  cursor: pointer;
+  transition: all 0.2s;
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+.btn:hover {
+  background: var(--accent);
+  color: var(--bg-primary);
+  border-color: var(--accent-hover);
+  transform: translateY(-2px);
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: var(--bg-primary);
+  border-color: var(--accent);
+}
+
+.btn-primary:hover {
+  background: var(--accent-hover);
+  color: var(--bg-primary);
+  border-color: var(--accent-hover);
+  transform: translateY(-2px);
+}
+
+/* CARTOON CARD SYSTEM */
+.card {
+  background: var(--bg-secondary);
+  border: var(--border);
+  border-radius: var(--radius);
+  padding: var(--space-large);
+}
+
+/* CARTOON TEXT CLASSES */
+.text-small { font-size: var(--text-small); color: var(--text-secondary); font-family: var(--font); }
+.text-base { font-size: var(--text-base); font-family: var(--font); }
+.text-large { font-size: var(--text-large); font-weight: bold; font-family: var(--font); }

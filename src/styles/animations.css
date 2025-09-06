@@ -1,0 +1,358 @@
+/* 
+ * Optimized Animation System
+ * Performance-focused keyframes and transitions
+ */
+
+/* Button Animations */
+@keyframes buttonGlow {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; }
+}
+
+@keyframes victoryGlow {
+  0% { 
+    transform: scale(1);
+  }
+  100% { 
+    transform: scale(1.05);
+  }
+}
+
+/* Story Intro Animations */
+@keyframes storyIntroFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes storyTextSequence {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  20% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+  30% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  70% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+}
+
+/* Battle Transition Animations */
+@keyframes battleFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes battleBackground {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes battleTextSequence {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  20% {
+    transform: scale(1.3);
+    opacity: 1;
+  }
+  30% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  60% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.9);
+    opacity: 0.8;
+  }
+}
+
+@keyframes battleSubtitleSequence {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  40% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Victory/Defeat Animations */
+@keyframes victoryFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes defeatFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes victoryBackground {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes defeatBackground {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes victoryTextSequence {
+  0% { transform: scale(0); opacity: 0; }
+  15% { transform: scale(1.2); opacity: 1; }
+  25% { transform: scale(1); opacity: 1; }
+  75% { transform: scale(1); opacity: 1; }
+  100% { transform: scale(0.9); opacity: 0.9; }
+}
+
+@keyframes defeatTextSequence {
+  0% { transform: scale(0); opacity: 0; }
+  15% { transform: scale(1.2); opacity: 1; }
+  25% { transform: scale(1); opacity: 1; }
+  75% { transform: scale(1); opacity: 1; }
+  100% { transform: scale(0.9); opacity: 0.9; }
+}
+
+@keyframes victorySubtitleSequence {
+  0% { opacity: 0; transform: translateY(30px); }
+  30% { opacity: 0; transform: translateY(30px); }
+  50% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes defeatSubtitleSequence {
+  0% { opacity: 0; transform: translateY(30px); }
+  30% { opacity: 0; transform: translateY(30px); }
+  50% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes victoryDescriptionSequence {
+  0% { opacity: 0; transform: translateY(20px); }
+  50% { opacity: 0; transform: translateY(20px); }
+  70% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes defeatDescriptionSequence {
+  0% { opacity: 0; transform: translateY(20px); }
+  50% { opacity: 0; transform: translateY(20px); }
+  70% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Advancing Transition Animations */
+@keyframes advancingFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes advancingBackground {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes advancingTextSequence {
+  0% { transform: scale(0); opacity: 0; }
+  20% { transform: scale(1.1); opacity: 1; }
+  30% { transform: scale(1); opacity: 1; }
+  80% { transform: scale(1); opacity: 1; }
+  100% { transform: scale(0.95); opacity: 0.95; }
+}
+
+@keyframes advancingSubtitleSequence {
+  0% { opacity: 0; transform: translateY(30px); }
+  35% { opacity: 0; transform: translateY(30px); }
+  55% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes advancingDescriptionSequence {
+  0% { opacity: 0; transform: translateY(20px); }
+  55% { opacity: 0; transform: translateY(20px); }
+  75% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Optimized Character Animations (Performance-focused) */
+@keyframes floatUpDown {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+@keyframes rotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0px) scaleY(1); }
+  50% { transform: translateY(-30px) scaleY(0.95); }
+}
+
+@keyframes sway {
+  0%, 100% { transform: translateX(0px) rotate(0deg); }
+  25% { transform: translateX(-10px) rotate(-5deg); }
+  75% { transform: translateX(10px) rotate(5deg); }
+}
+
+@keyframes walkAcross {
+  0% { left: -150px; transform: scaleX(1); }
+  49% { transform: scaleX(1); }
+  50% { left: calc(100% + 150px); transform: scaleX(-1); }
+  99% { transform: scaleX(-1); }
+  100% { left: -150px; transform: scaleX(1); }
+}
+
+@keyframes bobbing {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-5px); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg) scale(1); }
+  50% { transform: rotate(180deg) scale(1.1); }
+  100% { transform: rotate(360deg) scale(1); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 0.9; }
+}
+
+@keyframes dance {
+  0%, 100% { transform: rotate(-10deg) translateX(0px); }
+  25% { transform: rotate(10deg) translateX(-5px); }
+  50% { transform: rotate(-10deg) translateX(5px); }
+  75% { transform: rotate(10deg) translateX(-5px); }
+}
+
+/* Matrix Particle Effects */
+@keyframes floatUp {
+  0% {
+    transform: translateY(100vh) translateX(0px) scale(1);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100px) translateX(50px) scale(0);
+    opacity: 0;
+  }
+}
+
+@keyframes flicker {
+  0% { opacity: 0.8; transform: scale(1); }
+  100% { opacity: 1; transform: scale(1.2); }
+}
+
+/* FLAT DESIGN ENHANCEMENT ANIMATIONS */
+@keyframes progressPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+@keyframes iconFloat {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+  100% { transform: translateY(0px); }
+}
+
+@keyframes multiplierGlow {
+  0% { opacity: 0.7; }
+  100% { opacity: 1; }
+}
+
+@keyframes criticalPulse {
+  0% { transform: scale(1); box-shadow: 0 0 0 0 var(--error); }
+  50% { transform: scale(1.05); box-shadow: 0 0 0 4px transparent; }
+  100% { transform: scale(1); box-shadow: 0 0 0 0 var(--error); }
+}
+
+@keyframes frameGlow {
+  0% { border-color: var(--accent); }
+  50% { border-color: var(--accent-hover); }
+  100% { border-color: var(--accent); }
+}
+
+@keyframes scorePopIn {
+  0% { transform: scale(0) rotate(0deg); opacity: 0; }
+  50% { transform: scale(1.2) rotate(5deg); opacity: 0.8; }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+
+@keyframes progressSlideIn {
+  0% { transform: translateY(20px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes visualFrameEntry {
+  0% { 
+    transform: scale(0.9) translateY(20px); 
+    opacity: 0;
+  }
+  100% { 
+    transform: scale(1) translateY(0); 
+    opacity: 1;
+  }
+}
+
+/* Unused/Legacy Animations (commented out for performance)
+@keyframes charactersFloat - removed for performance
+@keyframes playerPulse - removed for performance  
+@keyframes turnGlow - removed for performance
+@keyframes finalBossGlow - removed for performance
+@keyframes vsGlow - removed for performance
+@keyframes resultPulse - removed for performance
+@keyframes statusGlow - removed for performance
+*/

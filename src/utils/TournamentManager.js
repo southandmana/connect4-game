@@ -109,16 +109,16 @@ class TournamentManager {
   // Get opponent description for VS screen
   getOpponentDescription() {
     const descriptions = [
-      'A newcomer to the fiery tournament. Still learning the ways of Connect 4.',
-      'Growing stronger with each flame. Shows promise in strategic thinking.',
+      'A newcomer to the cyber tournament. Still learning the ways of Connect 4.',
+      'Growing stronger with each code cycle. Shows promise in strategic thinking.',
       'A seasoned fighter who scouts the board for opportunities.',
-      'Aggressive and tactical, this warrior fights with blazing intensity.',
-      'Elite guard of the underworld. Defends positions with calculated precision.',
-      'A knight of hellfire with advanced strategic knowledge.',
-      'Master of dark tactics. Few have survived this challenge.',
-      'Infernal master of the game. Every move is calculated for maximum impact.',
-      'Death incarnate. The Soul Reaper harvests victories mercilessly.',
-      '👑 THE FINAL BOSS: Lord of the underworld. Undefeated champion of Connect 4.'
+      'Aggressive and tactical, this warrior fights with digital intensity.',
+      'Elite guard of the system. Defends positions with calculated precision.',
+      'A knight of neon light with advanced strategic knowledge.',
+      'Master of cyber tactics. Few have survived this challenge.',
+      'Digital master of the game. Every move is calculated for maximum impact.',
+      'Death incarnate. The Ghost Hacker harvests victories mercilessly.',
+      '👑 THE FINAL BOSS: Lord of the mainframe. Undefeated champion of Connect 4.'
     ]
     
     return descriptions[this.currentOpponent - 1] || 'A mysterious opponent from the depths.'

@@ -12,30 +12,9 @@ function PlayerCard({
 }) {
   const [stressEmoji, setStressEmoji] = useState('')
   const [showEmoji, setShowEmoji] = useState(false)
-  const [isHealing, setIsHealing] = useState(false)
-  const [previousStressLevel, setPreviousStressLevel] = useState(0)
 
   // Removed debug logging for performance
 
-  // Detect stress relief and trigger healing animation
-  useEffect(() => {
-    const stressDecrease = previousStressLevel - stressLevel
-    
-    // Trigger healing animation if stress decreased by 2% or more
-    if (stressDecrease >= 2 && previousStressLevel > 0) {
-      console.log(`💚 Stress relief detected: ${stressDecrease.toFixed(1)}% decrease for ${characterName}`)
-      setIsHealing(true)
-      
-      // Remove healing class after animation completes
-      const healingTimer = setTimeout(() => {
-        setIsHealing(false)
-      }, 1200) // Match animation duration
-      
-      return () => clearTimeout(healingTimer)
-    }
-    
-    setPreviousStressLevel(stressLevel)
-  }, [stressLevel, previousStressLevel, characterName])
 
   // Determine stress emoji based on turn duration and stress level
   useEffect(() => {
@@ -67,11 +46,11 @@ function PlayerCard({
 
   // Optimized stress level color calculation (memoized)
   const stressColor = React.useMemo(() => {
-    if (stressLevel > 80) return '#ff0000' // Critical - red
-    if (stressLevel > 60) return '#ff4500' // High - orange-red  
-    if (stressLevel > 40) return '#ffa500' // Medium - orange
-    if (stressLevel > 20) return '#ffff00' // Low - yellow
-    return '#00ff00' // Minimal - green
+    if (stressLevel > 80) return 'var(--stress-critical)' // Critical - red
+    if (stressLevel > 60) return 'var(--stress-high)' // High - orange-red  
+    if (stressLevel > 40) return 'var(--stress-medium)' // Medium - orange
+    if (stressLevel > 20) return 'var(--stress-low)' // Low - yellow
+    return 'var(--stress-minimal)' // Minimal - green
   }, [stressLevel])
 
   // Optimized card urgency state calculation (memoized)
@@ -84,13 +63,6 @@ function PlayerCard({
 
   return (
     <div className={`player-card ${isActive ? 'active' : ''} ${cardState} ${isPlayer ? 'player' : 'opponent'}`}>
-      {/* Stress Emoji */}
-      {showEmoji && (
-        <div className="stress-emoji">
-          <span className="emoji-icon">{stressEmoji}</span>
-        </div>
-      )}
-
       {/* Character Portrait */}
       <div className="character-portrait-container">
         <img 
@@ -119,12 +91,18 @@ function PlayerCard({
       <div className="stress-meter-container">
         <div className="stress-label">
           <span>Stress</span>
-          <span className="stress-percentage">{Math.round(stressLevel)}%</span>
+          <div className="stress-info">
+            <span className="stress-percentage">{Math.round(stressLevel)}%</span>
+            {/* Stress Emoji - next to percentage */}
+            {showEmoji && (
+              <span className="stress-emoji-inline">{stressEmoji}</span>
+            )}
+          </div>
         </div>
         <div className="stress-meter">
-          <div className={`stress-meter-bg ${isHealing ? 'healing' : ''}`}>
+          <div className="stress-meter-bg">
             <div 
-              className={`stress-meter-fill ${isHealing ? 'healing' : ''}`}
+              className="stress-meter-fill"
               style={{ 
                 width: `${Math.min(stressLevel, 100)}%`,
                 backgroundColor: stressColor

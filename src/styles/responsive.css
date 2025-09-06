@@ -1,0 +1,314 @@
+/* 
+ * Responsive Design System
+ * Mobile-first approach with performance optimizations
+ */
+
+/* iPhone X and similar (375px width) */
+@media (max-width: 414px) {
+  .app {
+    padding: 5px;
+    border-radius: 15px;
+    border-width: 2px;
+    min-height: 100vh;
+  }
+  
+  .game-header {
+    margin-bottom: 10px;
+  }
+  
+  .players-info {
+    gap: 20px;
+    margin-bottom: 15px;
+  }
+  
+  .player-info {
+    padding: 8px 15px;
+    font-size: var(--text-sm);
+  }
+  
+  .game-info {
+    font-size: var(--text-base);
+    margin-bottom: 15px;
+  }
+  
+  .game-controls {
+    gap: 10px;
+    margin-top: 15px;
+  }
+  
+  .reset-button,
+  .mute-button {
+    padding: 10px 20px;
+    font-size: var(--text-base);
+  }
+  
+  .room-code {
+    padding: 10px 15px;
+    margin-bottom: 15px;
+  }
+  
+  .room-code .code {
+    font-size: var(--text-2xl);
+    letter-spacing: 2px;
+    padding: 8px 15px;
+  }
+  
+  .copy-button {
+    padding: 6px 12px;
+    font-size: var(--text-sm);
+  }
+  
+  .character {
+    width: 40px !important;
+    height: 40px !important;
+  }
+  
+  /* Story and transition text scaling */
+  .story-text h1 {
+    font-size: var(--text-4xl);
+  }
+  
+  .battle-text h1 {
+    font-size: var(--text-5xl);
+  }
+  
+  .battle-subtitle {
+    font-size: var(--text-lg);
+  }
+  
+  .victory-text h1, 
+  .defeat-text h1 {
+    font-size: var(--text-4xl);
+  }
+  
+  .victory-subtitle, 
+  .defeat-subtitle {
+    font-size: var(--text-xl);
+  }
+  
+  .victory-description, 
+  .defeat-description {
+    font-size: var(--text-base);
+  }
+  
+  .advancing-text h1 {
+    font-size: var(--text-4xl);
+  }
+  
+  .advancing-subtitle {
+    font-size: var(--text-lg);
+  }
+  
+  .advancing-description {
+    font-size: var(--text-base);
+  }
+  
+  .vs-text {
+    font-size: var(--text-2xl);
+  }
+  
+  .battle-result {
+    font-size: var(--text-lg);
+  }
+  
+  .battle-status {
+    font-size: var(--text-sm);
+  }
+}
+
+/* Tablets and small laptops */
+@media (max-width: 768px) and (min-width: 415px) {
+  .app {
+    padding: 8px;
+  }
+  
+  .character {
+    width: 50px !important;
+    height: 50px !important;
+  }
+  
+  /* Story and transition text scaling */
+  .story-text h1 {
+    font-size: var(--text-4xl);
+  }
+  
+  .battle-text h1 {
+    font-size: var(--text-6xl);
+  }
+  
+  .battle-subtitle {
+    font-size: var(--text-xl);
+  }
+  
+  .victory-text h1, 
+  .defeat-text h1 {
+    font-size: var(--text-6xl);
+  }
+  
+  .victory-subtitle, 
+  .defeat-subtitle {
+    font-size: var(--text-xl);
+  }
+  
+  .victory-description, 
+  .defeat-description {
+    font-size: var(--text-lg);
+  }
+  
+  .advancing-text h1 {
+    font-size: var(--text-5xl);
+  }
+  
+  .advancing-subtitle {
+    font-size: var(--text-2xl);
+  }
+  
+  .advancing-description {
+    font-size: var(--text-lg);
+  }
+  
+  /* Battle Interface Responsive */
+  .fighters-display {
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .vs-divider {
+    order: -1;
+    margin-bottom: 10px;
+  }
+  
+  .vs-text {
+    font-size: var(--text-4xl);
+  }
+  
+  .battle-result {
+    font-size: var(--text-xl);
+  }
+  
+  .battle-status {
+    font-size: var(--text-base);
+  }
+}
+
+/* Large screens */
+@media (min-width: 1200px) {
+  .app {
+    padding: 30px;
+  }
+}
+
+/* Ultra-wide screens */
+@media (min-width: 1920px) {
+  .app {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  
+  .fighters-display {
+    max-width: 1000px;
+  }
+}
+
+/* High DPI displays */
+@media (-webkit-min-device-pixel-ratio: 2), 
+       (min-resolution: 192dpi) {
+  .character {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+  }
+}
+
+/* Landscape orientation adjustments */
+@media (max-height: 500px) and (orientation: landscape) {
+  .app {
+    padding: 10px;
+  }
+  
+  .game-header {
+    margin-bottom: 10px;
+  }
+  
+  .players-info {
+    margin-bottom: 10px;
+  }
+  
+  .game-info {
+    margin-bottom: 10px;
+    font-size: var(--text-lg);
+  }
+  
+  .story-intro,
+  .battle-transition,
+  .victory-moment,
+  .defeat-moment,
+  .advancing-transition {
+    padding: 20px;
+  }
+  
+  .story-text h1,
+  .battle-text h1,
+  .victory-text h1,
+  .defeat-text h1,
+  .advancing-text h1 {
+    font-size: var(--text-4xl);
+  }
+  
+  .battle-subtitle,
+  .victory-subtitle,
+  .defeat-subtitle,
+  .advancing-subtitle {
+    font-size: var(--text-lg);
+  }
+}
+
+/* Accessibility - Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  .character {
+    animation: none !important;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  :root {
+    --bg-primary: #ffffff;
+    --bg-secondary: #f0f0f0;
+    --bg-accent: #e0e0e0;
+    --text-primary: #000000;
+    --text-secondary: #333333;
+    --accent: #0066cc;
+    --accent-hover: #0055aa;
+    --success: #006600;
+    --error: #cc0000;
+  }
+}
+
+/* Print styles */
+@media print {
+  .app {
+    background: white !important;
+    color: black !important;
+    border: 1px solid black !important;
+    box-shadow: none !important;
+  }
+  
+  .background-characters,
+  .character,
+  .dev-test-buttons {
+    display: none !important;
+  }
+  
+  .game-controls {
+    display: none !important;
+  }
+}

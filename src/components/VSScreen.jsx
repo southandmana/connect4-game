@@ -44,9 +44,9 @@ function VSScreen({ playerCharacter, opponentName, opponentNumber, opponentDescr
       <div className={`vs-content ${showContent ? 'show' : ''}`}>
         {/* Background Effects */}
         <div className="vs-background">
-          <div className="flame-effect left"></div>
-          <div className="flame-effect right"></div>
-          <div className="sparks"></div>
+          <div className="cyber-effect left"></div>
+          <div className="cyber-effect right"></div>
+          <div className="data-streams"></div>
         </div>
 
         {/* Main VS Layout */}

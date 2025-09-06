@@ -1,254 +1,108 @@
-import React, { useState, useEffect, useRef } from "react";
-import Board from "./components/Board";
+import React, { useState, useEffect } from "react";
 import MainMenu from "./components/MainMenu";
-import CharacterSelection from "./components/CharacterSelection";
-import Cinematic from "./components/Cinematic";
-import VSScreen from "./components/VSScreen";
-import PlayerCard from "./components/PlayerCard";
-import OnlineGameManager from "./utils/OnlineGameManager";
+import ArcadeMode from "./components/ArcadeMode";
+import OnlineMode from "./components/OnlineMode";
+import Board from "./components/Board";
 import SoundManager from "./utils/SoundManager";
-import TournamentManager from "./utils/TournamentManager";
-import "./App.css";
+import "./styles/theme.css";
+import "./styles/game.css";
+import "./styles/animations.css";
+import "./styles/buttons.css";
+import "./styles/responsive.css";
+
+// Game configuration constants
+const GAME_CONFIG = {
+  BOARD_ROWS: 6,
+  BOARD_COLS: 7,
+  WINNING_LENGTH: 4,
+  PLAYER_COLORS: {
+    PLAYER_ONE: "red",
+    PLAYER_TWO: "yellow"
+  },
+  DEFAULT_NAMES: {
+    PLAYER_ONE: "Player 1",
+    PLAYER_TWO: "Player 2"
+  },
+  GAME_MODES: {
+    ARCADE: "arcade",
+    CREATE: "create",
+    JOIN: "join",
+    LOCAL: "local"
+  }
+};
+
+// Helper to create empty board
+const createEmptyBoard = () => 
+  Array(GAME_CONFIG.BOARD_ROWS).fill(null).map(() => Array(GAME_CONFIG.BOARD_COLS).fill(null));
 
 function App() {
+  // High-level application state
   const [gameMode, setGameMode] = useState(null);
-  const [board, setBoard] = useState(
-    Array(6)
-      .fill(null)
-      .map(() => Array(7).fill(null)),
-  );
-  const [currentPlayer, setCurrentPlayer] = useState("red");
-  const [winner, setWinner] = useState(null);
-  const [isDraw, setIsDraw] = useState(false);
   const [playerName, setPlayerName] = useState("");
-  const [opponentName, setOpponentName] = useState("");
-  const [roomCode, setRoomCode] = useState("");
-  const [isWaiting, setIsWaiting] = useState(false);
-  const [isMuted, setIsMuted] = useState(false);
-
-  // Arcade mode specific state
-  const [selectedCharacter, setSelectedCharacter] = useState(null);
-  const [arcadeStage, setArcadeStage] = useState("characterSelect"); // 'characterSelect', 'storyIntro', 'openingCinematic', 'vsScreen', 'game', 'endingCinematic', etc.
-  const [tournamentManager, setTournamentManager] = useState(null);
-  const [currentAI, setCurrentAI] = useState(null);
-  const [isPlayerTurn, setIsPlayerTurn] = useState(true);
-  const [winningPieces, setWinningPieces] = useState([]);
-
-  // Stress System State
-  const [playerStress, setPlayerStress] = useState(0);
-  const [opponentStress, setOpponentStress] = useState(0);
-  const [turnStartTime, setTurnStartTime] = useState(Date.now());
-  const [turnDuration, setTurnDuration] = useState(0);
-  const [maxTurnTime, setMaxTurnTime] = useState(30); // 30 seconds max per turn
-  const [gameStartTime, setGameStartTime] = useState(null);
-  const [totalScore, setTotalScore] = useState(0);
-  const [defeatReason, setDefeatReason] = useState(null); // 'stress', 'opponent', or null
+  const [roomCodeInput, setRoomCodeInput] = useState("");
   
-  // Cumulative Time Tracking - total time spent by each player across ALL turns
-  const [playerCumulativeTime, setPlayerCumulativeTime] = useState(0); // seconds
-  const [opponentCumulativeTime, setOpponentCumulativeTime] = useState(0); // seconds
+  // Local multiplayer state (simple mode)
+  const [localGameState, setLocalGameState] = useState({
+    board: createEmptyBoard(),
+    currentPlayer: GAME_CONFIG.PLAYER_COLORS.PLAYER_ONE,
+    winner: null,
+    isDraw: false,
+    winningPieces: []
+  });
 
-  const onlineGameRef = useRef(null);
-  const playerColorRef = useRef(null);
-  const aiMoveTimeoutRef = useRef(null);
-  const stressTimerRef = useRef(null);
-  const turnTimerRef = useRef(null);
-
+  // Initialize sound manager on mount
   useEffect(() => {
     SoundManager.init();
+    
+    // Play background music when in game
     if (gameMode) {
       SoundManager.playBackgroundMusic();
     }
-
-    // Test Firebase connection
-    import("./firebase").then(({ database }) => {
-      import("firebase/database").then(({ ref, set }) => {
-        const testRef = ref(database, "test");
-        set(testRef, { message: "Firebase connected!", timestamp: Date.now() })
-          .then(() => console.log("Firebase test write successful"))
-          .catch((error) =>
-            console.error("Firebase test write failed:", error),
-          );
-      });
-    });
-
-    // Only disconnect when component unmounts, not when gameMode changes
+    
     return () => {
       SoundManager.stopBackgroundMusic();
     };
   }, [gameMode]);
 
-  // Separate useEffect for cleanup on unmount only
-  useEffect(() => {
-    return () => {
-      if (onlineGameRef.current) {
-        onlineGameRef.current.disconnect();
-      }
-    };
-  }, []);
-
-  // Story intro auto-progression
-  useEffect(() => {
-    if (arcadeStage === "storyIntro") {
-      const transitionTimer = setTimeout(() => {
-        // Transition directly to cinematic - no fade out needed
-        setArcadeStage("openingCinematic");
-      }, 2700); // Small pause after text animation completes
-
-      return () => clearTimeout(transitionTimer);
-    }
-  }, [arcadeStage]);
-
-  // Battle transition auto-progression
-  useEffect(() => {
-    if (arcadeStage === "battleTransition") {
-      const battleTimer = setTimeout(() => {
-        handleBattleTransitionComplete();
-      }, 2000); // 2 seconds for dramatic "FIGHT!" moment
-
-      return () => clearTimeout(battleTimer);
-    }
-  }, [arcadeStage]);
-
-  // Victory/Defeat moment auto-progression
-  useEffect(() => {
-    if (arcadeStage === "victoryMoment") {
-      const victoryTimer = setTimeout(() => {
-        handleVictoryMomentComplete();
-      }, 3000); // 3 seconds to savor the victory
-
-      return () => clearTimeout(victoryTimer);
-    }
-  }, [arcadeStage]);
-
-  useEffect(() => {
-    if (arcadeStage === "defeatMoment") {
-      const defeatTimer = setTimeout(() => {
-        handleDefeatMomentComplete();
-      }, 3000); // 3 seconds to process the defeat
-
-      return () => clearTimeout(defeatTimer);
-    }
-  }, [arcadeStage]);
-
-  // Advancing transition auto-progression
-  useEffect(() => {
-    if (arcadeStage === "advancingTransition") {
-      const advancingTimer = setTimeout(() => {
-        handleAdvancingTransitionComplete();
-      }, 2500); // 2.5 seconds for advancement message
-
-      return () => clearTimeout(advancingTimer);
-    }
-  }, [arcadeStage]);
-
-  // UNIFIED STRESS & TIMER SYSTEM - Fixed all bugs
-  useEffect(() => {
-    // Clear all timers when not in active game
-    if (arcadeStage !== "game" || !currentAI || winner || isDraw) {
-      if (stressTimerRef.current) {
-        clearInterval(stressTimerRef.current);
-        stressTimerRef.current = null;
-      }
-      if (turnTimerRef.current) {
-        clearInterval(turnTimerRef.current);
-        turnTimerRef.current = null;
-      }
-      return;
-    }
-
-    // Start timing from cumulative time for current player
-    const turnStart = Date.now();
-    setTurnStartTime(turnStart);
+  // Handle starting a new game from main menu
+  const handleStartGame = (mode, name, code = null) => {
+    setPlayerName(name);
+    setRoomCodeInput(code || "");
+    setGameMode(mode);
     
-    // Get starting cumulative time for current player
-    const startingCumulativeTime = isPlayerTurn ? playerCumulativeTime : opponentCumulativeTime;
-    setTurnDuration(0);
+    // Reset local game state if switching to local mode
+    if (mode === GAME_CONFIG.GAME_MODES.LOCAL) {
+      setLocalGameState({
+        board: createEmptyBoard(),
+        currentPlayer: GAME_CONFIG.PLAYER_COLORS.PLAYER_ONE,
+        winner: null,
+        isDraw: false,
+        winningPieces: []
+      });
+    }
+  };
 
-    // Clear existing timers before creating new ones
-    if (stressTimerRef.current) clearInterval(stressTimerRef.current);
-    if (turnTimerRef.current) clearInterval(turnTimerRef.current);
+  // Handle returning to main menu
+  const handleBackToMenu = () => {
+    setGameMode(null);
+    setPlayerName("");
+    setRoomCodeInput("");
+    SoundManager.stopBackgroundMusic();
+  };
 
-    console.log(`🎯 Starting timer for ${isPlayerTurn ? 'PLAYER' : 'AI'} turn. Cumulative time: ${startingCumulativeTime}s`);
-
-    // Single unified timer - updates every 1 second for smooth visuals
-    stressTimerRef.current = setInterval(() => {
-      const now = Date.now();
-      const currentTurnElapsed = (now - turnStart) / 1000;
-      const totalCumulativeTime = startingCumulativeTime + currentTurnElapsed;
-      const cumulativeStress = Math.min(100, (totalCumulativeTime / maxTurnTime) * 100);
-      
-      // Update duration for visual timer (current turn only)
-      setTurnDuration(currentTurnElapsed);
-
-      // CUMULATIVE STRESS LOGIC - builds from previous accumulated time
-      if (isPlayerTurn) {
-        setPlayerStress(cumulativeStress);
-        
-        // Give AI relief during player thinking time (balance for player getting relief during AI thinking)
-        const playerThinkingRelief = 1.0; // 1 second of player thinking = 1 second of AI stress relief
-        setOpponentCumulativeTime(prev => Math.max(0, prev - playerThinkingRelief));
-        
-      } else {
-        setOpponentStress(cumulativeStress);
-        // Player stress stays the same during AI turn
-      }
-
-      // Check for timeout/stress death
-      if (totalCumulativeTime >= maxTurnTime) {
-        console.log(`⏰ Timeout! ${isPlayerTurn ? 'Player' : 'AI'} took too long`);
-        
-        // Save final elapsed time before timeout
-        if (isPlayerTurn) {
-          setPlayerCumulativeTime(prev => prev + currentTurnElapsed);
-        } else {
-          setOpponentCumulativeTime(prev => prev + currentTurnElapsed);
-        }
-        
-        // Clear timers before handling game completion
-        if (stressTimerRef.current) {
-          clearInterval(stressTimerRef.current);
-          stressTimerRef.current = null;
-        }
-
-        if (isPlayerTurn) {
-          setWinner("yellow");
-          setTimeout(() => {
-            handleGameComplete(false, 'stress');
-          }, 1500);
-        } else {
-          setWinner("red");
-          setTimeout(() => {
-            handleGameComplete(true);
-          }, 1500);
-        }
-        return;
-      }
-    }, 1000); // Update every second for smooth visuals
-
-    return () => {
-      if (stressTimerRef.current) {
-        clearInterval(stressTimerRef.current);
-        stressTimerRef.current = null;
-      }
-    };
-  }, [isPlayerTurn, arcadeStage, currentAI, winner, isDraw]); // Complete dependency list
-
-
+  // Check winner helper for local mode
   const checkWinner = (board, row, col, player) => {
     const checkDirection = (deltaRow, deltaCol) => {
       let count = 1;
       let positions = [{ row, col }];
 
       // Check forward direction
-      for (let i = 1; i < 4; i++) {
+      for (let i = 1; i < GAME_CONFIG.WINNING_LENGTH; i++) {
         const newRow = row + deltaRow * i;
         const newCol = col + deltaCol * i;
         if (
-          newRow >= 0 &&
-          newRow < 6 &&
-          newCol >= 0 &&
-          newCol < 7 &&
+          newRow >= 0 && newRow < GAME_CONFIG.BOARD_ROWS &&
+          newCol >= 0 && newCol < GAME_CONFIG.BOARD_COLS &&
           board[newRow][newCol] === player
         ) {
           count++;
@@ -259,14 +113,12 @@ function App() {
       }
 
       // Check backward direction
-      for (let i = 1; i < 4; i++) {
+      for (let i = 1; i < GAME_CONFIG.WINNING_LENGTH; i++) {
         const newRow = row - deltaRow * i;
         const newCol = col - deltaCol * i;
         if (
-          newRow >= 0 &&
-          newRow < 6 &&
-          newCol >= 0 &&
-          newCol < 7 &&
+          newRow >= 0 && newRow < GAME_CONFIG.BOARD_ROWS &&
+          newCol >= 0 && newCol < GAME_CONFIG.BOARD_COLS &&
           board[newRow][newCol] === player
         ) {
           count++;
@@ -276,10 +128,9 @@ function App() {
         }
       }
 
-      return count >= 4 ? positions.slice(0, 4) : null;
+      return count >= GAME_CONFIG.WINNING_LENGTH ? positions.slice(0, GAME_CONFIG.WINNING_LENGTH) : null;
     };
 
-    // Check all directions
     const horizontal = checkDirection(0, 1);
     const vertical = checkDirection(1, 0);
     const diagonal1 = checkDirection(1, 1);
@@ -291,960 +142,163 @@ function App() {
       : { hasWinner: false, winningPieces: [] };
   };
 
+  // Check for draw in local mode
   const checkDraw = (board) => {
     return board[0].every((cell) => cell !== null);
   };
 
-  const handleOnlineGameUpdate = (gameData) => {
-    if (gameData.host && gameData.guest) {
-      setIsWaiting(false);
-      setOpponentName(
-        playerColorRef.current === "red"
-          ? gameData.guest.name
-          : gameData.host.name,
-      );
-    } else {
-      setIsWaiting(true);
-    }
-
-    // Convert board string from Firebase back to array
-    let boardData = Array(6)
-      .fill(null)
-      .map(() => Array(7).fill(null));
-    if (gameData.boardString) {
-      console.log(
-        "Converting board string from Firebase:",
-        gameData.boardString,
-      );
-      const rows = gameData.boardString.split(";");
-      boardData = rows.map((rowString) =>
-        rowString
-          .split(",")
-          .map((cell) => (cell === "null" || cell === "" ? null : cell)),
-      );
-      console.log("Converted board data:", boardData);
-    } else if (gameData.board && Array.isArray(gameData.board)) {
-      // Fallback to old board format if it exists and is an array
-      boardData = gameData.board;
-    }
-
-    console.log("Setting board to:", boardData);
-    setBoard(boardData);
-    setCurrentPlayer(gameData.currentPlayer || "red");
-    setWinner(gameData.winner);
-    setIsDraw(gameData.isDraw || false);
-
-    if (gameData.winner && gameData.winner !== winner) {
-      SoundManager.playWinSound();
-    }
-  };
-
-  const handleCharacterSelect = (character) => {
-    setSelectedCharacter(character);
-    setPlayerName(character.name);
-    setArcadeStage("storyIntro");
-  };
-
-  const handleCinematicComplete = () => {
-    // After opening cinematic, start tournament with VS screen
-    const tournament = new TournamentManager();
-    const firstAI = tournament.startTournament();
-    setTournamentManager(tournament);
-    setCurrentAI(firstAI);
-    setArcadeStage("vsScreen");
-  };
-
-  const handleVSScreenComplete = () => {
-    // After VS screen, show battle transition first
-    setArcadeStage("battleTransition");
-  };
-
-  const handleBattleTransitionComplete = () => {
-    // After battle transition, start the actual game
-    // React 18+ automatically batches state updates
-    setArcadeStage("game");
-    setBoard(
-      Array(6)
-        .fill(null)
-        .map(() => Array(7).fill(null)),
-    );
-    setCurrentPlayer("red"); // Player always goes first
-    setWinner(null);
-    setIsDraw(false);
-    setWinningPieces([]); // Clear any winning animation
-    setDefeatReason(null); // Clear defeat reason for new game
-    setIsPlayerTurn(true);
-    // Reset stress for new game
-    setPlayerStress(0);
-    setOpponentStress(0);
-    setTurnDuration(0);
-    setGameStartTime(Date.now());
+  // Handle disc drop for local mode
+  const handleLocalDropDisc = (col) => {
+    const { board, currentPlayer, winner, isDraw } = localGameState;
     
-    // Reset cumulative time tracking for new game
-    setPlayerCumulativeTime(0);
-    setOpponentCumulativeTime(0);
-  };
-
-  const handleGameComplete = (playerWon, reason = null) => {
-    if (!tournamentManager) return;
-
-    // Clear any pending AI moves
-    if (aiMoveTimeoutRef.current) {
-      clearTimeout(aiMoveTimeoutRef.current);
-      aiMoveTimeoutRef.current = null;
-    }
-
-    // Store the defeat reason for tournament results
-    if (!playerWon && reason) {
-      setDefeatReason(reason);
-    }
-
-    // Store the tournament result for later use
-    const result = tournamentManager.handleMatchResult(playerWon);
-
-    // First show victory or defeat moment
-    if (playerWon) {
-      setArcadeStage("victoryMoment");
-    } else {
-      setArcadeStage("defeatMoment");
-    }
-  };
-
-  const handleVictoryMomentComplete = () => {
-    if (!tournamentManager) return;
-
-    // Check if tournament is complete after victory
-    console.log("Checking tournament completion:", {
-      isComplete: tournamentManager.isComplete,
-      isVictorious: tournamentManager.isVictorious,
-      currentOpponent: tournamentManager.currentOpponent
-    });
-    if (tournamentManager.isComplete && tournamentManager.isVictorious) {
-      // Add delay for dramatic effect and prevent click bubbling
-      setTimeout(() => {
-        setArcadeStage("endingCinematic");
-      }, 800);
-    } else {
-      // Advance to next opponent
-      const nextAI = tournamentManager.getCurrentOpponent();
-      setCurrentAI(nextAI);
-      setArcadeStage("advancingTransition");
-    }
-  };
-
-  const handleDefeatMomentComplete = () => {
-    if (!tournamentManager) return;
-
-    // Show tournament results after defeat
-    setArcadeStage("tournamentResults");
-  };
-
-  const handleAdvancingTransitionComplete = () => {
-    // After advancing transition, show next VS screen
-    setArcadeStage("vsScreen");
-  };
-
-  const handleBackToMenu = () => {
-    // Clear AI timeout if running
-    if (aiMoveTimeoutRef.current) {
-      clearTimeout(aiMoveTimeoutRef.current);
-      aiMoveTimeoutRef.current = null;
-    }
-
-    setGameMode(null);
-    setArcadeStage("characterSelect");
-    setSelectedCharacter(null);
-    setTournamentManager(null);
-    setCurrentAI(null);
-    setIsPlayerTurn(true);
-  };
-
-  const handleStartGame = async (mode, name, code = null) => {
-    // Handle arcade mode separately (doesn't need online setup)
-    if (mode === "arcade") {
-      setGameMode(mode);
-      setArcadeStage("characterSelect");
-      return;
-    }
-
-    setPlayerName(name);
-    setGameMode(mode);
-
-    if (mode === "create") {
-      onlineGameRef.current = new OnlineGameManager();
-      try {
-        const roomId = await onlineGameRef.current.createRoom(
-          name,
-          handleOnlineGameUpdate,
-          (error) => console.error("Game error:", error),
-        );
-        console.log("Room created with ID:", roomId);
-        setRoomCode(roomId);
-        playerColorRef.current = "red";
-        setIsWaiting(true);
-        console.log("Room code state set to:", roomId);
-      } catch (error) {
-        console.error("Failed to create room:", error);
-        if (
-          confirm(
-            "Failed to create room. Please check your internet connection.\n\nWould you like to return to the main menu?",
-          )
-        ) {
-          setGameMode(null);
-        }
-        // If user cancels, they stay in the current state to retry
-      }
-    } else if (mode === "join") {
-      onlineGameRef.current = new OnlineGameManager();
-      try {
-        await onlineGameRef.current.joinRoom(
-          code,
-          name,
-          handleOnlineGameUpdate,
-          (error) => {
-            console.error("Game error:", error);
-            if (
-              confirm(
-                "Room not found! Please check the room code.\n\nWould you like to return to the main menu?",
-              )
-            ) {
-              setGameMode(null);
-            }
-            // If user cancels, they stay to retry with a different code
-          },
-        );
-        setRoomCode(code);
-        playerColorRef.current = "yellow";
-      } catch (error) {
-        console.error("Failed to join room:", error);
-        if (
-          confirm(
-            "Failed to join room. Please check the room code.\n\nWould you like to return to the main menu?",
-          )
-        ) {
-          setGameMode(null);
-        }
-        // If user cancels, they stay in the current state to retry
-      }
-    } else if (mode === "local") {
-      setOpponentName("Player 2");
-    }
-  };
-
-  const makeAIMove = (currentBoard) => {
-    if (!currentAI || winner || isDraw) return;
-
-    const aiCol = currentAI.getMove(currentBoard);
-    if (aiCol === -1) return; // No valid moves
-
-    const newBoard = currentBoard.map((row) => [...row]);
-
-    for (let row = 5; row >= 0; row--) {
-      if (newBoard[row][aiCol] === null) {
-        newBoard[row][aiCol] = "yellow"; // AI is always yellow
-        setBoard(newBoard);
-
+    if (winner || isDraw) return;
+    
+    const newBoard = board.map((row) => [...row]);
+    
+    for (let row = GAME_CONFIG.BOARD_ROWS - 1; row >= 0; row--) {
+      if (newBoard[row][col] === null) {
+        newBoard[row][col] = currentPlayer;
+        
         SoundManager.playDropSound();
-
-        const aiWinResult = checkWinner(newBoard, row, aiCol, "yellow");
-        if (aiWinResult.hasWinner) {
-          setWinner("yellow");
-          setWinningPieces(aiWinResult.winningPieces);
+        
+        const winResult = checkWinner(newBoard, row, col, currentPlayer);
+        const hasWinner = winResult.hasWinner;
+        const hasDraw = !hasWinner && checkDraw(newBoard);
+        
+        setLocalGameState({
+          board: newBoard,
+          currentPlayer: hasWinner || hasDraw ? currentPlayer : 
+            (currentPlayer === GAME_CONFIG.PLAYER_COLORS.PLAYER_ONE ? 
+              GAME_CONFIG.PLAYER_COLORS.PLAYER_TWO : 
+              GAME_CONFIG.PLAYER_COLORS.PLAYER_ONE),
+          winner: hasWinner ? currentPlayer : null,
+          isDraw: hasDraw,
+          winningPieces: hasWinner ? winResult.winningPieces : []
+        });
+        
+        if (hasWinner) {
           SoundManager.playWinSound();
-          // Show epic winning animation for 3.5 seconds before transitioning
-          setTimeout(() => {
-            handleGameComplete(false, 'opponent'); // AI won (player lost)
-          }, 3500);
-        } else if (checkDraw(newBoard)) {
-          setIsDraw(true);
-          handleGameComplete(false, 'opponent'); // Draw (counts as loss in tournament)
-        } else {
-          // Save current turn elapsed time and calculate AI stress relief
-          if (turnStartTime) {
-            const currentTurnElapsed = (Date.now() - turnStartTime) / 1000;
-            setOpponentCumulativeTime(prev => {
-              const newCumulativeTime = prev + currentTurnElapsed;
-              
-              // Calculate AI stress relief for completing the turn (same logic as player)
-              const baseTurnRelief = 3; // 3% base relief for any completed turn
-              const quickPlayBonus = currentTurnElapsed < 5 ? (5 - currentTurnElapsed) * 2 : 0; // AI typically moves in 1s = 8% bonus
-              const totalRelief = baseTurnRelief + quickPlayBonus;
-              
-              // Apply stress relief (convert % to seconds of relief)
-              const stressReliefInSeconds = (totalRelief / 100) * maxTurnTime;
-              const relievedCumulativeTime = Math.max(0, newCumulativeTime - stressReliefInSeconds);
-              
-              console.log(`🤖 AI turn relief: ${totalRelief.toFixed(1)}% (${stressReliefInSeconds.toFixed(1)}s) - Turn time: ${currentTurnElapsed.toFixed(1)}s`);
-              
-              return relievedCumulativeTime;
-            });
-          }
-          
-          // Switch back to player turn - React 18+ automatically batches
-          setCurrentPlayer("red");
-          setIsPlayerTurn(true);
-          // Timer reset handled by unified timer useEffect
         }
+        
         break;
       }
     }
   };
 
-  const dropDisc = async (col) => {
-    if (winner || isDraw) return;
-
-    if (gameMode === "create" || gameMode === "join") {
-      if (isWaiting) {
-        alert("Waiting for opponent to join!");
-        return;
-      }
-
-      console.log(
-        "Online mode click - currentPlayer:",
-        currentPlayer,
-        "playerColor:",
-        playerColorRef.current,
-      );
-      if (currentPlayer !== playerColorRef.current) {
-        console.log(
-          "It's not your turn! Current turn:",
-          currentPlayer,
-          "Your color:",
-          playerColorRef.current,
-        );
-        return;
-      }
-      console.log("It's your turn, proceeding with move");
-
-      for (let row = 5; row >= 0; row--) {
-        if (board[row][col] === null) {
-          const newBoard = board.map((row) => [...row]);
-          newBoard[row][col] = currentPlayer;
-
-          SoundManager.playDropSound();
-
-          const winResult = checkWinner(newBoard, row, col, currentPlayer);
-          const hasWinner = winResult.hasWinner;
-          const hasDraw = !hasWinner && checkDraw(newBoard);
-
-          console.log("Updating game state with new board...");
-          const updateData = {
-            board: newBoard,
-            currentPlayer: currentPlayer === "red" ? "yellow" : "red",
-            winner: hasWinner ? currentPlayer : null,
-            winningPieces: hasWinner ? winResult.winningPieces : [],
-            isDraw: hasDraw,
-            lastMove: { row, col, player: currentPlayer },
-          };
-          console.log("Update data:", updateData);
-
-          try {
-            // Convert board to string format for Firebase (Firebase doesn't handle nested arrays well)
-            const boardString = updateData.board
-              .map((row) => row.join(","))
-              .join(";");
-            const firebaseData = {
-              ...updateData,
-              boardString: boardString,
-            };
-            console.log("Sending board string to Firebase:", boardString);
-            await onlineGameRef.current.updateGameState(firebaseData);
-            console.log("✅ Game state updated successfully");
-          } catch (error) {
-            console.error("❌ Failed to update game state:", error);
-          }
-
-          if (hasWinner) {
-            SoundManager.playWinSound();
-          }
-          break;
-        }
-      }
-    } else if (gameMode === "arcade") {
-      // Arcade mode with AI opponent
-      if (!isPlayerTurn || currentPlayer !== "red") return;
-
-      const newBoard = board.map((row) => [...row]);
-
-      for (let row = 5; row >= 0; row--) {
-        if (newBoard[row][col] === null) {
-          newBoard[row][col] = "red"; // Player is always red
-          setBoard(newBoard);
-
-          SoundManager.playDropSound();
-
-          const winResult = checkWinner(newBoard, row, col, "red");
-          if (winResult.hasWinner) {
-            setWinner("red");
-            setWinningPieces(winResult.winningPieces);
-            SoundManager.playWinSound();
-            // Show epic winning animation for 3.5 seconds before transitioning
-            setTimeout(() => {
-              handleGameComplete(true); // Player won
-            }, 3500);
-          } else if (checkDraw(newBoard)) {
-            setIsDraw(true);
-            handleGameComplete(false, 'opponent'); // Draw (counts as loss in tournament)
-          } else {
-            // Save current turn elapsed time and calculate stress relief
-            if (turnStartTime) {
-              const currentTurnElapsed = (Date.now() - turnStartTime) / 1000;
-              setPlayerCumulativeTime(prev => {
-                const newCumulativeTime = prev + currentTurnElapsed;
-                
-                // Calculate stress relief for completing the turn
-                const baseTurnRelief = 3; // 3% base relief for any completed turn
-                const quickPlayBonus = currentTurnElapsed < 5 ? (5 - currentTurnElapsed) * 2 : 0; // Extra relief for turns under 5 seconds
-                const totalRelief = baseTurnRelief + quickPlayBonus;
-                
-                // Apply stress relief (convert % to seconds of relief)
-                const stressReliefInSeconds = (totalRelief / 100) * maxTurnTime;
-                const relievedCumulativeTime = Math.max(0, newCumulativeTime - stressReliefInSeconds);
-                
-                console.log(`🎯 Player turn relief: ${totalRelief.toFixed(1)}% (${stressReliefInSeconds.toFixed(1)}s) - Turn time: ${currentTurnElapsed.toFixed(1)}s`);
-                
-                return relievedCumulativeTime;
-              });
-            }
-            
-            // Switch to AI turn - React 18+ automatically batches
-            setCurrentPlayer("yellow");
-            setIsPlayerTurn(false);
-            // Timer reset handled by unified timer useEffect
-
-            // AI makes move after delay with stress relief during thinking
-            aiMoveTimeoutRef.current = setTimeout(() => {
-              // Apply AI thinking time stress relief to player
-              const aiThinkingRelief = 1.0; // 1 second of AI thinking = 1 second of stress relief
-              setPlayerCumulativeTime(prev => Math.max(0, prev - aiThinkingRelief));
-              console.log(`🤖 AI thinking relief: ${aiThinkingRelief}s stress relief for player`);
-              
-              makeAIMove(newBoard);
-            }, 1000); // 1 second delay for dramatic effect
-          }
-          break;
-        }
-      }
-    } else {
-      // Local play mode (fallback)
-      const newBoard = board.map((row) => [...row]);
-
-      for (let row = 5; row >= 0; row--) {
-        if (newBoard[row][col] === null) {
-          newBoard[row][col] = currentPlayer;
-          setBoard(newBoard);
-
-          SoundManager.playDropSound();
-
-          const localWinResult = checkWinner(newBoard, row, col, currentPlayer);
-          if (localWinResult.hasWinner) {
-            setWinner(currentPlayer);
-            setWinningPieces(localWinResult.winningPieces);
-            SoundManager.playWinSound();
-          } else if (checkDraw(newBoard)) {
-            setIsDraw(true);
-          } else {
-            setCurrentPlayer(currentPlayer === "red" ? "yellow" : "red");
-          }
-          break;
-        }
-      }
-    }
-  };
-
-  const resetGame = () => {
-    if (onlineGameRef.current) {
-      onlineGameRef.current.disconnect();
-      onlineGameRef.current = null;
-    }
-
-    setBoard(
-      Array(6)
-        .fill(null)
-        .map(() => Array(7).fill(null)),
-    );
-    setCurrentPlayer("red");
-    setWinner(null);
-    setIsDraw(false);
-    setWinningPieces([]); // Clear winning animation
-    setDefeatReason(null); // Clear defeat reason
-    setGameMode(null);
-    setRoomCode("");
-    setIsWaiting(false);
-    setOpponentName("");
-    playerColorRef.current = null;
-
-    // Reset arcade mode state
-    setSelectedCharacter(null);
-    setArcadeStage("characterSelect");
-    setTournamentManager(null);
-    setCurrentAI(null);
-    setIsPlayerTurn(true);
-
-    // Clear AI timeout if running
-    if (aiMoveTimeoutRef.current) {
-      clearTimeout(aiMoveTimeoutRef.current);
-      aiMoveTimeoutRef.current = null;
-    }
-  };
-
-  const toggleMute = () => {
-    const muted = SoundManager.toggleMute();
-    setIsMuted(muted);
-  };
-
+  // Render the appropriate component based on game mode
   if (!gameMode) {
     return <MainMenu onStartGame={handleStartGame} />;
   }
 
-  // Arcade mode system
-  if (gameMode === "arcade") {
-    if (arcadeStage === "characterSelect") {
-      return (
-        <CharacterSelection
-          onCharacterSelect={handleCharacterSelect}
-          onBack={handleBackToMenu}
-        />
-      );
-    }
+  if (gameMode === GAME_CONFIG.GAME_MODES.ARCADE) {
+    return (
+      <ArcadeMode 
+        onBackToMenu={handleBackToMenu}
+      />
+    );
+  }
 
-    if (arcadeStage === "storyIntro") {
-      return (
-        <div className="story-intro">
-          <div className="story-text">
-            <h1>{selectedCharacter?.name}'s Story</h1>
-          </div>
-        </div>
-      );
-    }
+  if (gameMode === GAME_CONFIG.GAME_MODES.CREATE || gameMode === GAME_CONFIG.GAME_MODES.JOIN) {
+    return (
+      <OnlineMode
+        mode={gameMode}
+        playerName={playerName}
+        roomCodeInput={roomCodeInput}
+        onBackToMenu={handleBackToMenu}
+      />
+    );
+  }
 
-    if (arcadeStage === "openingCinematic") {
-      return (
-        <Cinematic
-          character={selectedCharacter}
-          type="opening"
-          onComplete={handleCinematicComplete}
-        />
-      );
-    }
-
-    if (arcadeStage === "vsScreen" && currentAI && tournamentManager) {
-      return (
-        <VSScreen
-          playerCharacter={selectedCharacter}
-          opponentName={currentAI.name}
-          opponentNumber={tournamentManager?.currentOpponent || 1}
-          opponentDescription={tournamentManager?.getOpponentDescription() || "A mysterious opponent awaits..."}
-          onComplete={handleVSScreenComplete}
-        />
-      );
-    }
-
-    if (arcadeStage === "battleTransition") {
-      return (
-        <div className="battle-transition">
-          <div className="battle-text">
-            <h1>FIGHT!</h1>
-            <div className="battle-subtitle">Let the battle begin!</div>
-          </div>
-        </div>
-      );
-    }
-
-    if (arcadeStage === "victoryMoment") {
-      return (
-        <div className="victory-moment">
-          <div className="victory-text">
-            <h1>VICTORY!</h1>
-            <div className="victory-subtitle">
-              🏆 {selectedCharacter?.name} emerges triumphant!
-            </div>
-            <div className="victory-description">
-              Another opponent falls before your strategic might!
-            </div>
-          </div>
-        </div>
-      );
-    }
-
-    if (arcadeStage === "defeatMoment") {
-      return (
-        <div className="defeat-moment">
-          <div className="defeat-text">
-            <h1>DEFEAT</h1>
-            <div className="defeat-subtitle">
-              💀 {currentAI?.name} has bested you!
-            </div>
-            <div className="defeat-description">
-              Even the strongest warriors must face defeat...
-            </div>
-          </div>
-        </div>
-      );
-    }
-
-    if (arcadeStage === "advancingTransition") {
-      const nextOpponent = tournamentManager?.getCurrentOpponent();
-      return (
-        <div className="advancing-transition">
-          <div className="advancing-text">
-            <h1>ADVANCING</h1>
-            <div className="advancing-subtitle">
-              ⚔️ Preparing for the next challenger...
-            </div>
-            <div className="advancing-description">
-              Next Opponent:{" "}
-              <span className="opponent-name">{nextOpponent?.name}</span>
-            </div>
-          </div>
-        </div>
-      );
-    }
-
-    if (arcadeStage === "game" && currentAI) {
-      // Arcade tournament gameplay
-      const progress = tournamentManager?.getProgress();
-      const difficultyInfo = tournamentManager?.getDifficultyInfo();
-
-      return (
-        <div className="app">
-          {/* Tournament Info Header */}
-          <div className="tournament-header">
-            <div className="tournament-progress">
-              <h3>🏆 Tournament Progress: {progress?.currentOpponent}/10</h3>
-              <p>
-                Opponent: {currentAI.name} ({difficultyInfo?.name})
-              </p>
-              {difficultyInfo?.isFinalBoss && (
-                <p className="final-boss-indicator">👑 FINAL BOSS!</p>
-              )}
-            </div>
-          </div>
-
-          {/* Character Battle Interface */}
-          <div className="battle-interface">
-            <div className="fighters-display">
-              <PlayerCard
-                character={selectedCharacter}
-                characterName={selectedCharacter?.name || "Player"}
-                isActive={isPlayerTurn && !winner && !isDraw}
-                isPlayer={true}
-                stressLevel={playerStress}
-                turnDuration={turnDuration}
-                maxTurnTime={maxTurnTime}
-              />
-              
-              <div className="vs-divider">
-                <div className="vs-text">VS</div>
-                {winner ? (
-                  <div className="battle-result">
-                    {winner === "red" ? "🏆 VICTORY!" : "💀 DEFEAT!"}
-                  </div>
-                ) : isDraw ? (
-                  <div className="battle-result">⚖️ DRAW!</div>
-                ) : (
-                  <div className="battle-status">
-                    {isPlayerTurn ? "Your Move" : `${currentAI.name}'s Move`}
-                  </div>
-                )}
-              </div>
-
-              <PlayerCard
-                character={null} // AI doesn't have character data like player
-                characterName={currentAI.name}
-                isActive={!isPlayerTurn && !winner && !isDraw}
-                isPlayer={false}
-                stressLevel={opponentStress}
-                turnDuration={turnDuration}
-                maxTurnTime={maxTurnTime}
-              />
-            </div>
-          </div>
-
-          <Board board={board} onColumnClick={dropDisc} winningPieces={winningPieces} />
-
-          <div className="game-controls">
-            <button className="reset-button" onClick={resetGame}>
-              Quit Tournament
-            </button>
-            <button className="mute-button" onClick={toggleMute}>
-              {isMuted ? "🔇 Unmute" : "🔊 Mute"}
-            </button>
-          </div>
-
-          {/* Development Test Buttons */}
-          <div className="dev-test-buttons">
-            <div className="dev-label">DEV TOOLS</div>
-            <button 
-              className="dev-button"
-              onClick={() => {
-                // Skip to match 10 (final boss)
-                if (tournamentManager) {
-                  tournamentManager.currentOpponent = 10;
-                  tournamentManager.wins = 9;
-                  const finalBossAI = new (require('./utils/AIOpponent.js').default)(10, 10);
-                  tournamentManager.currentAI = finalBossAI;
-                  setCurrentAI(finalBossAI);
-                  
-                  // Reset game state for new match
-                  setBoard(Array(6).fill(null).map(() => Array(7).fill(null)));
-                  setCurrentPlayer("red");
-                  setWinner(null);
-                  setIsDraw(false);
-                  setWinningPieces([]);
-                  setIsPlayerTurn(true);
-                  setPlayerStress(0);
-                  setOpponentStress(0);
-                  setPlayerCumulativeTime(0);
-                  setOpponentCumulativeTime(0);
-                  setTurnDuration(0);
-                  setGameStartTime(Date.now());
-                  
-                  console.log("🎮 DEV: Skipped to Final Boss (Match 10)");
-                }
-              }}
-            >
-              Skip to Match 10
-            </button>
-            <button 
-              className="dev-button dev-lose"
-              onClick={() => {
-                setWinner("yellow");
-                setTimeout(() => {
-                  handleGameComplete(false, 'opponent');
-                }, 1000);
-                console.log("🎮 DEV: Forced match loss");
-              }}
-            >
-              Lose Match
-            </button>
-            <button 
-              className="dev-button dev-win"
-              onClick={() => {
-                setWinner("red");
-                setTimeout(() => {
-                  handleGameComplete(true);
-                }, 1000);
-                console.log("🎮 DEV: Forced match win");
-              }}
-            >
-              Win Match
-            </button>
-          </div>
-        </div>
-      );
-    }
-
-    if (arcadeStage === "endingCinematic") {
-      console.log("🎬 Rendering ending cinematic, tournament state:", {
-        isVictorious: tournamentManager?.isVictorious,
-        character: selectedCharacter,
-        characterId: selectedCharacter?.id,
-        characterName: selectedCharacter?.name
-      });
-      const isVictorious = tournamentManager?.isVictorious || false;
-
-      return (
-        <Cinematic
-          character={selectedCharacter}
-          type={isVictorious ? "victory" : "defeat"}
-          onComplete={() => {
-            console.log("Cinematic complete, showing tournament results");
-            // Show results screen instead of immediately going to menu
-            setArcadeStage("tournamentResults");
-          }}
-        />
-      );
-    }
-
-    if (arcadeStage === "tournamentResults") {
-      const progress = tournamentManager?.getProgress();
-      const isVictorious = tournamentManager?.isVictorious || false;
-
-      return (
-        <div className="app">
-          <div className="tournament-results">
-            <h1 className="results-title">
-              {isVictorious ? "🏆 TOURNAMENT CHAMPION!" : 
-               defeatReason === 'stress' ? "💀 YOU DIED" : "😢 YOU LOST"}
-            </h1>
-
-            <div className="results-info">
-              {isVictorious ? (
-                <p className="victory-message">
-                  Congratulations! You defeated all {progress?.totalOpponents}{" "}
-                  opponents and claimed the championship!
-                </p>
-              ) : defeatReason === 'stress' ? (
-                <p className="defeat-message">
-                  You defeated yourself. You had a heart attack.
-                  <br />
-                  You won {progress?.wins} match
-                  {progress?.wins !== 1 ? "es" : ""} before dying.
-                </p>
-              ) : (
-                <p className="defeat-message">
-                  {currentAI?.name} defeated you. You suck.
-                  <br />
-                  You won {progress?.wins} match
-                  {progress?.wins !== 1 ? "es" : ""} before falling.
-                </p>
-              )}
-            </div>
-
-            <div className="results-controls">
-              <button className="menu-button" onClick={resetGame}>
-                Return to Menu
-              </button>
-              {!isVictorious && (
-                <button
-                  className="retry-button menu-button"
-                  onClick={async () => {
-                    // Retry the same opponent you lost to
-                    const retryOpponent = progress?.currentOpponent || 1;
-                    const retryWins = Math.max(0, (progress?.wins || 0));
-                    
-                    const tournament = new TournamentManager();
-                    tournament.currentOpponent = retryOpponent;
-                    tournament.wins = retryWins;
-                    tournament.losses = 0;
-                    tournament.isComplete = false;
-                    tournament.isVictorious = false;
-                    tournament.tournamentStarted = true;
-                    
-                    const AIOpponentModule = await import('./utils/AIOpponent.js');
-                    const retryAI = new AIOpponentModule.default(retryOpponent, retryOpponent);
-                    tournament.currentAI = retryAI;
-                    
-                    setTournamentManager(tournament);
-                    setCurrentAI(retryAI);
-                    setArcadeStage("vsScreen");
-                    setBoard(
-                      Array(6)
-                        .fill(null)
-                        .map(() => Array(7).fill(null)),
-                    );
-                    setCurrentPlayer("red");
-                    setWinner(null);
-                    setIsDraw(false);
-                    setWinningPieces([]); // Clear winning animation
-                    setIsPlayerTurn(true);
-                  }}
-                >
-                  Try Again
-                </button>
-              )}
-            </div>
-          </div>
-        </div>
-      );
-    }
-
-    // Fallback placeholder for any other stages
+  if (gameMode === GAME_CONFIG.GAME_MODES.LOCAL) {
+    // Simple local multiplayer mode
+    const { board, currentPlayer, winner, isDraw, winningPieces } = localGameState;
+    const [isMuted, setIsMuted] = useState(false);
+    
+    const toggleMute = () => {
+      const muted = SoundManager.toggleMute();
+      setIsMuted(muted);
+    };
+    
     return (
       <div className="app">
-        <div className="arcade-placeholder">
-          <h1>🎮 Arcade Stage: {arcadeStage}</h1>
-          <p>Selected Character: {selectedCharacter?.name}</p>
-          <p>Current AI: {currentAI?.name}</p>
-          <button className="reset-button" onClick={resetGame}>
+        {/* Background decoration */}
+        <div className="background-characters">
+          <img src="/images/characters/tai.png" className="character char-1" alt="" />
+          <img src="/images/characters/siole.png" className="character char-2" alt="" />
+          <img src="/images/characters/gianni.png" className="character char-3" alt="" />
+          <img src="/images/characters/jon.png" className="character char-4" alt="" />
+          <img src="/images/characters/tai.png" className="character char-5" alt="" />
+        </div>
+
+        <div className="players-info">
+          <div className={`player-info ${currentPlayer === GAME_CONFIG.PLAYER_COLORS.PLAYER_ONE ? "active" : ""}`}>
+            <span className="player-indicator red"></span>
+            <span className="player-name">{playerName || GAME_CONFIG.DEFAULT_NAMES.PLAYER_ONE}</span>
+          </div>
+          <div className={`player-info ${currentPlayer === GAME_CONFIG.PLAYER_COLORS.PLAYER_TWO ? "active" : ""}`}>
+            <span className="player-indicator yellow"></span>
+            <span className="player-name">{GAME_CONFIG.DEFAULT_NAMES.PLAYER_TWO}</span>
+          </div>
+        </div>
+
+        <div className="game-info">
+          {winner ? (
+            <div className="winner-message">
+              <span className={`player-indicator ${winner}`}></span>
+              {winner === GAME_CONFIG.PLAYER_COLORS.PLAYER_ONE ? 
+                `${playerName || GAME_CONFIG.DEFAULT_NAMES.PLAYER_ONE} wins!` : 
+                `${GAME_CONFIG.DEFAULT_NAMES.PLAYER_TWO} wins!`}
+            </div>
+          ) : isDraw ? (
+            <div className="draw-message">It's a draw!</div>
+          ) : (
+            <div className="current-turn">
+              {currentPlayer === GAME_CONFIG.PLAYER_COLORS.PLAYER_ONE ? 
+                `${playerName || GAME_CONFIG.DEFAULT_NAMES.PLAYER_ONE}'s turn` : 
+                `${GAME_CONFIG.DEFAULT_NAMES.PLAYER_TWO}'s turn`}
+            </div>
+          )}
+        </div>
+
+        <Board 
+          board={board} 
+          onColumnClick={handleLocalDropDisc} 
+          winningPieces={winningPieces} 
+        />
+
+        <div className="game-controls">
+          <button 
+            className="reset-button" 
+            onClick={() => {
+              setLocalGameState({
+                board: createEmptyBoard(),
+                currentPlayer: GAME_CONFIG.PLAYER_COLORS.PLAYER_ONE,
+                winner: null,
+                isDraw: false,
+                winningPieces: []
+              });
+            }}
+          >
+            Reset Game
+          </button>
+          <button className="reset-button" onClick={handleBackToMenu}>
             Back to Menu
+          </button>
+          <button className="mute-button" onClick={toggleMute}>
+            {isMuted ? "🔇 Unmute" : "🔊 Mute"}
           </button>
         </div>
       </div>
     );
   }
 
+  // Fallback - shouldn't happen
   return (
     <div className="app">
-      {/* Background Characters */}
-      <div className="background-characters">
-        <img src="/images/southern.png" className="character char-1" alt="" />
-        <img src="/images/southern.png" className="character char-2" alt="" />
-        <img src="/images/southern.png" className="character char-3" alt="" />
-        <img src="/images/southern.png" className="character char-4" alt="" />
-        <img src="/images/southern.png" className="character char-5" alt="" />
-      </div>
-
-      <div className="game-header">
-        {roomCode && (
-          <div className="room-code">
-            <div className="code-label">Share this code with your friend:</div>
-            <div className="code-display">
-              <span className="code">{roomCode}</span>
-              <button
-                className="copy-button"
-                onClick={() => {
-                  navigator.clipboard.writeText(roomCode);
-                  alert(`Room code ${roomCode} copied to clipboard!`);
-                }}
-              >
-                📋 Copy
-              </button>
-            </div>
-            {isWaiting && (
-              <div className="waiting">Waiting for opponent to join...</div>
-            )}
-          </div>
-        )}
-      </div>
-
-      <div className="players-info">
-        <div
-          className={`player-info ${currentPlayer === "red" ? "active" : ""}`}
-        >
-          <span className="player-indicator red"></span>
-          <span className="player-name">
-            {playerColorRef.current === "red"
-              ? playerName
-              : gameMode === "local"
-                ? playerName
-                : opponentName}
-          </span>
-        </div>
-        <div
-          className={`player-info ${currentPlayer === "yellow" ? "active" : ""}`}
-        >
-          <span className="player-indicator yellow"></span>
-          <span className="player-name">
-            {playerColorRef.current === "yellow" ? playerName : opponentName}
-          </span>
-        </div>
-      </div>
-
-      <div className="game-info">
-        {winner ? (
-          <div className="winner-message">
-            <span className={`player-indicator ${winner}`}></span>
-            {winner === playerColorRef.current
-              ? "You win!"
-              : gameMode === "local"
-                ? `${winner === "red" ? playerName : opponentName} wins!`
-                : `${opponentName} wins!`}
-          </div>
-        ) : isDraw ? (
-          <div className="draw-message">It's a draw!</div>
-        ) : (
-          <div className="current-turn">
-            {gameMode === "create" || gameMode === "join"
-              ? currentPlayer === playerColorRef.current
-                ? "Your turn"
-                : `${opponentName}'s turn`
-              : currentPlayer === "red"
-                ? `${playerName}'s turn`
-                : `${opponentName}'s turn`}
-          </div>
-        )}
-      </div>
-
-      <Board board={board} onColumnClick={dropDisc} winningPieces={winningPieces} />
-
-      <div className="game-controls">
-        <button className="reset-button" onClick={resetGame}>
+      <div className="error-message">
+        <h2>Unknown game mode: {gameMode}</h2>
+        <button className="menu-button" onClick={handleBackToMenu}>
           Back to Menu
-        </button>
-        <button className="mute-button" onClick={toggleMute}>
-          {isMuted ? "🔇 Unmute" : "🔊 Mute"}
         </button>
       </div>
     </div>

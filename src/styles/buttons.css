@@ -1,0 +1,102 @@
+/* 
+ * CARTOON BUTTON SYSTEM
+ * King of the Hill inspired flat cartoon buttons
+ */
+
+/* Base button - cartoon style */
+button,
+.button,
+.reset-button,
+.mute-button,
+.menu-button,
+.retry-button,
+.copy-button,
+.skip-button {
+  font-family: var(--font);
+  font-size: var(--text-base);
+  font-weight: bold;
+  padding: var(--space-base);
+  border: var(--border-accent);
+  border-radius: var(--radius);
+  background: var(--bg-secondary);
+  color: var(--accent);
+  cursor: pointer;
+  transition: all 0.2s;
+  text-transform: none;
+  letter-spacing: normal;
+  box-shadow: none;
+}
+
+button:hover,
+.button:hover,
+.reset-button:hover,
+.mute-button:hover,
+.menu-button:hover,
+.retry-button:hover,
+.copy-button:hover,
+.skip-button:hover {
+  background: var(--accent);
+  color: var(--bg-primary);
+  border-color: var(--accent-hover);
+  transform: translateY(-2px);
+  box-shadow: none;
+}
+
+/* Primary buttons */
+.menu-button,
+.reset-button {
+  background: var(--accent);
+  color: var(--bg-primary);
+  border-color: var(--accent);
+}
+
+.menu-button:hover,
+.reset-button:hover {
+  background: var(--accent-hover);
+  color: var(--bg-primary);
+  border-color: var(--accent-hover);
+  transform: translateY(-2px);
+}
+
+/* Remove all complex styling */
+button:active,
+.button:active,
+.reset-button:active,
+.mute-button:active,
+.menu-button:active,
+.retry-button:active,
+.copy-button:active,
+.skip-button:active {
+  transform: none;
+  box-shadow: none;
+}
+
+/* Cartoon dev test buttons */
+.dev-test-buttons {
+  position: fixed;
+  bottom: var(--space-base);
+  right: var(--space-base);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-small);
+}
+
+.dev-button {
+  padding: var(--space-small);
+  font-size: var(--text-small);
+  font-family: var(--font);
+  font-weight: bold;
+  background: var(--bg-accent);
+  border: var(--border-light);
+  border-radius: var(--radius);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.dev-button:hover {
+  background: var(--accent);
+  color: var(--bg-primary);
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}

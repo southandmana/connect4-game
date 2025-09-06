@@ -1,8 +1,30 @@
+// Game configuration constants
+const GAME_CONFIG = {
+  BOARD_ROWS: 6,
+  BOARD_COLS: 7,
+  WINNING_LENGTH: 4,
+  MIN_DIFFICULTY: 1,
+  MAX_DIFFICULTY: 10,
+  SCORES: {
+    WIN: 1000,
+    LOSE: -1000,
+    FOUR_IN_ROW: 100,
+    THREE_WITH_EMPTY: 10,
+    THREE_BLOCK: -80,
+    TWO_WITH_EMPTY: 2
+  },
+  RANDOMNESS: {
+    BASE: 0.5,
+    REDUCTION: 0.05,
+    MIN: 0.05
+  }
+}
+
 class AIOpponent {
   constructor(difficulty = 1, opponentNumber = 1) {
-    this.difficulty = Math.max(1, Math.min(10, difficulty))
+    this.difficulty = Math.max(GAME_CONFIG.MIN_DIFFICULTY, Math.min(GAME_CONFIG.MAX_DIFFICULTY, difficulty))
     this.opponentNumber = opponentNumber
-    this.color = 'yellow' // AI is always yellow, player is red
+    this.color = 'yellow'
     this.maxDepth = this.getMaxDepth()
     this.randomness = this.getRandomness()
     this.name = this.getOpponentName()
@@ -10,52 +32,48 @@ class AIOpponent {
 
   getOpponentName() {
     const opponents = [
-      'Flame Novice',      // 1
-      'Ember Warrior',     // 2
-      'Fire Scout',        // 3
-      'Blaze Fighter',     // 4
-      'Inferno Guard',     // 5
-      'Hellfire Knight',   // 6
-      'Demon Strategist',  // 7
-      'Infernal Master',   // 8
-      'Soul Reaper',       // 9
-      'The Dark Lord'      // 10 - Final Boss
+      'Code Novice',
+      'Cyber Warrior',
+      'Net Scout',
+      'Data Fighter',
+      'System Guard',
+      'Neon Knight',
+      'AI Strategist',
+      'Digital Master',
+      'Ghost Hacker',
+      'The Mainframe'
     ]
     return opponents[this.opponentNumber - 1] || `Opponent ${this.opponentNumber}`
   }
 
   getMaxDepth() {
-    // Difficulty 1-3: Look ahead 1-2 moves (easy)
-    // Difficulty 4-6: Look ahead 3-4 moves (medium)
-    // Difficulty 7-8: Look ahead 5-6 moves (hard)
-    // Difficulty 9-10: Look ahead 7-8 moves (expert)
     return Math.min(2 + Math.floor(this.difficulty / 2), 8)
   }
 
   getRandomness() {
-    // Higher difficulty = less randomness (more consistent play)
-    // Difficulty 1-2: 40% random moves
-    // Difficulty 3-4: 30% random moves
-    // Difficulty 5-6: 20% random moves
-    // Difficulty 7-8: 10% random moves
-    // Difficulty 9-10: 5% random moves
-    return Math.max(0.05, 0.5 - (this.difficulty * 0.05))
+    return Math.max(
+      GAME_CONFIG.RANDOMNESS.MIN, 
+      GAME_CONFIG.RANDOMNESS.BASE - (this.difficulty * GAME_CONFIG.RANDOMNESS.REDUCTION)
+    )
   }
 
   // Main AI move selection
   getMove(board) {
-    const validMoves = this.getValidMoves(board)
-    
-    if (validMoves.length === 0) return -1
+    try {
+      const validMoves = this.getValidMoves(board)
+      
+      if (validMoves.length === 0) return -1
 
-    // Early game: Add some randomness for lower difficulties
-    if (Math.random() < this.randomness) {
-      return validMoves[Math.floor(Math.random() * validMoves.length)]
+      if (Math.random() < this.randomness) {
+        return validMoves[Math.floor(Math.random() * validMoves.length)]
+      }
+
+      const bestMove = this.minimax(board, this.maxDepth, true, -Infinity, Infinity)
+      return bestMove.col !== undefined ? bestMove.col : validMoves[0]
+    } catch (error) {
+      const validMoves = this.getValidMoves(board)
+      return validMoves.length > 0 ? validMoves[0] : -1
     }
-
-    // Use minimax algorithm for strategic play
-    const bestMove = this.minimax(board, this.maxDepth, true, -Infinity, Infinity)
-    return bestMove.col !== undefined ? bestMove.col : validMoves[0]
   }
 
   // Minimax algorithm with alpha-beta pruning
@@ -63,8 +81,8 @@ class AIOpponent {
     const winner = this.checkWinner(board)
     
     // Terminal states
-    if (winner === 'yellow') return { score: 1000 + depth } // AI wins
-    if (winner === 'red') return { score: -1000 - depth }   // Player wins
+    if (winner === 'yellow') return { score: GAME_CONFIG.SCORES.WIN + depth }
+    if (winner === 'red') return { score: GAME_CONFIG.SCORES.LOSE - depth }
     if (this.isBoardFull(board) || depth === 0) {
       return { score: this.evaluateBoard(board) }
     }
@@ -98,36 +116,57 @@ class AIOpponent {
   // Board evaluation function
   evaluateBoard(board) {
     let score = 0
+    const horizontalLimit = GAME_CONFIG.BOARD_COLS - GAME_CONFIG.WINNING_LENGTH + 1
+    const verticalLimit = GAME_CONFIG.BOARD_ROWS - GAME_CONFIG.WINNING_LENGTH + 1
 
-    // Evaluate all possible 4-piece windows
-    // Horizontal
-    for (let row = 0; row < 6; row++) {
-      for (let col = 0; col < 4; col++) {
-        const window = [board[row][col], board[row][col + 1], board[row][col + 2], board[row][col + 3]]
+    // Horizontal windows
+    for (let row = 0; row < GAME_CONFIG.BOARD_ROWS; row++) {
+      for (let col = 0; col < horizontalLimit; col++) {
+        const window = [
+          board[row][col], 
+          board[row][col + 1], 
+          board[row][col + 2], 
+          board[row][col + 3]
+        ]
         score += this.evaluateWindow(window)
       }
     }
 
-    // Vertical
-    for (let col = 0; col < 7; col++) {
-      for (let row = 0; row < 3; row++) {
-        const window = [board[row][col], board[row + 1][col], board[row + 2][col], board[row + 3][col]]
+    // Vertical windows
+    for (let col = 0; col < GAME_CONFIG.BOARD_COLS; col++) {
+      for (let row = 0; row < verticalLimit; row++) {
+        const window = [
+          board[row][col], 
+          board[row + 1][col], 
+          board[row + 2][col], 
+          board[row + 3][col]
+        ]
         score += this.evaluateWindow(window)
       }
     }
 
-    // Positive diagonal
-    for (let row = 0; row < 3; row++) {
-      for (let col = 0; col < 4; col++) {
-        const window = [board[row][col], board[row + 1][col + 1], board[row + 2][col + 2], board[row + 3][col + 3]]
+    // Positive diagonal windows
+    for (let row = 0; row < verticalLimit; row++) {
+      for (let col = 0; col < horizontalLimit; col++) {
+        const window = [
+          board[row][col], 
+          board[row + 1][col + 1], 
+          board[row + 2][col + 2], 
+          board[row + 3][col + 3]
+        ]
         score += this.evaluateWindow(window)
       }
     }
 
-    // Negative diagonal
-    for (let row = 0; row < 3; row++) {
-      for (let col = 3; col < 7; col++) {
-        const window = [board[row][col], board[row + 1][col - 1], board[row + 2][col - 2], board[row + 3][col - 3]]
+    // Negative diagonal windows
+    for (let row = 0; row < verticalLimit; row++) {
+      for (let col = GAME_CONFIG.WINNING_LENGTH - 1; col < GAME_CONFIG.BOARD_COLS; col++) {
+        const window = [
+          board[row][col], 
+          board[row + 1][col - 1], 
+          board[row + 2][col - 2], 
+          board[row + 3][col - 3]
+        ]
         score += this.evaluateWindow(window)
       }
     }
@@ -141,16 +180,23 @@ class AIOpponent {
     const playerCount = window.filter(cell => cell === 'red').length
     const emptyCount = window.filter(cell => cell === null).length
 
-    // Only evaluate if window belongs to one player
     if (aiCount > 0 && playerCount > 0) return 0
 
-    if (aiCount === 4) score += 100
-    else if (aiCount === 3 && emptyCount === 1) score += 10
-    else if (aiCount === 2 && emptyCount === 2) score += 2
+    if (aiCount === GAME_CONFIG.WINNING_LENGTH) {
+      score += GAME_CONFIG.SCORES.FOUR_IN_ROW
+    } else if (aiCount === 3 && emptyCount === 1) {
+      score += GAME_CONFIG.SCORES.THREE_WITH_EMPTY
+    } else if (aiCount === 2 && emptyCount === 2) {
+      score += GAME_CONFIG.SCORES.TWO_WITH_EMPTY
+    }
 
-    if (playerCount === 4) score -= 100
-    else if (playerCount === 3 && emptyCount === 1) score -= 80
-    else if (playerCount === 2 && emptyCount === 2) score -= 2
+    if (playerCount === GAME_CONFIG.WINNING_LENGTH) {
+      score -= GAME_CONFIG.SCORES.FOUR_IN_ROW
+    } else if (playerCount === 3 && emptyCount === 1) {
+      score += GAME_CONFIG.SCORES.THREE_BLOCK
+    } else if (playerCount === 2 && emptyCount === 2) {
+      score -= GAME_CONFIG.SCORES.TWO_WITH_EMPTY
+    }
 
     return score
   }
@@ -158,7 +204,7 @@ class AIOpponent {
   // Utility functions
   getValidMoves(board) {
     const validMoves = []
-    for (let col = 0; col < 7; col++) {
+    for (let col = 0; col < GAME_CONFIG.BOARD_COLS; col++) {
       if (board[0][col] === null) {
         validMoves.push(col)
       }
@@ -168,7 +214,7 @@ class AIOpponent {
 
   makeMove(board, col, player) {
     const newBoard = board.map(row => [...row])
-    for (let row = 5; row >= 0; row--) {
+    for (let row = GAME_CONFIG.BOARD_ROWS - 1; row >= 0; row--) {
       if (newBoard[row][col] === null) {
         newBoard[row][col] = player
         break
@@ -181,37 +227,41 @@ class AIOpponent {
     const checkDirection = (row, col, deltaRow, deltaCol, player) => {
       let count = 1
       
-      for (let i = 1; i < 4; i++) {
+      for (let i = 1; i < GAME_CONFIG.WINNING_LENGTH; i++) {
         const newRow = row + deltaRow * i
         const newCol = col + deltaCol * i
-        if (newRow >= 0 && newRow < 6 && newCol >= 0 && newCol < 7 && board[newRow][newCol] === player) {
+        if (newRow >= 0 && newRow < GAME_CONFIG.BOARD_ROWS && 
+            newCol >= 0 && newCol < GAME_CONFIG.BOARD_COLS && 
+            board[newRow][newCol] === player) {
           count++
         } else {
           break
         }
       }
       
-      for (let i = 1; i < 4; i++) {
+      for (let i = 1; i < GAME_CONFIG.WINNING_LENGTH; i++) {
         const newRow = row - deltaRow * i
         const newCol = col - deltaCol * i
-        if (newRow >= 0 && newRow < 6 && newCol >= 0 && newCol < 7 && board[newRow][newCol] === player) {
+        if (newRow >= 0 && newRow < GAME_CONFIG.BOARD_ROWS && 
+            newCol >= 0 && newCol < GAME_CONFIG.BOARD_COLS && 
+            board[newRow][newCol] === player) {
           count++
         } else {
           break
         }
       }
       
-      return count >= 4
+      return count >= GAME_CONFIG.WINNING_LENGTH
     }
 
-    for (let row = 0; row < 6; row++) {
-      for (let col = 0; col < 7; col++) {
+    for (let row = 0; row < GAME_CONFIG.BOARD_ROWS; row++) {
+      for (let col = 0; col < GAME_CONFIG.BOARD_COLS; col++) {
         const player = board[row][col]
         if (player && (
-          checkDirection(row, col, 0, 1, player) ||  // horizontal
-          checkDirection(row, col, 1, 0, player) ||  // vertical
-          checkDirection(row, col, 1, 1, player) ||  // diagonal
-          checkDirection(row, col, 1, -1, player)    // anti-diagonal
+          checkDirection(row, col, 0, 1, player) ||
+          checkDirection(row, col, 1, 0, player) ||
+          checkDirection(row, col, 1, 1, player) ||
+          checkDirection(row, col, 1, -1, player)
         )) {
           return player
         }

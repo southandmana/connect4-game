@@ -8,46 +8,218 @@ function Cinematic({ character, type, onComplete }) {
   // Get cinematic data based on character and type (opening/ending)
   const getCinematicData = () => {
     const cinematics = {
+      tai: {
+        opening: [
+          {
+            image: '/images/cinematics/tai-opening-1.jpg',
+            text: 'In the laid-back suburbs of Arlen, Tai takes a break from the porch to show some Connect 4 skills...',
+            fallbackImage: 'data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgODAwIDYwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9InN1YnVyYmFuR3JhZGllbnQiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMCUiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjODdDRUVCIi8+PHN0b3Agb2Zmc2V0PSI1MCUiIHN0b3AtY29sb3I9IiNmNWYzZTgiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNjODg2MGQiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iODAwIiBoZWlnaHQ9IjYwMCIgZmlsbD0idXJsKCNzdWJ1cmJhbkdyYWRpZW50KSIvPjx0ZXh0IHg9IjQwMCIgeT0iMzAwIiBmb250LXNpemU9IjQwIiBmaWxsPSIjYzg4NjBkIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQ29taWMgU2FucyBNUywgY3Vyc2l2ZSI+VEFJJmFwb3M7UyBTVE9SWTwvdGV4dD48L3N2Zz4='
+          },
+          {
+            image: '/images/cinematics/tai-opening-2.jpg',
+            text: 'With a cool head and steady hands, Tai approaches the tournament with suburban confidence.',
+            fallbackImage: 'data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgODAwIDYwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9InN1YnVyYmFuR3JhZGllbnQiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMCUiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjODdDRUVCIi8+PHN0b3Agb2Zmc2V0PSI1MCUiIHN0b3AtY29sb3I9IiNmNWYzZTgiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNjODg2MGQiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iODAwIiBoZWlnaHQ9IjYwMCIgZmlsbD0idXJsKCNzdWJ1cmJhbkdyYWRpZW50KSIvPjx0ZXh0IHg9IjQwMCIgeT0iMzAwIiBmb250LXNpemU9IjQwIiBmaWxsPSIjYzg4NjBkIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQ29taWMgU2FucyBNUywgY3Vyc2l2ZSI+VEFJJmFwb3M7UyBTVE9SWTwvdGV4dD48L3N2Zz4='
+          },
+          {
+            image: '/images/cinematics/tai-opening-3.jpg',
+            text: 'Time to show these neighbors how Connect 4 is really played in Texas!',
+            fallbackImage: 'data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgODAwIDYwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9InN1YnVyYmFuR3JhZGllbnQiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMCUiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjODdDRUVCIi8+PHN0b3Agb2Zmc2V0PSI1MCUiIHN0b3AtY29sb3I9IiNmNWYzZTgiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNjODg2MGQiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iODAwIiBoZWlnaHQ9IjYwMCIgZmlsbD0idXJsKCNzdWJ1cmJhbkdyYWRpZW50KSIvPjx0ZXh0IHg9IjQwMCIgeT0iMzAwIiBmb250LXNpemU9IjQwIiBmaWxsPSIjYzg4NjBkIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQ29taWMgU2FucyBNUywgY3Vyc2l2ZSI+VEFJJmFwb3M7UyBTVE9SWTwvdGV4dD48L3N2Zz4='
+          }
+        ],
+        victory: [
+          {
+            image: '/images/cinematics/tai-victory-1.jpg',
+            text: 'Victory! Tai keeps it cool as the Connect 4 champion of the neighborhood!',
+            fallbackImage: 'data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgODAwIDYwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9InZpY3RvcnlHcmFkaWVudCIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNmZmQ3MDAiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNjODg2MGQiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iODAwIiBoZWlnaHQ9IjYwMCIgZmlsbD0idXJsKCN2aWN0b3J5R3JhZGllbnQpIi8+PHRleHQgeD0iNDAwIiB5PSIzMDAiIGZvbnQtc2l6ZT0iNjAiIGZpbGw9IiNjODg2MGQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJDb21pYyBTYW5zIE1TLCBjdXJzaXZlIj5UQUkgV0lOUyE8L3RleHQ+PC9zdmc+'
+          },
+          {
+            image: '/images/cinematics/tai-victory-2.jpg',
+            text: 'Another successful backyard tournament! Time to celebrate with some sweet tea.',
+            fallbackImage: 'data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgODAwIDYwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9InZpY3RvcnlHcmFkaWVudCIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNmZmQ3MDAiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNjODg2MGQiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iODAwIiBoZWlnaHQ9IjYwMCIgZmlsbD0idXJsKCN2aWN0b3J5R3JhZGllbnQpIi8+PHRleHQgeD0iNDAwIiB5PSIzMDAiIGZvbnQtc2l6ZT0iNjAiIGZpbGw9IiNjODg2MGQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJDb21pYyBTYW5zIE1TLCB1cnNpdmUiPlRBSSBXSU5TITwvdGV4dD48L3N2Zz4='
+          },
+          {
+            image: '/images/cinematics/tai-victory-3.jpg',
+            text: 'Tai remains the coolest Connect 4 champion in all of Arlen, Texas!',
+            fallbackImage: 'data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgODAwIDYwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9InZpY3RvcnlHcmFkaWVudCIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNmZmQ3MDAiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNjODg2MGQiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iODAwIiBoZWlnaHQ9IjYwMCIgZmlsbD0idXJsKCN2aWN0b3J5R3JhZGllbnQpIi8+PHRleHQgeD0iNDAwIiB5PSIzMDAiIGZvbnQtc2l6ZT0iNjAiIGZpbGw9IiNjODg2MGQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJDb21pYyBTYW5zIE1TLCB1cnNpdmUiPlRBSSBXSU5TITwvdGV4dD48L3N2Zz4='
+          }
+        ],
+        defeat: [
+          {
+            image: '/images/cinematics/tai-defeat.jpg',
+            text: 'Well, that was a good game. Time to head back to the porch and try again later.',
+            fallbackImage: 'data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgODAwIDYwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImRlZmVhdEdyYWRpZW50IiB4MT0iMCUiIHkxPSIwJSIgeDI9IjAlIiB5Mj0iMTAwJSI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2Y1ZjNlOCIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2I4NTczZSIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPSI4MDAiIGhlaWdodD0iNjAwIiBmaWxsPSJ1cmwoI2RlZmVhdEdyYWRpZW50KSIvPjx0ZXh0IHg9IjQwMCIgeT0iMzAwIiBmb250LXNpemU9IjQwIiBmaWxsPSIjYjg1NzNlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQ29taWMgU2FucyBNUywgY3Vyc2l2ZSI+VEFJIExPU0VTPC90ZXh0Pjwvc3ZnPg=='
+          }
+        ]
+      },
+      siole: {
+        opening: [
+          {
+            image: '/images/cinematics/siole-opening-1.jpg',
+            text: 'From the competitive streets of the neighborhood, Siole never backs down from a challenge...',
+            fallbackImage: 'data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgODAwIDYwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9InN1YnVyYmFuR3JhZGllbnQiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMCUiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjODdDRUVCIi8+PHN0b3Agb2Zmc2V0PSI1MCUiIHN0b3AtY29sb3I9IiNmNWYzZTgiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNjODg2MGQiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iODAwIiBoZWlnaHQ9IjYwMCIgZmlsbD0idXJsKCNzdWJ1cmJhbkdyYWRpZW50KSIvPjx0ZXh0IHg9IjQwMCIgeT0iMzAwIiBmb250LXNpemU9IjQwIiBmaWxsPSIjYzg4NjBkIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQ29taWMgU2FucyBNUywgY3Vyc2l2ZSI+U0lPTEUmYXBvcztTIFNUT1JZPC90ZXh0Pjwvc3ZnPg=='
+          },
+          {
+            image: '/images/cinematics/siole-opening-2.jpg',
+            text: 'With backyard champion instincts, Siole approaches the Connect 4 board with determination.',
+            fallbackImage: 'data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgODAwIDYwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9InN1YnVyYmFuR3JhZGllbnQiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMCUiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjODdDRUVCIi8+PHN0b3Agb2Zmc2V0PSI1MCUiIHN0b3AtY29sb3I9IiNmNWYzZTgiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNjODg2MGQiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iODAwIiBoZWlnaHQ9IjYwMCIgZmlsbD0idXJsKCNzdWJ1cmJhbkdyYWRpZW50KSIvPjx0ZXh0IHg9IjQwMCIgeT0iMzAwIiBmb250LXNpemU9IjQwIiBmaWxsPSIjYzg4NjBkIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQ29taWMgU2FucyBNUywgY3Vyc2l2ZSI+U0lPTEUmYXBvcztTIFNUT1JZPC90ZXh0Pjwvc3ZnPg=='
+          },
+          {
+            image: '/images/cinematics/siole-opening-3.jpg',
+            text: 'No backing down now! Time to show everyone what a true competitor can do!',
+            fallbackImage: 'data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgODAwIDYwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9InN1YnVyYmFuR3JhZGllbnQiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMCUiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjODdDRUVCIi8+PHN0b3Agb2Zmc2V0PSI1MCUiIHN0b3AtY29sb3I9IiNmNWYzZTgiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNjODg2MGQiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iODAwIiBoZWlnaHQ9IjYwMCIgZmlsbD0idXJsKCNzdWJ1cmJhbkdyYWRpZW50KSIvPjx0ZXh0IHg9IjQwMCIgeT0iMzAwIiBmb250LXNpemU9IjQwIiBmaWxsPSIjYzg4NjBkIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQ29taWMgU2FucyBNUywgY3Vyc2l2ZSI+U0lPTEUmYXBvcztTIFNUT1JZPC90ZXh0Pjwvc3ZnPg=='
+          }
+        ],
+        victory: [
+          {
+            image: '/images/cinematics/siole-victory-1.jpg',
+            text: 'Victory! Siole proves that competitive spirit wins the day!',
+            fallbackImage: 'data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgODAwIDYwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9InZpY3RvcnlHcmFkaWVudCIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNmZmQ3MDAiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNjODg2MGQiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iODAwIiBoZWlnaHQ9IjYwMCIgZmlsbD0idXJsKCN2aWN0b3J5R3JhZGllbnQpIi8+PHRleHQgeD0iNDAwIiB5PSIzMDAiIGZvbnQtc2l6ZT0iNjAiIGZpbGw9IiNjODg2MGQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJDb21pYyBTYW5zIE1TLCB1cnNpdmUiPlNJT0xFIFdJTlMhPC90ZXh0Pjwvc3ZnPg=='
+          },
+          {
+            image: '/images/cinematics/siole-victory-2.jpg',
+            text: 'Another backyard challenger defeated! The champion spirit lives on.',
+            fallbackImage: 'data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgODAwIDYwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9InZpY3RvcnlHcmFkaWVudCIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNmZmQ3MDAiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNjODg2MGQiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iODAwIiBoZWlnaHQ9IjYwMCIgZmlsbD0idXJsKCN2aWN0b3J5R3JhZGllbnQpIi8+PHRleHQgeD0iNDAwIiB5PSIzMDAiIGZvbnQtc2l6ZT0iNjAiIGZpbGw9IiNjODg2MGQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJDb21pYyBTYW5zIE1TLCB1cnNpdmUiPlNJT0xFIFdJTlMhPC90ZXh0Pjwvc3ZnPg=='
+          },
+          {
+            image: '/images/cinematics/siole-victory-3.jpg',
+            text: 'Siole stands as the undisputed backyard Connect 4 champion!',
+            fallbackImage: 'data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgODAwIDYwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9InZpY3RvcnlHcmFkaWVudCIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNmZmQ3MDAiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNjODg2MGQiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iODAwIiBoZWlnaHQ9IjYwMCIgZmlsbD0idXJsKCN2aWN0b3J5R3JhZGllbnQpIi8+PHRleHQgeD0iNDAwIiB5PSIzMDAiIGZvbnQtc2l6ZT0iNjAiIGZpbGw9IiNjODg2MGQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJDb21pYyBTYW5zIE1TLCB1cnNpdmUiPlNJT0xFIFdJTlMhPC90ZXh0Pjwvc3ZnPg=='
+          }
+        ],
+        defeat: [
+          {
+            image: '/images/cinematics/siole-defeat.jpg',
+            text: 'A tough loss, but a true competitor never gives up! Next time will be different.',
+            fallbackImage: 'data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgODAwIDYwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImRlZmVhdEdyYWRpZW50IiB4MT0iMCUiIHkxPSIwJSIgeDI9IjAlIiB5Mj0iMTAwJSI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2Y1ZjNlOCIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2I4NTczZSIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPSI4MDAiIGhlaWdodD0iNjAwIiBmaWxsPSJ1cmwoI2RlZmVhdEdyYWRpZW50KSIvPjx0ZXh0IHg9IjQwMCIgeT0iMzAwIiBmb250LXNpemU9IjQwIiBmaWxsPSIjYjg1NzNlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQ29taWMgU2FucyBNUywgY3Vyc2l2ZSI+U0lPTEUgTE9TRVM8L3RleHQ+PC9zdmc+'
+          }
+        ]
+      },
+      gianni: {
+        opening: [
+          {
+            image: '/images/cinematics/gianni-opening-1.jpg',
+            text: 'Like every successful deal, Gianni approaches Connect 4 with strategic business acumen...',
+            fallbackImage: 'data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgODAwIDYwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9InN1YnVyYmFuR3JhZGllbnQiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMCUiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjODdDRUVCIi8+PHN0b3Agb2Zmc2V0PSI1MCUiIHN0b3AtY29sb3I9IiNmNWYzZTgiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNjODg2MGQiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iODAwIiBoZWlnaHQ9IjYwMCIgZmlsbD0idXJsKCNzdWJ1cmJhbkdyYWRpZW50KSIvPjx0ZXh0IHg9IjQwMCIgeT0iMzAwIiBmb250LXNpemU9IjQwIiBmaWxsPSIjYzg4NjBkIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQ29taWMgU2FucyBNUywgY3Vyc2l2ZSI+R0lBTk5JJmFwb3M7UyBTVE9SWTwvdGV4dD48L3N2Zz4='
+          },
+          {
+            image: '/images/cinematics/gianni-opening-2.jpg',
+            text: 'Every game is a negotiation, every move a calculated investment in victory.',
+            fallbackImage: 'data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgODAwIDYwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9InN1YnVyYmFuR3JhZGllbnQiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMCUiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjODdDRUVCIi8+PHN0b3Agb2Zmc2V0PSI1MCUiIHN0b3AtY29sb3I9IiNmNWYzZTgiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNjODg2MGQiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iODAwIiBoZWlnaHQ9IjYwMCIgZmlsbD0idXJsKCNzdWJ1cmJhbkdyYWRpZW50KSIvPjx0ZXh0IHg9IjQwMCIgeT0iMzAwIiBmb250LXNpemU9IjQwIiBmaWxsPSIjYzg4NjBkIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQ29taWMgU2FucyBNUywgY3Vyc2l2ZSI+R0lBTk5JJmFwb3M7UyBTVE9SWTwvdGV4dD48L3N2Zz4='
+          },
+          {
+            image: '/images/cinematics/gianni-opening-3.jpg',
+            text: 'Time to close this deal and show them what real strategy looks like!',
+            fallbackImage: 'data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgODAwIDYwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9InN1YnVyYmFuR3JhZGllbnQiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMCUiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjODdDRUVCIi8+PHN0b3Agb2Zmc2V0PSI1MCUiIHN0b3AtY29sb3I9IiNmNWYzZTgiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNjODg2MGQiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iODAwIiBoZWlnaHQ9IjYwMCIgZmlsbD0idXJsKCNzdWJ1cmJhbkdyYWRpZW50KSIvPjx0ZXh0IHg9IjQwMCIgeT0iMzAwIiBmb250LXNpemU9IjQwIiBmaWxsPSIjYzg4NjBkIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQ29taWMgU2FucyBNUywgY3Vyc2l2ZSI+R0lBTk5JJmFwb3M7UyBTVE9SWTwvdGV4dD48L3N2Zz4='
+          }
+        ],
+        victory: [
+          {
+            image: '/images/cinematics/gianni-victory-1.jpg',
+            text: 'Victory! Another successful deal closed in the Connect 4 marketplace!',
+            fallbackImage: 'data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgODAwIDYwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9InZpY3RvcnlHcmFkaWVudCIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNmZmQ3MDAiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNjODg2MGQiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iODAwIiBoZWlnaHQ9IjYwMCIgZmlsbD0idXJsKCN2aWN0b3J5R3JhZGllbnQpIi8+PHRleHQgeD0iNDAwIiB5PSIzMDAiIGZvbnQtc2l6ZT0iNjAiIGZpbGw9IiNjODg2MGQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJDb21pYyBTYW5zIE1TLCB1cnNpdmUiPkdJQU5OSSBXSU5TITwvdGV4dD48L3N2Zz4='
+          },
+          {
+            image: '/images/cinematics/gianni-victory-2.jpg',
+            text: 'Strategic thinking and business sense lead to another profitable victory!',
+            fallbackImage: 'data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgODAwIDYwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9InZpY3RvcnlHcmFkaWVudCIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNmZmQ3MDAiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNjODg2MGQiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iODAwIiBoZWlnaHQ9IjYwMCIgZmlsbD0idXJsKCN2aWN0b3J5R3JhZGllbnQpIi8+PHRleHQgeD0iNDAwIiB5PSIzMDAiIGZvbnQtc2l6ZT0iNjAiIGZpbGw9IiNjODg2MGQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJDb21pYyBTYW5zIE1TLCB1cnNpdmUiPkdJQU5OSSBXSU5TITwvdGV4dD48L3N2Zz4='
+          },
+          {
+            image: '/images/cinematics/gianni-victory-3.jpg',
+            text: 'Gianni proves that treating every game like a business deal pays off!',
+            fallbackImage: 'data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgODAwIDYwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9InZpY3RvcnlHcmFkaWVudCIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNmZmQ3MDAiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNjODg2MGQiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iODAwIiBoZWlnaHQ9IjYwMCIgZmlsbD0idXJsKCN2aWN0b3J5R3JhZGllbnQpIi8+PHRleHQgeD0iNDAwIiB5PSIzMDAiIGZvbnQtc2l6ZT0iNjAiIGZpbGw9IiNjODg2MGQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJDb21pYyBTYW5zIE1TLCB1cnNpdmUiPkdJQU5OSSBXSU5TITwvdGV4dD48L3N2Zz4='
+          }
+        ],
+        defeat: [
+          {
+            image: '/images/cinematics/gianni-defeat.jpg',
+            text: 'Sometimes deals fall through, but a smart businessman learns from every setback.',
+            fallbackImage: 'data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgODAwIDYwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImRlZmVhdEdyYWRpZW50IiB4MT0iMCUiIHkxPSIwJSIgeDI9IjAlIiB5Mj0iMTAwJSI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2Y1ZjNlOCIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2I4NTczZSIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPSI4MDAiIGhlaWdodD0iNjAwIiBmaWxsPSJ1cmwoI2RlZmVhdEdyYWRpZW50KSIvPjx0ZXh0IHg9IjQwMCIgeT0iMzAwIiBmb250LXNpemU9IjQwIiBmaWxsPSIjYjg1NzNlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQ29taWMgU2FucyBNUywgY3Vyc2l2ZSI+R0lBTk5JIExPU0VTPC90ZXh0Pjwvc3ZnPg=='
+          }
+        ]
+      },
+      jon: {
+        opening: [
+          {
+            image: '/images/cinematics/jon-opening-1.jpg',
+            text: 'With the wisdom of the Texas countryside, Jon approaches Connect 4 with folksy strategy...',
+            fallbackImage: 'data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgODAwIDYwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9InN1YnVyYmFuR3JhZGllbnQiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMCUiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjODdDRUVCIi8+PHN0b3Agb2Zmc2V0PSI1MCUiIHN0b3AtY29sb3I9IiNmNWYzZTgiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNjODg2MGQiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iODAwIiBoZWlnaHQ9IjYwMCIgZmlsbD0idXJsKCNzdWJ1cmJhbkdyYWRpZW50KSIvPjx0ZXh0IHg9IjQwMCIgeT0iMzAwIiBmb250LXNpemU9IjQwIiBmaWxsPSIjYzg4NjBkIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQ29taWMgU2FucyBNUywgY3Vyc2l2ZSI+Sk9OJmFwb3M7UyBTVE9SWTwvdGV4dD48L3N2Zz4='
+          },
+          {
+            image: '/images/cinematics/jon-opening-2.jpg',
+            text: 'Sometimes the simplest country wisdom beats the fanciest city strategies.',
+            fallbackImage: 'data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgODAwIDYwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9InN1YnVyYmFuR3JhZGllbnQiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMCUiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjODdDRUVCIi8+PHN0b3Agb2Zmc2V0PSI1MCUiIHN0b3AtY29sb3I9IiNmNWYzZTgiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNjODg2MGQiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iODAwIiBoZWlnaHQ9IjYwMCIgZmlsbD0idXJsKCNzdWJ1cmJhbkdyYWRpZW50KSIvPjx0ZXh0IHg9IjQwMCIgeT0iMzAwIiBmb250LXNpemU9IjQwIiBmaWxsPSIjYzg4NjBkIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQ29taWMgU2FucyBNUywgY3Vyc2l2ZSI+Sk9OJmFwb3M7UyBTVE9SWTwvdGV4dD48L3N2Zz4='
+          },
+          {
+            image: '/images/cinematics/jon-opening-3.jpg',
+            text: 'Time to show these folks how we play Connect 4 down in Texas!',
+            fallbackImage: 'data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgODAwIDYwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9InN1YnVyYmFuR3JhZGllbnQiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMCUiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjODdDRUVCIi8+PHN0b3Agb2Zmc2V0PSI1MCUiIHN0b3AtY29sb3I9IiNmNWYzZTgiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNjODg2MGQiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iODAwIiBoZWlnaHQ9IjYwMCIgZmlsbD0idXJsKCNzdWJ1cmJhbkdyYWRpZW50KSIvPjx0ZXh0IHg9IjQwMCIgeT0iMzAwIiBmb250LXNpemU9IjQwIiBmaWxsPSIjYzg4NjBkIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQ29taWMgU2FucyBNUywgY3Vyc2l2ZSI+Sk9OJmFwb3M7UyBTVE9SWTwvdGV4dD48L3N2Zz4='
+          }
+        ],
+        victory: [
+          {
+            image: '/images/cinematics/jon-victory-1.jpg',
+            text: 'Victory! Sometimes good old-fashioned Texas wisdom gets the job done!',
+            fallbackImage: 'data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgODAwIDYwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9InZpY3RvcnlHcmFkaWVudCIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNmZmQ3MDAiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNjODg2MGQiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iODAwIiBoZWlnaHQ9IjYwMCIgZmlsbD0idXJsKCN2aWN0b3J5R3JhZGllbnQpIi8+PHRleHQgeD0iNDAwIiB5PSIzMDAiIGZvbnQtc2l6ZT0iNjAiIGZpbGw9IiNjODg2MGQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJDb21pYyBTYW5zIE1TLCB1cnNpdmUiPkpPTiBXSU5TITwvdGV4dD48L3N2Zz4='
+          },
+          {
+            image: '/images/cinematics/jon-victory-2.jpg',
+            text: 'Another victory for country strategy and friendly Texan determination!',
+            fallbackImage: 'data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgODAwIDYwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9InZpY3RvcnlHcmFkaWVudCIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNmZmQ3MDAiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNjODg2MGQiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iODAwIiBoZWlnaHQ9IjYwMCIgZmlsbD0idXJsKCN2aWN0b3J5R3JhZGllbnQpIi8+PHRleHQgeD0iNDAwIiB5PSIzMDAiIGZvbnQtc2l6ZT0iNjAiIGZpbGw9IiNjODg2MGQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJDb21pYyBTYW5zIE1TLCB1cnNpdmUiPkpPTiBXSU5TITwvdGV4dD48L3N2Zz4='
+          },
+          {
+            image: '/images/cinematics/jon-victory-3.jpg',
+            text: 'Jon proves that folksy wisdom and Texas spirit win the day!',
+            fallbackImage: 'data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgODAwIDYwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9InZpY3RvcnlHcmFkaWVudCIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNmZmQ3MDAiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNjODg2MGQiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iODAwIiBoZWlnaHQ9IjYwMCIgZmlsbD0idXJsKCN2aWN0b3J5R3JhZGllbnQpIi8+PHRleHQgeD0iNDAwIiB5PSIzMDAiIGZvbnQtc2l6ZT0iNjAiIGZpbGw9IiNjODg2MGQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJDb21pYyBTYW5zIE1TLCB1cnNpdmUiPkpPTiBXSU5TITwvdGV4dD48L3N2Zz4='
+          }
+        ],
+        defeat: [
+          {
+            image: '/images/cinematics/jon-defeat.jpg',
+            text: 'Well, that was a learning experience. As my granddaddy used to say, "There\'s always next time!"',
+            fallbackImage: 'data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgODAwIDYwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImRlZmVhdEdyYWRpZW50IiB4MT0iMCUiIHkxPSIwJSIgeDI9IjAlIiB5Mj0iMTAwJSI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2Y1ZjNlOCIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2I4NTczZSIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPSI4MDAiIGhlaWdodD0iNjAwIiBmaWxsPSJ1cmwoI2RlZmVhdEdyYWRpZW50KSIvPjx0ZXh0IHg9IjQwMCIgeT0iMzAwIiBmb250LXNpemU9IjQwIiBmaWxsPSIjYjg1NzNlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQ29taWMgU2FucyBNUywgY3Vyc2l2ZSI+Sk9OIExPU0VTPC90ZXh0Pjwvc3ZnPg=='
+          }
+        ]
+      },
       southern: {
         opening: [
           {
             image: '/images/cinematics/southern-opening-1.jpg',
-            text: 'Deep in the fiery depths of the underworld, Southern emerges from the flames...',
-            fallbackImage: 'data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgODAwIDYwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImZpcmVHcmFkaWVudCIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNmZjY5MDQiLz48c3RvcCBvZmZzZXQ9IjUwJSIgc3RvcC1jb2xvcj0iI2ZmNDUwMCIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzhhMDAwMCIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPSI4MDAiIGhlaWdodD0iNjAwIiBmaWxsPSJ1cmwoI2ZpcmVHcmFkaWVudCkiLz48Y2lyY2xlIGN4PSI0MDAiIGN5PSIzMDAiIHI9IjEwMCIgZmlsbD0iIzAwMCIgZmlsbC1vcGFjaXR5PSIwLjMiLz48dGV4dCB4PSI0MDAiIHk9IjMxMCIgZm9udC1zaXplPSI0MCIgZmlsbD0iI2ZmNjkwNCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkZyZWRva2EsIHNhbnMtc2VyaWYiPvCfk6U8L3RleHQ+PHRleHQgeD0iNDAwIiB5PSI4MCIgZm9udC1zaXplPSIyMCIgZmlsbD0iI2ZmY2NhYSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkZyZWRva2EsIHNhbnMtc2VyaWYiPlNPVVRIRVJOJmFwb3M7UyBPUEVOSU5HPC90ZXh0Pjx0ZXh0IHg9IjQwMCIgeT0iMTA1IiBmb250LXNpemU9IjIwIiBmaWxsPSIjZmZjY2FhIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iRnJlZG9rYSwgc2Fucy1zZXJpZiI+Q0lORU1BVElDIDE8L3RleHQ+PC9zdmc+'
+            text: 'From the shadows emerges the legendary Southern, master of Connect 4...',
+            fallbackImage: 'data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgODAwIDYwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9InN1YnVyYmFuR3JhZGllbnQiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMCUiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjODdDRUVCIi8+PHN0b3Agb2Zmc2V0PSI1MCUiIHN0b3AtY29sb3I9IiNmNWYzZTgiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNjODg2MGQiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iODAwIiBoZWlnaHQ9IjYwMCIgZmlsbD0idXJsKCNzdWJ1cmJhbkdyYWRpZW50KSIvPjx0ZXh0IHg9IjQwMCIgeT0iMzAwIiBmb250LXNpemU9IjQwIiBmaWxsPSIjYzg4NjBkIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQ29taWMgU2FucyBNUywgY3Vyc2l2ZSI+U09VVEhFUk4mYXBvcztTIFNUT1JZPC90ZXh0Pjwvc3ZnPg=='
           },
           {
             image: '/images/cinematics/southern-opening-2.jpg',
-            text: 'The tournament calls, and Southern answers with fury and determination.',
-            fallbackImage: 'data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgODAwIDYwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImZpcmVHcmFkaWVudCIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNmZjQ1MDAiLz48c3RvcCBvZmZzZXQ9IjUwJSIgc3RvcC1jb2xvcj0iIzhhMDAwMCIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzMzMDAwMCIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPSI4MDAiIGhlaWdodD0iNjAwIiBmaWxsPSJ1cmwoI2ZpcmVHcmFkaWVudCkiLz48Y2lyY2xlIGN4PSI0MDAiIGN5PSIzMDAiIHI9IjEyMCIgZmlsbD0iIzAwMCIgZmlsbC1vcGFjaXR5PSIwLjQiLz48dGV4dCB4PSI0MDAiIHk9IjMxNSIgZm9udC1zaXplPSI1MCIgZmlsbD0iI2ZmNDUwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkZyZWRva2EsIHNhbnMtc2VyaWYiPvCfkoU8L3RleHQ+PHRleHQgeD0iNDAwIiB5PSI4MCIgZm9udC1zaXplPSIyMCIgZmlsbD0iI2ZmY2NhYSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkZyZWRva2EsIHNhbnMtc2VyaWYiPlNPVVRIRVJOJmFwb3M7UyBPUEVOSU5HPC90ZXh0Pjx0ZXh0IHg9IjQwMCIgeT0iMTA1IiBmb250LXNpemU9IjIwIiBmaWxsPSIjZmZjY2FhIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iRnJlZG9rYSwgc2Fucy1zZXJpZiI+Q0lORU1BVElDIDI8L3RleHQ+PC9zdmc+'
+            text: 'Years of training in the mysterious arts of strategic thinking have led to this moment.',
+            fallbackImage: 'data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgODAwIDYwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9InN1YnVyYmFuR3JhZGllbnQiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMCUiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjODdDRUVCIi8+PHN0b3Agb2Zmc2V0PSI1MCUiIHN0b3AtY29sb3I9IiNmNWYzZTgiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNjODg2MGQiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iODAwIiBoZWlnaHQ9IjYwMCIgZmlsbD0idXJsKCNzdWJ1cmJhbkdyYWRpZW50KSIvPjx0ZXh0IHg9IjQwMCIgeT0iMzAwIiBmb250LXNpemU9IjQwIiBmaWxsPSIjYzg4NjBkIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQ29taWMgU2FucyBNUywgY3Vyc2l2ZSI+U09VVEhFUk4mYXBvcztTIFNUT1JZPC90ZXh0Pjwvc3ZnPg=='
           },
           {
             image: '/images/cinematics/southern-opening-3.jpg',
-            text: 'Let the Connect 4 tournament begin! May the strongest strategist prevail!',
-            fallbackImage: 'data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgODAwIDYwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImZpcmVHcmFkaWVudCIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNmZmQ3MDAiLz48c3RvcCBvZmZzZXQ9IjUwJSIgc3RvcC1jb2xvcj0iI2ZmNDUwMCIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzRkMDAwMCIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPSI4MDAiIGhlaWdodD0iNjAwIiBmaWxsPSJ1cmwoI2ZpcmVHcmFkaWVudCkiLz48Y2lyY2xlIGN4PSI0MDAiIGN5PSIzMDAiIHI9IjgwIiBmaWxsPSIjMDAwIiBmaWxsLW9wYWNpdHk9IjAuNSIvPjx0ZXh0IHg9IjQwMCIgeT0iMzE1IiBmb250LXNpemU9IjYwIiBmaWxsPSIjZmZkNzAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iRnJlZG9rYSwgc2Fucy1zZXJpZiI+4p2k77iPPC90ZXh0Pjx0ZXh0IHg9IjQwMCIgeT0iODAiIGZvbnQtc2l6ZT0iMjAiIGZpbGw9IiNmZmNjYWEiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJGcmVkb2thLCBzYW5zLXNlcmlmIj5TT1VUSEVSTiZhcG9zO1MgT1BFTklORzwvdGV4dD48dGV4dCB4PSI0MDAiIHk9IjEwNSIgZm9udC1zaXplPSIyMCIgZmlsbD0iI2ZmY2NhYSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkZyZWRva2EsIHNhbnMtc2VyaWYiPkNJTkVNQVRJQyAzPC90ZXh0Pjwvc3ZnPg=='
+            text: 'The legend awakens. Time to show why they call me the ultimate Connect 4 master!',
+            fallbackImage: 'data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgODAwIDYwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9InN1YnVyYmFuR3JhZGllbnQiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMCUiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjODdDRUVCIi8+PHN0b3Agb2Zmc2V0PSI1MCUiIHN0b3AtY29sb3I9IiNmNWYzZTgiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNjODg2MGQiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iODAwIiBoZWlnaHQ9IjYwMCIgZmlsbD0idXJsKCNzdWJ1cmJhbkdyYWRpZW50KSIvPjx0ZXh0IHg9IjQwMCIgeT0iMzAwIiBmb250LXNpemU9IjQwIiBmaWxsPSIjYzg4NjBkIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQ29taWMgU2FucyBNUywgY3Vyc2l2ZSI+U09VVEhFUk4mYXBvcztTIFNUT1JZPC90ZXh0Pjwvc3ZnPg=='
           }
         ],
         victory: [
           {
             image: '/images/cinematics/southern-victory-1.jpg',
-            text: 'Victory! Southern stands triumphant over all challengers in the fiery tournament!',
-            fallbackImage: 'data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgODAwIDYwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9InZpY3RvcnlHcmFkaWVudCIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNmZmQ3MDAiLz48c3RvcCBvZmZzZXQ9IjUwJSIgc3RvcC1jb2xvcj0iI2ZmYTUwMCIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2ZmNjkwNCIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPSI4MDAiIGhlaWdodD0iNjAwIiBmaWxsPSJ1cmwoI3ZpY3RvcnlHcmFkaWVudCkiLz48Y2lyY2xlIGN4PSI0MDAiIGN5PSIzMDAiIHI9IjEwMCIgZmlsbD0iIzAwMCIgZmlsbC1vcGFjaXR5PSIwLjMiLz48dGV4dCB4PSI0MDAiIHk9IjMzMCIgZm9udC1zaXplPSI4MCIgZmlsbD0iI2ZmZDcwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkZyZWRva2EsIHNhbnMtc2VyaWYiPvCfj4Y8L3RleHQ+PHRleHQgeD0iNDAwIiB5PSI4MCIgZm9udC1zaXplPSIyMCIgZmlsbD0iI2ZmY2NhYSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkZyZWRva2EsIHNhbnMtc2VyaWYiPlNPVVRIRVJOJmFwb3M7UyBWSUNUT1JZPC90ZXh0Pjx0ZXh0IHg9IjQwMCIgeT0iMTA1IiBmb250LXNpemU9IjIwIiBmaWxsPSIjZmZjY2FhIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iRnJlZG9rYSwgc2Fucy1zZXJpZiI+Q0lORU1BVElDIDE8L3RleHQ+PC9zdmc+'
+            text: 'Victory! The legend proves that mastery is not just a title, but a way of life!',
+            fallbackImage: 'data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgODAwIDYwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9InZpY3RvcnlHcmFkaWVudCIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNmZmQ3MDAiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNjODg2MGQiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iODAwIiBoZWlnaHQ9IjYwMCIgZmlsbD0idXJsKCN2aWN0b3J5R3JhZGllbnQpIi8+PHRleHQgeD0iNDAwIiB5PSIzMDAiIGZvbnQtc2l6ZT0iNjAiIGZpbGw9IiNjODg2MGQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJDb21pYyBTYW5zIE1TLCB1cnNpdmUiPlNPVVRIRVJOIFdJTlMhPC90ZXh0Pjwvc3ZnPg=='
           },
           {
             image: '/images/cinematics/southern-victory-2.jpg',
-            text: 'The tournament champion emerges victorious, having defeated all ten challengers!',
-            fallbackImage: 'data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgODAwIDYwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9InZpY3RvcnlHcmFkaWVudCIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNmZmQ3MDAiLz48c3RvcCBvZmZzZXQ9IjUwJSIgc3RvcC1jb2xvcj0iI2ZmYTUwMCIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2ZmNjkwNCIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPSI4MDAiIGhlaWdodD0iNjAwIiBmaWxsPSJ1cmwoI3ZpY3RvcnlHcmFkaWVudCkiLz48Y2lyY2xlIGN4PSI0MDAiIGN5PSIzMDAiIHI9IjEyMCIgZmlsbD0iIzAwMCIgZmlsbC1vcGFjaXR5PSIwLjQiLz48dGV4dCB4PSI0MDAiIHk9IjMzNSIgZm9udC1zaXplPSI5MCIgZmlsbD0iI2ZmZDcwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkZyZWRva2EsIHNhbnMtc2VyaWYiPvCfj4Y8L3RleHQ+PHRleHQgeD0iNDAwIiB5PSI4MCIgZm9udC1zaXplPSIyMCIgZmlsbD0iI2ZmY2NhYSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkZyZWRva2EsIHNhbnMtc2VyaWYiPlNPVVRIRVJOJmFwb3M7UyBWSUNUT1JZPC90ZXh0Pjx0ZXh0IHg9IjQwMCIgeT0iMTA1IiBmb250LXNpemU9IjIwIiBmaWxsPSIjZmZjY2FhIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iRnJlZG9rYSwgc2Fucy1zZXJpZiI+Q0lORU1BVElDIDI8L3RleHQ+PC9zdmc+'
+            text: 'Another challenger falls before the power of legendary Connect 4 mastery!',
+            fallbackImage: 'data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgODAwIDYwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9InZpY3RvcnlHcmFkaWVudCIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNmZmQ3MDAiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNjODg2MGQiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iODAwIiBoZWlnaHQ9IjYwMCIgZmlsbD0idXJsKCN2aWN0b3J5R3JhZGllbnQpIi8+PHRleHQgeD0iNDAwIiB5PSIzMDAiIGZvbnQtc2l6ZT0iNjAiIGZpbGw9IiNjODg2MGQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJDb21pYyBTYW5zIE1TLCB1cnNpdmUiPlNPVVRIRVJOIFdJTlMhPC90ZXh0Pjwvc3ZnPg=='
           },
           {
-            image: '/images/cinematics/southern-victory-3.jpg', 
-            text: 'Southern reigns supreme as the ultimate Connect 4 champion of the underworld!',
-            fallbackImage: 'data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgODAwIDYwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9InZpY3RvcnlHcmFkaWVudCIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNmZmQ3MDAiLz48c3RvcCBvZmZzZXQ9IjUwJSIgc3RvcC1jb2xvcj0iI2ZmYTUwMCIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2ZmNjkwNCIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPSI4MDAiIGhlaWdodD0iNjAwIiBmaWxsPSJ1cmwoI3ZpY3RvcnlHcmFkaWVudCkiLz48Y2lyY2xlIGN4PSI0MDAiIGN5PSIzMDAiIHI9IjgwIiBmaWxsPSIjMDAwIiBmaWxsLW9wYWNpdHk9IjAuNSIvPjx0ZXh0IHg9IjQwMCIgeT0iMzM1IiBmb250LXNpemU9IjEwMCIgZmlsbD0iI2ZmZDcwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkZyZWRva2EsIHNhbnMtc2VyaWYiPvCfj4Y8L3RleHQ+PHRleHQgeD0iNDAwIiB5PSI4MCIgZm9udC1zaXplPSIyMCIgZmlsbD0iI2ZmY2NhYSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkZyZWRva2EsIHNhbnMtc2VyaWYiPlNPVVRIRVJOJmFwb3M7UyBWSUNUT1JZPC90ZXh0Pjx0ZXh0IHg9IjQwMCIgeT0iMTA1IiBmb250LXNpemU9IjIwIiBmaWxsPSIjZmZjY2FhIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iRnJlZG9rYSwgc2Fucy1zZXJpZiI+Q0lORU1BVElDIDM8L3RleHQ+PC9zdmc+'
+            image: '/images/cinematics/southern-victory-3.jpg',
+            text: 'The legend lives on. Southern remains the ultimate Connect 4 champion!',
+            fallbackImage: 'data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgODAwIDYwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9InZpY3RvcnlHcmFkaWVudCIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNmZmQ3MDAiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNjODg2MGQiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iODAwIiBoZWlnaHQ9IjYwMCIgZmlsbD0idXJsKCN2aWN0b3J5R3JhZGllbnQpIi8+PHRleHQgeD0iNDAwIiB5PSIzMDAiIGZvbnQtc2l6ZT0iNjAiIGZpbGw9IiNjODg2MGQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJDb21pYyBTYW5zIE1TLCB1cnNpdmUiPlNPVVRIRVJOIFdJTlMhPC90ZXh0Pjwvc3ZnPg=='
           }
         ],
         defeat: [
           {
             image: '/images/cinematics/southern-defeat.jpg',
-            text: 'Defeat... But Southern will rise again stronger than before!',
-            fallbackImage: 'data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgODAwIDYwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImRlZmVhdEdyYWRpZW50IiB4MT0iMCUiIHkxPSIwJSIgeDI9IjAlIiB5Mj0iMTAwJSI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzRkMDAwMCIvPjxzdG9wIG9mZnNldD0iNTAlIiBzdG9wLWNvbG9yPSIjOGIwMDAwIi8+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjMmYwMDAwIi8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PHJlY3Qgd2lkdGg9IjgwMCIgaGVpZ2h0PSI2MDAiIGZpbGw9InVybCgjZGVmZWF0R3JhZGllbnQpIi8+PGNpcmNsZSBjeD0iNDAwIiBjeT0iMzAwIiByPSIxMDAiIGZpbGw9IiMwMDAiIGZpbGwtb3BhY2l0eT0iMC41Ii8+PHRleHQgeD0iNDAwIiB5PSIzMzAiIGZvbnQtc2l6ZT0iNzAiIGZpbGw9IiNkYzE0M2MiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJGcmVkb2thLCBzYW5zLXNlcmlmIj7wn5KAPC90ZXh0Pjx0ZXh0IHg9IjQwMCIgeT0iODAiIGZvbnQtc2l6ZT0iMjgiIGZpbGw9IiNkYzE0M2MiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJGcmVkb2thLCBzYW5zLXNlcmlmIj5ERUZFQVRFRDwvdGV4dD48L3N2Zz4='
+            text: 'Even legends must learn. This defeat only makes the legend stronger for next time.',
+            fallbackImage: 'data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgODAwIDYwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImRlZmVhdEdyYWRpZW50IiB4MT0iMCUiIHkxPSIwJSIgeDI9IjAlIiB5Mj0iMTAwJSI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2Y1ZjNlOCIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2I4NTczZSIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPSI4MDAiIGhlaWdodD0iNjAwIiBmaWxsPSJ1cmwoI2RlZmVhdEdyYWRpZW50KSIvPjx0ZXh0IHg9IjQwMCIgeT0iMzAwIiBmb250LXNpemU9IjQwIiBmaWxsPSIjYjg1NzNlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQ29taWMgU2FucyBNUywgY3Vyc2l2ZSI+U09VVEhFUk4gTE9TRVM8L3RleHQ+PC9zdmc+'
           }
         ]
       }

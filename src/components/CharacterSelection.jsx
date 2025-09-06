@@ -5,58 +5,37 @@ const CHARACTERS = [
   {
     id: 'southern',
     name: 'Southern',
-    image: '/images/southern.png',
-    description: 'A fiery warrior from the depths of the underworld',
-    title: 'The Flame Keeper'
+    image: '/images/characters/southern.png',
+    tags: ['Legendary', 'Mysterious', 'Master', 'Elite'],
+    title: 'The Legend'
   },
   {
-    id: 'nova',
-    name: 'Nova',
-    image: '/images/nova.png',
-    description: 'Lightning-fast strategist with explosive combos',
-    title: 'Storm Caller'
+    id: 'tai',
+    name: 'Tai',
+    image: '/images/characters/tai.png',
+    tags: ['Laid-back', 'Cool', 'Arlen', 'Chill'],
+    title: 'The Chill Master'
   },
   {
-    id: 'titan',
-    name: 'Titan',
-    image: '/images/titan.png',
-    description: 'Immovable fortress with crushing defensive power',
-    title: 'Iron Guardian'
+    id: 'siole',
+    name: 'Siole',
+    image: '/images/characters/siole.png',
+    tags: ['Competitive', 'Neighbor', 'Backyard', 'Fighter'],
+    title: 'Backyard Champion'
   },
   {
-    id: 'phantom',
-    name: 'Phantom',
-    image: '/images/phantom.png',
-    description: 'Mysterious shadow master of deceptive tactics',
-    title: 'Shadow Walker'
+    id: 'gianni',
+    name: 'Gianni',
+    image: '/images/characters/gianni.png',
+    tags: ['Strategic', 'Business', 'Thinker', 'Deal'],
+    title: 'The Dealmaker'
   },
   {
-    id: 'blaze',
-    name: 'Blaze',
-    image: '/images/blaze.png',
-    description: 'Aggressive fire-type with relentless offense',
-    title: 'Inferno Beast'
-  },
-  {
-    id: 'frost',
-    name: 'Frost',
-    image: '/images/frost.png',
-    description: 'Cool-headed ice warrior with calculated precision',
-    title: 'Frozen Soul'
-  },
-  {
-    id: 'vortex',
-    name: 'Vortex',
-    image: '/images/vortex.png',
-    description: 'Wind master who controls the battlefield flow',
-    title: 'Tempest Lord'
-  },
-  {
-    id: 'crimson',
-    name: 'Crimson',
-    image: '/images/crimson.png',
-    description: 'Blood-red berserker with unstoppable rage',
-    title: 'Crimson Fury'
+    id: 'jon',
+    name: 'Jon',
+    image: '/images/characters/jon.png',
+    tags: ['Texan', 'Folksy', 'Wisdom', 'Friendly'],
+    title: 'Country Strategist'
   }
 ]
 
@@ -106,42 +85,30 @@ function CharacterSelection({ onCharacterSelect, onBack }) {
           </div>
         </div>
 
-        {/* Character Preview */}
-        <div className="character-preview">
+        {/* Character Full Preview */}
+        <div className="character-full-preview">
           {selectedCharacter ? (
-            <div className="preview-content">
-              <div className="preview-image-container">
-                <img 
-                  src={selectedCharacter.image} 
-                  alt={selectedCharacter.name}
-                  className="preview-image"
-                  onError={(e) => {
-                    e.target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMzAwIiBoZWlnaHQ9IjMwMCIgZmlsbD0iI2ZmNGYwMCIvPjx0ZXh0IHg9IjE1MCIgeT0iMTYwIiBmb250LXNpemU9IjI0IiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+Q2hhcmFjdGVyPC90ZXh0Pjwvc3ZnPg=='
-                  }}
-                />
-              </div>
-              <div className="preview-details">
-                <h2 className="preview-name">{selectedCharacter.name}</h2>
-                <h3 className="preview-title">{selectedCharacter.title}</h3>
-                <p className="preview-description">{selectedCharacter.description}</p>
-                <div className="fighter-stats">
-                  <div className="stat-bar">
-                    <span className="stat-label">Power</span>
-                    <div className="stat-fill" style={{width: '85%'}}></div>
-                  </div>
-                  <div className="stat-bar">
-                    <span className="stat-label">Speed</span>
-                    <div className="stat-fill" style={{width: '70%'}}></div>
-                  </div>
-                  <div className="stat-bar">
-                    <span className="stat-label">Defense</span>
-                    <div className="stat-fill" style={{width: '60%'}}></div>
-                  </div>
+            <div className="full-character-display">
+              <img 
+                src={selectedCharacter.image} 
+                alt={selectedCharacter.name}
+                className="full-character-image"
+                onError={(e) => {
+                  e.target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjUwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjUwMCIgZmlsbD0iI2ZmNGYwMCIvPjx0ZXh0IHg9IjIwMCIgeT0iMjYwIiBmb250LXNpemU9IjMyIiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+Q2hhcmFjdGVyPC90ZXh0Pjwvc3ZnPg=='
+                }}
+              />
+              <div className="character-info-overlay">
+                <div className="character-name-tag">{selectedCharacter.name}</div>
+                <h3 className="character-title">{selectedCharacter.title}</h3>
+                <div className="character-tags">
+                  {selectedCharacter.tags.map((tag, index) => (
+                    <span key={index} className="character-tag">{tag}</span>
+                  ))}
                 </div>
               </div>
             </div>
           ) : (
-            <div className="preview-placeholder">
+            <div className="full-preview-placeholder">
               <div className="placeholder-icon">👤</div>
               <p>Select a fighter to preview</p>
             </div>

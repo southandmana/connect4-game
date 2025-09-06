@@ -7,72 +7,17 @@
   width: 100vw;
   height: 100vh;
   background: var(--bg-primary);
+  background-image: var(--bg-vs-screen);
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   z-index: 1000;
-  font-family: var(--font-mono);
+  font-family: var(--font);
   overflow: hidden;
-}
-
-.vs-background {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  z-index: 1;
-}
-
-.matrix-effect {
-  position: absolute;
-  top: 0;
-  width: 300px;
-  height: 100%;
-  opacity: 0.6;
-  /* Static matrix rain for performance */
-  opacity: 0.4;
-}
-
-.matrix-effect.left {
-  left: -150px;
-  background: linear-gradient(45deg, rgba(0, 255, 255, 0.1) 0%, rgba(0, 255, 65, 0.1) 100%);
-  transform: skew(-15deg);
-}
-
-.matrix-effect.right {
-  right: -150px;
-  background: linear-gradient(-45deg, rgba(0, 255, 255, 0.1) 0%, rgba(0, 255, 65, 0.1) 100%);
-  transform: skew(15deg);
-}
-
-@keyframes matrixFlicker {
-  0% { opacity: 0.4; transform: skew(-15deg) scale(1); }
-  100% { opacity: 0.7; transform: skew(-15deg) scale(1.05); }
-}
-
-.matrix-particles {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: 
-    radial-gradient(2px 2px at 20px 30px, var(--neon-cyan), transparent),
-    radial-gradient(2px 2px at 40px 70px, var(--neon-green), transparent),
-    radial-gradient(1px 1px at 90px 40px, var(--neon-cyan), transparent),
-    radial-gradient(1px 1px at 130px 80px, var(--neon-green), transparent);
-  background-repeat: repeat;
-  background-size: 200px 100px;
-  /* Static matrix particles for performance */
-  opacity: 0.6;
-}
-
-@keyframes matrixParticleMove {
-  0% { transform: translateY(0px) rotate(0deg); }
-  100% { transform: translateY(-100px) rotate(360deg); }
 }
 
 .vs-content {
@@ -84,9 +29,9 @@
   justify-content: center;
   width: 100%;
   max-width: 1000px;
-  padding: 40px;
+  padding: var(--space-large);
   opacity: 0;
-  transform: scale(0.8);
+  transform: scale(0.9);
   transition: all 0.6s ease-out;
 }
 
@@ -100,7 +45,7 @@
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  margin-bottom: 30px;
+  margin-bottom: var(--space-large);
 }
 
 .character-side {
@@ -112,132 +57,54 @@
 
 .character-container {
   text-align: center;
-  animation: characterEntrance 1s ease-out 0.5s both;
-}
-
-.player-side .character-container {
-  animation-delay: 0.3s;
-}
-
-.opponent-side .character-container {
-  animation-delay: 0.7s;
-}
-
-@keyframes characterEntrance {
-  0% { 
-    opacity: 0; 
-    transform: translateX(-50px) scale(0.8); 
-  }
-  100% { 
-    opacity: 1; 
-    transform: translateX(0) scale(1); 
-  }
 }
 
 .character-image {
   width: 150px;
   height: 150px;
   border-radius: 50%;
-  border: 4px solid var(--neon-green);
+  border: var(--border-accent);
   object-fit: cover;
-  margin-bottom: 15px;
-  box-shadow: 
-    0 0 20px var(--neon-green),
-    0 0 40px rgba(0, 255, 65, 0.4);
-  /* Static character glow for performance */
-  font-family: var(--font-mono);
-}
-
-@keyframes characterGlow {
-  0% { 
-    box-shadow: 
-      0 0 20px rgba(0, 255, 65, 0.6),
-      0 0 40px rgba(0, 255, 65, 0.3);
-  }
-  100% { 
-    box-shadow: 
-      0 0 30px var(--neon-green),
-      0 0 60px rgba(0, 255, 65, 0.6);
-  }
+  margin-bottom: var(--space-base);
+  font-family: var(--font);
 }
 
 .ai-avatar {
   width: 150px;
   height: 150px;
   border-radius: 50%;
-  border: 4px solid var(--neon-cyan);
+  border: var(--border);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 60px;
-  font-family: var(--font-mono);
-  margin-bottom: 15px;
+  font-size: var(--text-large);
+  font-family: var(--font);
+  margin-bottom: var(--space-base);
   position: relative;
-  /* Static opponent glow for performance */
+  background: var(--bg-secondary);
   color: var(--text-primary);
 }
 
-.ai-avatar.difficulty-1,
-.ai-avatar.difficulty-2 {
-  background: linear-gradient(145deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
-  border-color: var(--neon-green);
-}
-
-.ai-avatar.difficulty-3 {
-  background: linear-gradient(145deg, var(--bg-tertiary) 0%, #3a3a3a 100%);
-  border-color: var(--neon-cyan);
-}
-
-.ai-avatar.difficulty-4,
-.ai-avatar.difficulty-5 {
-  background: linear-gradient(145deg, #3a3a3a 0%, #4a4a4a 100%);
-  border-color: var(--neon-purple);
-}
-
-.ai-avatar.final-boss {
-  background: linear-gradient(145deg, var(--bg-primary) 0%, #1a1a3a 50%, var(--bg-primary) 100%);
-  border: 4px solid var(--neon-orange);
-  font-size: 70px;
-  box-shadow: 
-    0 0 30px var(--neon-orange),
-    0 0 60px rgba(255, 149, 0, 0.8),
-    inset 0 0 30px rgba(255, 149, 0, 0.2);
-}
-
-@keyframes opponentGlow {
-  0% { 
-    box-shadow: 
-      0 0 20px rgba(0, 255, 255, 0.6),
-      0 0 40px rgba(0, 255, 255, 0.3);
-  }
-  100% { 
-    box-shadow: 
-      0 0 30px var(--neon-cyan),
-      0 0 60px rgba(0, 255, 255, 0.6);
-  }
-}
-
 .character-name {
-  font-size: 1.8rem;
+  font-size: var(--text-large);
   font-weight: bold;
-  font-family: var(--font-mono);
-  margin: 0 0 5px 0;
+  font-family: var(--font);
+  margin: 0 0 var(--space-small) 0;
   color: var(--text-primary);
 }
 
 .player-name {
-  color: var(--neon-green);
+  color: var(--accent);
 }
 
 .opponent-name {
-  color: var(--neon-cyan);
+  color: var(--text-primary);
 }
 
 .character-title {
-  font-size: 1rem;
-  font-family: var(--font-mono);
+  font-size: var(--text-base);
+  font-family: var(--font);
   margin: 0;
-  opacity: 0.9;
   color: var(--text-secondary);
 }
 
@@ -245,119 +112,34 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 0 40px;
+  margin: 0 var(--space-large);
   position: relative;
-}
-
-.vs-logo {
-  position: relative;
-  animation: vsEntrance 1s ease-out 0.5s both;
-}
-
-@keyframes vsEntrance {
-  0% { 
-    opacity: 0; 
-    transform: scale(0.5) rotate(-180deg); 
-  }
-  100% { 
-    opacity: 1; 
-    transform: scale(1) rotate(0deg); 
-  }
 }
 
 .vs-text {
-  font-size: 4rem;
+  font-size: var(--text-large);
   font-weight: bold;
-  font-family: var(--font-mono);
-  color: var(--neon-cyan);
-  text-shadow: 
-    0 0 15px var(--neon-cyan),
-    3px 3px 0px rgba(0, 255, 255, 0.4),
-    5px 5px 0px rgba(0, 255, 255, 0.2);
-  /* Static VS glow for performance */
-}
-
-@keyframes vsGlow {
-  0% { 
-    color: var(--neon-cyan);
-    text-shadow: 
-      0 0 15px var(--neon-cyan),
-      3px 3px 0px rgba(0, 255, 255, 0.4),
-      5px 5px 0px rgba(0, 255, 255, 0.2);
-  }
-  100% { 
-    color: var(--neon-green);
-    text-shadow: 
-      0 0 25px var(--neon-green),
-      3px 3px 0px rgba(0, 255, 65, 0.4),
-      5px 5px 0px rgba(0, 255, 65, 0.2);
-  }
-}
-
-.vs-effects {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-}
-
-.terminal-bolt {
-  position: absolute;
-  width: 4px;
-  height: 60px;
-  background: linear-gradient(to bottom, transparent, var(--neon-cyan), transparent);
-  /* Static terminal bolt for performance */
-  opacity: 0.4;
-}
-
-.bolt-1 {
-  left: -30px;
-  top: -30px;
-  transform: rotate(45deg);
-  animation-delay: 0s;
-}
-
-.bolt-2 {
-  right: -30px;
-  top: -30px;
-  transform: rotate(-45deg);
-  animation-delay: 0.2s;
-}
-
-@keyframes terminalBolt {
-  0%, 90%, 100% { opacity: 0; }
-  5%, 85% { opacity: 1; }
+  font-family: var(--font);
+  color: var(--accent);
 }
 
 .countdown {
-  font-size: 3rem;
+  font-size: var(--text-large);
   font-weight: bold;
-  font-family: var(--font-mono);
-  color: var(--neon-orange);
-  text-shadow: 
-    0 0 20px var(--neon-orange),
-    2px 2px 0px rgba(255, 149, 0, 0.4);
-  margin-top: 20px;
-  /* Keep countdown pulse as it's essential UI feedback */
-  animation: countdownPulse 2s ease-in-out infinite;
-}
-
-@keyframes countdownPulse {
-  0%, 100% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.2); opacity: 0.8; }
+  font-family: var(--font);
+  color: var(--accent);
+  margin-top: var(--space-base);
 }
 
 .opponent-description {
   text-align: center;
   max-width: 600px;
-  margin-bottom: 20px;
-  animation: fadeInUp 1s ease-out 1s both;
+  margin-bottom: var(--space-base);
 }
 
 .opponent-description p {
-  font-size: 1.2rem;
-  font-family: var(--font-mono);
+  font-size: var(--text-base);
+  font-family: var(--font);
   color: var(--text-secondary);
   line-height: 1.5;
   margin: 0;
@@ -365,72 +147,57 @@
 
 .match-info {
   text-align: center;
-  margin-bottom: 20px;
-  animation: fadeInUp 1s ease-out 1.2s both;
+  margin-bottom: var(--space-base);
 }
 
 .match-label {
-  font-size: 1.1rem;
-  font-family: var(--font-mono);
-  color: var(--neon-green);
+  font-size: var(--text-base);
+  font-family: var(--font);
+  color: var(--accent);
   font-weight: bold;
-  padding: 8px 16px;
-  border: 2px solid rgba(0, 255, 65, 0.6);
-  border-radius: 20px;
-  background: rgba(0, 255, 65, 0.1);
-}
-
-@keyframes fadeInUp {
-  0% { 
-    opacity: 0; 
-    transform: translateY(30px); 
-  }
-  100% { 
-    opacity: 1; 
-    transform: translateY(0); 
-  }
+  padding: var(--space-small) var(--space-base);
+  border: var(--border-accent);
+  border-radius: var(--radius);
+  background: var(--bg-secondary);
 }
 
 .skip-button {
   position: absolute;
   bottom: 30px;
   right: 30px;
-  padding: 12px 20px;
-  font-size: 1rem;
-  font-family: var(--font-mono);
+  padding: var(--space-base);
+  font-size: var(--text-base);
+  font-family: var(--font);
   font-weight: bold;
-  background: linear-gradient(145deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
-  color: var(--text-secondary);
-  border: 2px solid var(--neon-green);
-  border-radius: 20px;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  border: var(--border);
+  border-radius: var(--radius);
   cursor: pointer;
   transition: all 0.3s ease;
-  opacity: 0.8;
 }
 
 .skip-button:hover {
-  background: linear-gradient(145deg, var(--bg-tertiary) 0%, var(--bg-secondary) 100%);
-  border-color: var(--neon-cyan);
-  transform: translateY(-2px) scale(1.05);
-  opacity: 1;
-  color: var(--text-primary);
-  box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+  background: var(--bg-primary);
+  border-color: var(--accent);
+  transform: translateY(-2px);
+  color: var(--accent);
 }
 
 /* Mobile Responsiveness */
 @media (max-width: 768px) {
   .vs-content {
-    padding: 20px;
+    padding: var(--space-base);
   }
   
   .vs-main {
     flex-direction: column;
-    gap: 30px;
+    gap: var(--space-large);
   }
   
   .vs-center {
     order: -1;
-    margin: 0 0 20px 0;
+    margin: 0 0 var(--space-base) 0;
   }
   
   .character-image,
@@ -439,30 +206,18 @@
     height: 120px;
   }
   
-  .ai-avatar {
-    font-size: 50px;
-  }
-  
-  .vs-text {
-    font-size: 3rem;
-  }
-  
-  .countdown {
-    font-size: 2.5rem;
-  }
-  
   .character-name {
-    font-size: 1.5rem;
+    font-size: var(--text-base);
   }
   
   .opponent-description p {
-    font-size: 1rem;
+    font-size: var(--text-small);
   }
 }
 
 @media (max-width: 480px) {
   .vs-content {
-    padding: 15px;
+    padding: var(--space-base);
   }
   
   .character-image,
@@ -471,30 +226,18 @@
     height: 100px;
   }
   
-  .ai-avatar {
-    font-size: 40px;
-  }
-  
-  .vs-text {
-    font-size: 2.5rem;
-  }
-  
-  .countdown {
-    font-size: 2rem;
-  }
-  
   .character-name {
-    font-size: 1.3rem;
+    font-size: var(--text-base);
   }
   
   .opponent-description p {
-    font-size: 0.9rem;
+    font-size: var(--text-small);
   }
   
   .skip-button {
-    bottom: 15px;
-    right: 15px;
-    padding: 10px 16px;
-    font-size: 0.9rem;
+    bottom: var(--space-base);
+    right: var(--space-base);
+    padding: var(--space-small);
+    font-size: var(--text-small);
   }
 }
