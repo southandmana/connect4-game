@@ -30,7 +30,7 @@ const initialState = {
   opponentStress: 0,
   turnStartTime: Date.now(),
   turnDuration: 0,
-  maxTurnTime: 30,
+  maxTurnTime: 90,
   gameStartTime: null,
   totalScore: 0,
   defeatReason: null,

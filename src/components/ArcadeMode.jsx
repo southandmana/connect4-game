@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback, useRef } from 'react'
 import CharacterSelection from './CharacterSelection'
 import Cinematic from './Cinematic'
 import VSScreen from './VSScreen'
@@ -22,6 +22,7 @@ function ArcadeMode({ onBackToMenu }) {
   
   // References for game management
   const [gameContainerKey, setGameContainerKey] = useState(0)
+  const victoryTimeoutRef = useRef(null)
 
   // Auto-progression for story intro
   useEffect(() => {
@@ -72,6 +73,16 @@ function ArcadeMode({ onBackToMenu }) {
       return () => clearTimeout(advancingTimer)
     }
   }, [arcadeStage])
+
+  // Cleanup timeout on unmount to prevent memory leaks
+  useEffect(() => {
+    return () => {
+      if (victoryTimeoutRef.current) {
+        clearTimeout(victoryTimeoutRef.current)
+        victoryTimeoutRef.current = null
+      }
+    }
+  }, [])
 
   // Handle character selection
   const handleCharacterSelect = useCallback((character) => {
@@ -165,7 +176,12 @@ function ArcadeMode({ onBackToMenu }) {
 
     // Check if tournament is complete
     if (tournamentManager.isComplete && tournamentManager.isVictorious) {
-      setTimeout(() => {
+      // Add champion bonus to total score
+      const championBonus = 5000
+      setTotalScore(prev => prev + championBonus)
+      
+      // Store timeout reference for cleanup
+      victoryTimeoutRef.current = setTimeout(() => {
         setArcadeStage('endingCinematic')
       }, 800)
     } else {

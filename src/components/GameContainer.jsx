@@ -60,7 +60,7 @@ function GameContainer({
   const makeAIMove = useCallback(() => {
     if (!currentAI || winner || isDraw) return
 
-    // Always use the current board state from the hook
+    // Get FRESH board state - don't use board from closure
     const currentBoard = board
     const aiCol = currentAI.getMove(currentBoard)
     console.log("🤖 AI chose column:", aiCol)
