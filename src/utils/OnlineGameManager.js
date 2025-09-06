@@ -1,5 +1,5 @@
 import { ref, set, get, onValue, off, remove } from 'firebase/database'
-import { database } from '../firebase'
+import { database, firebaseEnabled } from '../firebase'
 import { v4 as uuidv4 } from 'uuid'
 
 class OnlineGameManager {
@@ -9,6 +9,7 @@ class OnlineGameManager {
     this.playerId = null
     this.playerColor = null
     this.listeners = []
+    this.isEnabled = firebaseEnabled && database !== null
   }
 
   generateRoomCode() {
@@ -21,6 +22,11 @@ class OnlineGameManager {
   }
 
   async createRoom(playerName, onGameUpdate, onError) {
+    if (!this.isEnabled) {
+      onError('Online multiplayer is not available. Firebase is not configured.')
+      return null
+    }
+    
     try {
       console.log('Creating room for player:', playerName)
       const generatedCode = this.generateRoomCode()
